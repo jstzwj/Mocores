@@ -25,12 +25,7 @@ namespace mocores
 
     void LogError::log(int logType, const std::string &data)
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
-        stream<<(1900+(p->tm_year))<<"-"<<(1+(p->tm_mon))<<"-"<<(p->tm_mday)<<"\t"
-             <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"\t";
+        stream<<Time::getTime()<<"    ";
         if(logType==1)
         {
             stream<<"[error]";
@@ -43,7 +38,7 @@ namespace mocores
         {
             stream<<"[note]";
         }
-        stream<<"\t"<<data<<std::endl;
+        stream<<"    "<<data<<std::endl;
         stream.flush();
     }
 

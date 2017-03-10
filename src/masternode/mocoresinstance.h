@@ -9,7 +9,7 @@ namespace mocores
     {
     public:
         MocoresInstance();
-        MocoresInstance(const std::string & fileName,const std::string & encoding);
+        MocoresInstance(const std::string & fileName);
     };
 }
 

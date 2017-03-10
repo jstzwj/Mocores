@@ -7,7 +7,7 @@ namespace mocores
 
     }
 
-    int Settings::readSettings(const std::string &address, const std::string &encoding)
+    int Settings::readSettings(const std::string &address)
     {
         //文本读写
         std::fstream settingFile(address,std::ios::in);
@@ -15,11 +15,11 @@ namespace mocores
         std::string line;
         if(settingFile.good())
         {
-            errlog.log(3,"Setting file opened.");
+            cliPrint("Setting file opened.");
         }
         else
         {
-            errlog.log(3,"Failed to open setting file.");
+            cliPrint("Failed to open setting file.");
         }
         while(!settingFile.eof())
         {
@@ -65,9 +65,9 @@ namespace mocores
         return MOCORES_GOOD;
     }
 
-    int Settings::readSettings(const std::string &encoding)
+    int Settings::readSettings()
     {
-        return readSettings("option.ini",encoding);
+        return readSettings("mocores.ini");
     }
 
     void Settings::consumeSpace(const std::string &str,int &pos)

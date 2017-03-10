@@ -2,8 +2,9 @@
 #define LOGERROR_H
 
 #include<string>
-#include<ctime>
 #include<fstream>
+
+#include"mocores_time.h"
 
 namespace mocores
 {

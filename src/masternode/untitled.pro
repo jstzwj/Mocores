@@ -10,7 +10,9 @@ SOURCES += main.cpp \
     logerror.cpp \
     settings.cpp \
     mocoresinstance.cpp \
-    errcode.cpp
+    errcode.cpp \
+    clio.cpp \
+    mocores_time.cpp
 
 HEADERS += \
     file.h \
@@ -20,4 +22,6 @@ HEADERS += \
     platform.h \
     settings.h \
     mocoresinstance.h \
-    errcode.h
+    errcode.h \
+    clio.h \
+    mocores_time.h

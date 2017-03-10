@@ -2,12 +2,12 @@
 #define SETTINGS_H
 #include<string>
 #include<memory>
-#include<iostream>
 #include<fstream>
 #include<cstdlib>
 #include"filesystem.h"
 #include"logerror.h"
 #include"errcode.h"
+#include"clio.h"
 
 namespace mocores
 {
@@ -15,8 +15,8 @@ namespace mocores
     {
     public:
         Settings();
-        int readSettings(const std::string &address,const std::string &encoding);
-        int readSettings(const std::string &encoding);
+        int readSettings(const std::string &address);
+        int readSettings();
     protected:
         void consumeSpace(const std::string &str, int &pos);
         bool isStr(const std::string &str,int &pos,const std::string &match_str);

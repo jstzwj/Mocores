@@ -7,7 +7,7 @@ namespace mocores
 
     }
 
-    MocoresInstance::MocoresInstance(const std::string &fileName, const std::string &encoding)
+    MocoresInstance::MocoresInstance(const std::string &fileName)
     {
 
     }
