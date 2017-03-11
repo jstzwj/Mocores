@@ -2,8 +2,8 @@
 一个分布式计算系统
 
 #语言
-*[English](https://github.com/toyteam/Mocores/master/doc/readme_en.md) </br>
-*[中文](https://github.com/toyteam/Mocores/master/doc/readme_zh.md)
+*[English](https://github.com/toyteam/Mocores/blob/master/doc/readme_en.md) </br>
+*[中文](https://github.com/toyteam/Mocores/blob/master/doc/readme_zh.md)
 
 
 #简介
