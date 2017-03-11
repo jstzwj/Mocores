@@ -1,5 +1,5 @@
-# Mocores
-一个分布式计算系统
+![](doc/logo/logo_small.png)
+#一个分布式计算系统
 
 #语言
 *[English](https://github.com/toyteam/Mocores/blob/master/doc/readme_en.md) </br>

@@ -1,5 +1,5 @@
-﻿# Mocores
-A distributed computing system.
+﻿![](doc/logo/logo_small.png)
+#A distributed computing system.
 
 #Language
 *[English](https://github.com/toyteam/Mocores/blob/master/doc/readme_en.md) </br>
