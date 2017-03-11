@@ -81,8 +81,8 @@ namespace mocores
         std::tm *p;
         std::time(&timep);
         p = std::gmtime(&timep);
-        resultstream<<(1900+(p->tm_year))<<"-"<<(1+(p->tm_mon))<<"-"<<(p->tm_mday)<<"\t"
-                <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"\t";
+        resultstream<<(1900+(p->tm_year))<<"-"<<(1+(p->tm_mon))<<"-"<<(p->tm_mday)<<"  "
+                <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"  ";
         return resultstream.str();
     }
 

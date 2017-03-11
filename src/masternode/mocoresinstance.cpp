@@ -2,14 +2,19 @@
 
 namespace mocores
 {
-    MocoresInstance::MocoresInstance()
+
+    MocoresInstance::MocoresInstance(Settings &set)
+        :setting(set)
     {
 
     }
 
-    MocoresInstance::MocoresInstance(const std::string &fileName)
+    int MocoresInstance::run()
     {
+        //读取数据库内项目信息
 
+        //
+        return 0;
     }
 
 

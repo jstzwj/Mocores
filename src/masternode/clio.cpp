@@ -13,7 +13,7 @@ namespace mocores
         std::string tmp;
         std::getline(std::cin,tmp);
         int i=0;
-        if(len>tmp.length())
+        if((unsigned int)len>tmp.length())
         {
             len=tmp.length();
         }

@@ -3,13 +3,16 @@
 
 #include<string>
 #include"logerror.h"
+#include"settings.h"
 namespace mocores
 {
     class MocoresInstance
     {
     public:
-        MocoresInstance();
-        MocoresInstance(const std::string & fileName);
+        MocoresInstance(mocores::Settings & set);
+        int run();
+    protected:
+        mocores::Settings &setting;
     };
 }
 

@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     }
     //构建数据库实例
     mocores::errlog.log(3,"Server started.");
-    mocores::MocoresInstance instance("mocores.ini");
+    mocores::MocoresInstance instance(settings);
 
 
 
