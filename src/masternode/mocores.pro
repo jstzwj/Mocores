@@ -12,7 +12,9 @@ SOURCES += main.cpp \
     mocoresinstance.cpp \
     errcode.cpp \
     clio.cpp \
-    mocores_time.cpp
+    mocores_time.cpp \
+    mocores_thread.cpp \
+    mocores_socket.cpp
 
 HEADERS += \
     file.h \
@@ -24,4 +26,6 @@ HEADERS += \
     mocoresinstance.h \
     errcode.h \
     clio.h \
-    mocores_time.h
+    mocores_time.h \
+    mocores_thread.h \
+    mocores_socket.h

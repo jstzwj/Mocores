@@ -6,10 +6,6 @@
 #include"errcode.h"
 
 
-#ifdef MOCORES_OS_WINDOWS
-#include<windows.h>
-#endif
-
 namespace mocores
 {
     class FileBase:public IoMethod
@@ -24,6 +20,7 @@ namespace mocores
     //系统依赖代码
     //==========
 #ifdef MOCORES_OS_WINDOWS
+    #include<windows.h>
     class WindowsFile:public FileBase
     {
     public:
@@ -42,7 +39,7 @@ namespace mocores
         virtual int fileControl(int op, void *pArg);
         virtual int sectorSize();
         virtual int deviceCharacteristics();
-    private:
+    protected:
         HANDLE pfile;
     };
     using File=WindowsFile;

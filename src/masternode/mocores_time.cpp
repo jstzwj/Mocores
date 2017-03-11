@@ -5,65 +5,65 @@ namespace mocores
 
     int Time::getYear()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (1900+(p->tm_year));
     }
 
     int Time::getMonth()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (1+(p->tm_mon));
     }
 
     int Time::getDay()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (p->tm_mday);
     }
 
     int Time::getHour()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (p->tm_hour);
     }
 
     int Time::getMinute()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (p->tm_min);
     }
 
     int Time::getSecond()
     {
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         return (p->tm_sec);
     }
 
     std::string Time::getTime(const std::string &format)
     {
         std::string result=format;
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
 
         result = result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
         result = result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
@@ -77,10 +77,10 @@ namespace mocores
     std::string Time::getTime()
     {
         std::stringstream resultstream;
-        time_t timep;
-        struct tm *p;
-        time(&timep);
-        p = gmtime(&timep);
+        std::time_t timep;
+        std::tm *p;
+        std::time(&timep);
+        p = std::gmtime(&timep);
         resultstream<<(1900+(p->tm_year))<<"-"<<(1+(p->tm_mon))<<"-"<<(p->tm_mday)<<"\t"
                 <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"\t";
         return resultstream.str();
