@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     mocores_time.cpp \
     mocoresinstance.cpp \
     settings.cpp \
-    sqlite/sqlite3.c
+    sqlite/sqlite3.c \
+    database/sqlconnection.cpp
 
 DISTFILES += \
     mocores.ini
@@ -41,4 +42,5 @@ HEADERS += \
     mocores_time.h \
     mocoresinstance.h \
     platform.h \
-    settings.h
+    settings.h \
+    database/sqlconnection.h

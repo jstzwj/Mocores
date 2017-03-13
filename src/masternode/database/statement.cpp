@@ -2,9 +2,5 @@
 
 namespace mocores
 {
-    Statement::Statement()
-    {
-
-    }
 
 }

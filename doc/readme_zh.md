@@ -1,4 +1,4 @@
-![](doc/logo/logo_small.png)
+![](logo/logo_small.png)
 #一个分布式计算系统
 
 #语言
