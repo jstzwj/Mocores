@@ -12,7 +12,10 @@ namespace mocores
     public:
         Statement(const std::string & query)=default;
         virtual ~Statement();
+
         ResultSet executeQuery(const std::string &sql)=0;
+        boolean execute(const std::string &sql)=0;
+        int executeUpdate(const std::string & sql)=0;
 
         void close()=0;
     };
