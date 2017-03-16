@@ -10,14 +10,14 @@ namespace mocores
     class Statement
     {
     public:
-        Statement(const std::string & query)=default;
+        Statement(const std::string &){}
         virtual ~Statement();
 
-        ResultSet executeQuery(const std::string &sql)=0;
-        boolean execute(const std::string &sql)=0;
-        int executeUpdate(const std::string & sql)=0;
+        virtual ResultSet executeQuery(const std::string &sql)=0;
+        virtual bool execute(const std::string &sql)=0;
+        virtual int executeUpdate(const std::string & sql)=0;
 
-        void close()=0;
+        virtual void close()=0;
     };
     namespace sql_internal
     {

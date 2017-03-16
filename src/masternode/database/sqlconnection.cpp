@@ -4,34 +4,13 @@ namespace mocores
 {
     namespace sql_internal
     {
-        ConnectionSqlite3::SqlConnection(const std::string & _url, const std::string &_user, const std::string &_password)
-            :url(_url),user(_user),password(_password)
-        {
-            const char *sql_create_table="create table t(id int primary key,msg varchar(128))";
-
-
-                printf("Open database\n");
-
-                ret = sqlite3_exec(db,sql_create_table,NULL,NULL,&errmsg);
-                if(ret != SQLITE_OK){
-                    fprintf(stderr,"create table fail: %s\n",errmsg);
-                }
-                sqlite3_free(errmsg);
-
-        }
-
-        ConnectionSqlite3::~SqlConnection()
+        ConnectionSqlite3::~ConnectionSqlite3()
         {
             if(db!=nullptr)
             {
                 sqlite3_close(db);
                 db=nullptr;
             }
-        }
-
-        Statement ConnectionSqlite3::createStatement()
-        {
-
         }
 
         ResultSet ConnectionSqlite3::executeQuery(const std::string &sql)
@@ -61,7 +40,9 @@ namespace mocores
             }
             else
             {
-                throw errmsg;
+                std::string errstr(errmsg);
+                sqlite3_free(errmsg);
+                throw errstr;
             }
             return result;
         }

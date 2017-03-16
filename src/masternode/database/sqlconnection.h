@@ -10,14 +10,14 @@ namespace mocores
     public:
         SqlConnection()=default;
         virtual ~SqlConnection()=default;
-        Statement createStatement()=0;
+        //virtual Statement createStatement()=0;
 
-        ResultSet executeQuery(const std::string &sql)=0;
+        virtual ResultSet executeQuery(const std::string &sql)=0;
         //boolean execute(const std::string &sql)=0;
         //int executeUpdate(const std::string & sql)=0;
 
-        void open(const std::string & url,const std::string & user,const std::string & password)=0;
-        void close()=0;
+        virtual void open(const std::string & url,const std::string & user,const std::string & password)=0;
+        virtual void close()=0;
     };
     namespace sql_internal
     {
@@ -25,11 +25,11 @@ namespace mocores
         class ConnectionSqlite3:public SqlConnection
         {
         protected:
-            sqlite3 *db = nullptr;
+            sqlite3 *db;
         public:
-            SqlConnection()=default;
-            virtual ~SqlConnection();
-            Statement createStatement();
+            ConnectionSqlite3()=default;
+            virtual ~ConnectionSqlite3();
+            //Statement createStatement();
 
             ResultSet executeQuery(const std::string &sql);
 
