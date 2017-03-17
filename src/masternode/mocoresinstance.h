@@ -4,6 +4,7 @@
 #include<string>
 #include"logerror.h"
 #include"settings.h"
+#include"clio.h"
 namespace mocores
 {
     class MocoresInstance
