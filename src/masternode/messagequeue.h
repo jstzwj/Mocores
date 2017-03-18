@@ -1,9 +1,10 @@
 #ifndef MESSAGEQUEUE_H
 #define MESSAGEQUEUE_H
 #include<queue>
+#include<cstdint>
 namespace mocores
 {
-    enum Message
+    enum MessageTag
     {
 
     };
@@ -13,14 +14,24 @@ namespace mocores
     {
 
     };
+    class Message
+    {
+    public:
+        MessageTag tagMsg;
+        uint32_t time;
+    };
 
     //sigpending
     class MessageQueue
     {
     public:
         MessageQueue();
-        void pend();
-        void get();
+        void push(Message msg);
+        void pop();
+        Message front();
+        Message back();
+        bool getMessage(Message &msg);
+        bool peekMessage(Message &msg);
     protected:
         std::queue<Message> queue_impl;
     };

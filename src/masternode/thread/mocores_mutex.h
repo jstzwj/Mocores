@@ -20,6 +20,7 @@ namespace mocores
     protected:
         std::mutex mutex_impl;
     };
+    using Mutex=mocores_windows_mutex;
 #endif
 
 

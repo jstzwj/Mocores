@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     //构建数据库实例
     mocores::errlog.log(3,"Server started.");
     mocores::MocoresInstance instance(settings);
-
+    instance.run();
 
 
     //析构实例

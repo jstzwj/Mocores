@@ -2,6 +2,7 @@
 #define THREAD_H
 #include<cstdint>
 #include<thread>
+#include<chrono>
 #include"../platform.h"
 namespace mocores
 {

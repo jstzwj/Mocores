@@ -2,9 +2,13 @@
 #define OPTIONINSTANCE_H
 
 #include<string>
+#include<memory>
 #include"logerror.h"
 #include"settings.h"
 #include"clio.h"
+#include"messagequeue.h"
+#include"./thread/mocores_mutex.h"
+#include"./thread/mocores_thread.h"
 namespace mocores
 {
     class MocoresInstance
