@@ -9,7 +9,7 @@ namespace mocores
     class ThreadBase
     {
     public:
-        using id=uint32_t;
+        using id=std::thread::id;
 
         ThreadBase()noexcept{}
         virtual ~ThreadBase()=0;
@@ -20,7 +20,7 @@ namespace mocores
         ThreadBase (ThreadBase&& ) noexcept{}
 
         virtual bool joinable() const=0;
-        virtual mocores::ThreadBase::id get_id() const=0;
+        //virtual mocores::ThreadBase::id get_id() const;
         //native_handle_type native_handle();
         //static unsigned hardware_concurrency();
 
@@ -37,10 +37,10 @@ namespace mocores
     protected:
         std::thread inner_thread;
     public:
-        using id=uint32_t;
+        using id=std::thread::id;
 
         WindowsThread()noexcept;
-        virtual ~WindowsThread();
+        virtual ~WindowsThread(){}
         template <class Fn, class... Args>
         explicit WindowsThread (Fn&& fn, Args&&... args);
         WindowsThread (const WindowsThread&) = delete;

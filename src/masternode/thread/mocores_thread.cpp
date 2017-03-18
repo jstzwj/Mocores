@@ -3,14 +3,13 @@
 namespace mocores
 {
 #ifdef MOCORES_OS_WINDOWS
-    WindowsThread::WindowsThread()
-        :Thread(),inner_thread(){}
-
-    WindowsThread::~WindowsThread(){}
+    WindowsThread::WindowsThread()noexcept
+        :ThreadBase(),inner_thread(){}
 
     WindowsThread &WindowsThread::operator=(WindowsThread &&other)
     {
-        this->swap(std::move(other));
+        this->swap(other);
+        return *this;
     }
 
     bool WindowsThread::joinable() const
@@ -20,7 +19,7 @@ namespace mocores
 
     WindowsThread::id WindowsThread::get_id() const
     {
-        return inner_thread.id;
+        return inner_thread.get_id();
     }
 
     void WindowsThread::swap(WindowsThread &other)
@@ -40,15 +39,15 @@ namespace mocores
         inner_thread.join();
     }
 
-    WindowsThread::WindowsThread(WindowsThread &&other)
+    WindowsThread::WindowsThread(WindowsThread &&other)noexcept
     {
-        this->swap(std::move(other));
+        this->swap(other);
     }
 
     template <class Fn, class... Args>
     WindowsThread::WindowsThread(Fn &&fn, Args &&...args)
     {
-        inner_thread=std::thread(std::forward<Fn>(fn),std::forward<Args>(args...));
+        inner_thread=std::thread(std::forward<Fn>(fn),std::forward<Args>(args)...);
     }
 #endif
 

@@ -3,32 +3,32 @@
 namespace mocores
 {
 #ifdef MOCORES_OS_WINDOWS
-    WinSocket::WinSocket()
+    WinTcpSocket::WinTcpSocket()
     {
 
     }
 
-    void WinSocket::create()
+    void WinTcpSocket::create()
     {
         WSADATA  Ws;
 
         //Init Windows Socket
         if ( WSAStartup(MAKEWORD(2,2), &Ws) != 0 )
         {
-            //cout<<"Init Windows Socket Failed::"<<GetLastError()<<endl;
-            return -1;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_INIT;
         }
         //Create Socket
         socket_impl = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         if ( socket_impl == INVALID_SOCKET )
         {
-            //cout<<"Create Socket Failed::"<<GetLastError()<<endl;
-            return -1;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_CREATE;
         }
 
     }
 
-    void WinSocket::bind(const char * ip, port_type port)
+    void WinTcpSocket::bind(const char * ip, port_type port)
     {
         struct sockaddr_in localAddr;
         int ret;
@@ -37,27 +37,27 @@ namespace mocores
         localAddr.sin_port = htons(port);
         memset(localAddr.sin_zero, 0x00, 8);
         //Bind Socket
-        ret = ::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
+        ret = mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
         if ( ret != 0 )
         {
-            cout<<"Bind Socket Failed::"<<GetLastError()<<endl;
-            return -1;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_BIND;
         }
     }
 
-    void WinSocket::listen()
+    void WinTcpSocket::listen()
     {
         int ret;
         //listen
-        ret = ::listen(socket_impl, 10);
+        ret = mocores::listen(socket_impl, 10);
         if ( ret != 0 )
         {
-            //cout<<"listen Socket Failed::"<<GetLastError()<<endl;
-            return -1;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_LISTEN;
         }
     }
 
-    void WinSocket::connect(const char * ip,port_type port)
+    void WinTcpSocket::connect(const char * ip,port_type port)
     {
         struct sockaddr_in serverAddr;
         int ret;
@@ -66,44 +66,49 @@ namespace mocores
         serverAddr.sin_port = htons(port);
         memset(serverAddr.sin_zero, 0x00, 8);
 
-        ret = ::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        ret = mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
     }
 
-    void WinSocket::accept()
+    WinTcpSocket WinTcpSocket::accept()
     {
-        AddrLen = sizeof(ClientAddr);
-        ClientSocket = ::accept(ServerSocket, (struct sockaddr*)&ClientAddr, &AddrLen);
-        if ( ClientSocket == INVALID_SOCKET )
+        struct sockaddr_in clientAddr;
+        int addrLen = sizeof(clientAddr);
+        SOCKET clientSocket;
+        clientSocket = mocores::accept(this->socket_impl, (struct sockaddr*)&clientAddr, &addrLen);
+        if ( clientSocket == INVALID_SOCKET )
         {
-            cout<<"Accept Failed::"<<GetLastError()<<endl;
-            break;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_ACCEPT;
+        }
+        WinTcpSocket resultSocket;
+        resultSocket.socket_impl=clientSocket;
+        return resultSocket;
+    }
+
+    void WinTcpSocket::recv(char * buffer,int maxlen)
+    {
+        int ret;
+        ret = mocores::recv(this->socket_impl, buffer, maxlen, 0);
+        if ( ret == 0 || ret == SOCKET_ERROR )
+        {
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_RECV;
         }
     }
 
-    void WinSocket::recv()
+    void WinTcpSocket::send(const char * buffer,int maxlen)
     {
         int ret;
-        ret = ::recv(this->socket_impl, RecvBuffer, MAX_PATH, 0);
-        if ( Ret == 0 || Ret == SOCKET_ERROR )
-        {
-            //cout<<"客户端退出!"<<endl;
-            break;
-        }
-    }
-
-    void WinSocket::send()
-    {
-        int ret;
-        ret = ::send(ClientSocket, SendBuffer, (int)strlen(SendBuffer), 0);
+        ret = mocores::send(this->socket_impl, buffer, maxlen, 0);
         if ( ret == SOCKET_ERROR )
         {
-            //cout<<"Send Info Error::"<<GetLastError()<<endl;
-            break;
+            //ErrCode::setErrMsg(GetLastError());
+            throw MOCORES_TCPSOCKET_ERROR_SEND;
         }
 
     }
 
-    void WinSocket::close()
+    void WinTcpSocket::close()
     {
         closesocket(this->socket_impl);
         WSACleanup();

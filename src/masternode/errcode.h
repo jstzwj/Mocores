@@ -1,6 +1,6 @@
 #ifndef ERRCODE_H
 #define ERRCODE_H
-
+#include<string>
 namespace mocores
 {
 
@@ -15,13 +15,25 @@ namespace mocores
         MOCORES_FILE_ERROR_TRUNCATE,
         MOCORES_FILE_ERROR_SYNC,
         MOCORES_FILE_ERROR_LOCK,
-        MOCORES_FILE_ERROR_UNLOCK
+        MOCORES_FILE_ERROR_UNLOCK,
+
+        MOCORES_TCPSOCKET_ERROR_INIT,
+        MOCORES_TCPSOCKET_ERROR_CREATE,
+        MOCORES_TCPSOCKET_ERROR_BIND,
+        MOCORES_TCPSOCKET_ERROR_LISTEN,
+        MOCORES_TCPSOCKET_ERROR_ACCEPT,
+        MOCORES_TCPSOCKET_ERROR_RECV,
+        MOCORES_TCPSOCKET_ERROR_SEND
     };
 
     class ErrCode
     {
     public:
         ErrCode();
+        static void setErrMsg(const std::string & str);
+        static std::string getErrMsg();
+    private:
+        static std::string errmsg;
     };
 }
 
