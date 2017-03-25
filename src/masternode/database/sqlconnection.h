@@ -16,7 +16,7 @@ namespace mocores
         //boolean execute(const std::string &sql)=0;
         //int executeUpdate(const std::string & sql)=0;
 
-        virtual void open(const std::string & url,const std::string & user,const std::string & password)=0;
+        virtual bool open(const std::string & url,const std::string & user,const std::string & password)=0;
         virtual void close()=0;
     };
     namespace sql_internal
@@ -33,7 +33,7 @@ namespace mocores
 
             ResultSet executeQuery(const std::string &sql);
 
-            void open(const std::string & url, const std::string & user, const std::string & password);
+            bool open(const std::string & url, const std::string & user, const std::string & password);
             void close();
         };
     }

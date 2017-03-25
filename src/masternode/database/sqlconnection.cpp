@@ -49,7 +49,7 @@ namespace mocores
 
 
 
-        void ConnectionSqlite3::open(const std::string &url, const std::string &user, const std::string &password)
+        bool ConnectionSqlite3::open(const std::string &url, const std::string &user, const std::string &password)
         {
             int ret = 0;
             ret = sqlite3_open(url.c_str(),&db);

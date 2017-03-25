@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     databasemodule.cpp \
     nodelistenermodule.cpp \
     messagequeue.cpp \
-    thread/mocores_mutex.cpp
+    thread/mocores_mutex.cpp \
+    database/sqlquery.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -52,7 +53,8 @@ HEADERS += \
     databasemodule.h \
     nodelistenermodule.h \
     messagequeue.h \
-    thread/mocores_mutex.h
+    thread/mocores_mutex.h \
+    database/sqlquery.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

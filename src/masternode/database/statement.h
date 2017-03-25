@@ -5,6 +5,11 @@
 
 #include"resultset.h"
 
+
+/**************
+ * 本类已废弃
+ *
+ * ************/
 namespace mocores
 {
     class Statement
