@@ -2,13 +2,14 @@
 #define RESULTSET_H
 #include<vector>
 #include<string>
+#include"sqlrecord.h"
 namespace mocores
 {
     class SqlResultSet
     {
     public:
         SqlResultSet();
-        std::vector<std::vector<std::string>> data;
+        std::vector<SqlRecord> data;
     };
 }
 

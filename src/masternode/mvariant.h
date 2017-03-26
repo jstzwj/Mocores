@@ -23,6 +23,7 @@ namespace mocores
             delete data;
         }
         constexpr uint32_t index()const {return curindex;}
+
         T& get()
         {
             if(data!=nullptr)
@@ -37,6 +38,7 @@ namespace mocores
             else
                 throw MOCORES_VARIANT_EMPTY;
         }
+
     protected:
         T * data;
         static uint32_t curindex;
@@ -60,6 +62,8 @@ namespace mocores
             delete data;
         }
         constexpr uint32_t index()const {return curindex;}
+
+
         T& get()
         {
             if(data!=nullptr)
@@ -81,10 +85,19 @@ namespace mocores
     };
 
 
-    template <class T, class... Types>
-    constexpr T& get(MVariant<Types...>& v){return v.get<T>();}
-    template <class T, class... Types>
-    constexpr T&& get(MVariant<Types...>&& v){return std::move(v.get<T>());}
+    template <class T, class U,class... Types>
+    constexpr T& get(MVariant<U,Types...>& v)
+    {
+        if(v.data!=nullptr)
+        {
+            return *(v.data);
+        }
+        else
+        {
+            return *(dynamic_cast<MVariant<Types...>&>(v).data);
+        }
+    }
+
 }
 
 
