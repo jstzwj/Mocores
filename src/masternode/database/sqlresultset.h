@@ -4,10 +4,10 @@
 #include<string>
 namespace mocores
 {
-    class ResultSet
+    class SqlResultSet
     {
     public:
-        ResultSet();
+        SqlResultSet();
         std::vector<std::vector<std::string>> data;
     };
 }

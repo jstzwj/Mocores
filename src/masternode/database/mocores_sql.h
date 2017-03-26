@@ -1,7 +1,7 @@
 #ifndef MOCORES_SQL_H
 #define MOCORES_SQL_H
 
-#include"resultset.h"
+#include"sqlresultset.h"
 #include"statement.h"
 #include"sqlmanager.h"
 

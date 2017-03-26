@@ -4,7 +4,6 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    database/resultset.cpp \
     database/sqlmanager.cpp \
     database/statement.cpp \
     filesystem/file.cpp \
@@ -24,7 +23,10 @@ SOURCES += main.cpp \
     nodelistenermodule.cpp \
     messagequeue.cpp \
     thread/mocores_mutex.cpp \
-    database/sqlquery.cpp
+    database/sqlquery.cpp \
+    database/sqlrecord.cpp \
+    database/sqlresultset.cpp \
+    mvariant.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -32,7 +34,6 @@ DISTFILES += \
 
 HEADERS += \
     database/mocores_sql.h \
-    database/resultset.h \
     database/sqlmanager.h \
     database/statement.h \
     filesystem/file.h \
@@ -54,7 +55,10 @@ HEADERS += \
     nodelistenermodule.h \
     messagequeue.h \
     thread/mocores_mutex.h \
-    database/sqlquery.h
+    database/sqlquery.h \
+    database/sqlrecord.h \
+    database/sqlresultset.h \
+    mvariant.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

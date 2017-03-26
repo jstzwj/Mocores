@@ -12,7 +12,7 @@ namespace mocores
         virtual ~SqlConnection()=default;
         //virtual Statement createStatement()=0;
 
-        virtual ResultSet executeQuery(const std::string &sql)=0;
+        virtual SqlResultSet executeQuery(const std::string &sql)=0;
         //boolean execute(const std::string &sql)=0;
         //int executeUpdate(const std::string & sql)=0;
 
@@ -31,7 +31,7 @@ namespace mocores
             virtual ~ConnectionSqlite3();
             //Statement createStatement();
 
-            ResultSet executeQuery(const std::string &sql);
+            SqlResultSet executeQuery(const std::string &sql);
 
             bool open(const std::string & url, const std::string & user, const std::string & password);
             void close();

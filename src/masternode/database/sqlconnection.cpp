@@ -13,14 +13,14 @@ namespace mocores
             }
         }
 
-        ResultSet ConnectionSqlite3::executeQuery(const std::string &sql)
+        SqlResultSet ConnectionSqlite3::executeQuery(const std::string &sql)
         {
             int ret=0;
             char * errmsg=nullptr;
             char ** dbresult=nullptr;
             int nrow=0;
             int ncolumn=0;
-            ResultSet result;
+            SqlResultSet result;
             //判断sql操作类型
             ret = sqlite3_get_table(db,sql.c_str(),&dbresult,&nrow,&ncolumn,&errmsg);
             if(ret == SQLITE_OK)

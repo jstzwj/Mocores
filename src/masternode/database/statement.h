@@ -3,7 +3,7 @@
 
 #include<string>
 
-#include"resultset.h"
+#include"sqlresultset.h"
 
 
 /**************
@@ -18,7 +18,7 @@ namespace mocores
         Statement(const std::string &){}
         virtual ~Statement();
 
-        virtual ResultSet executeQuery(const std::string &sql)=0;
+        virtual SqlResultSet executeQuery(const std::string &sql)=0;
         virtual bool execute(const std::string &sql)=0;
         virtual int executeUpdate(const std::string & sql)=0;
 
