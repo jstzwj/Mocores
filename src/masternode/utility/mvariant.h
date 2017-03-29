@@ -164,6 +164,10 @@ namespace mocores
         template<class U,class ...args>
         MVariant& operator =(MVariant<U,args...>& other)
         {
+            if(data!=nullptr)
+            {
+                Destruct<T,Targs...>::destruct(curindex,data);
+            }
             Copy<U,args...>::copy(other.curindex,other.data,this->data);
             this->curindex=other.curindex;
         }
