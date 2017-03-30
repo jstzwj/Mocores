@@ -1,3 +1,8 @@
+/*
+    © 2016-2017 mocores
+    This file is distributed under the MIT liscense.
+    See LICENSE for details.
+*/
 #ifndef STATEMENT_H
 #define STATEMENT_H
 
@@ -5,13 +10,12 @@
 
 #include"sqlresultset.h"
 
-
-/**************
- * 本类已废弃
- *
- * ************/
 namespace mocores
 {
+    /*!
+     * \brief The Statement class
+     * \deprecated Instead of SqlQuery.
+     */
     class Statement
     {
     public:

@@ -1,3 +1,8 @@
+/*
+    © 2016-2017 mocores
+    This file is distributed under the MIT liscense.
+    See LICENSE for details.
+*/
 #ifndef SQLMANAGER_H
 #define SQLMANAGER_H
 

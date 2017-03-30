@@ -1,7 +1,7 @@
 #ifndef VARIANTTEST_H
 #define VARIANTTEST_H
 #include"../catch/catch.hpp"
-#include"../../src/masternode/mvariant.h"
+#include"../../src/masternode/utility/mvariant.h"
 
 template<class ...Targs>
 class VariantSetAndGet

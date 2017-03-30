@@ -5,6 +5,9 @@
 #include"sqlrecord.h"
 namespace mocores
 {
+    /*!
+     * \brief The result of sql query.
+     */
     class SqlResultSet
     {
     public:

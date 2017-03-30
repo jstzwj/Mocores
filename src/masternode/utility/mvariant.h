@@ -4,7 +4,7 @@
 #include<utility>
 #include<memory>
 #include<cstdint>
-#include"errcode.h"
+#include"../errcode.h"
 namespace mocores
 {
     template<class T>
