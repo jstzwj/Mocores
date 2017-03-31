@@ -8,7 +8,7 @@ namespace mocores
     {
     public:
         SqlRecord();
-        std::vector<MVariant> record_data;
+        //std::vector<MVariant> record_data;
     };
 }
 

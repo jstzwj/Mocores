@@ -89,6 +89,7 @@
 #define MOCORES_OPEN_SHAREDCACHE      0x00020000  /* Ok for sqlite3_open_v2() */
 #define MOCORES_OPEN_PRIVATECACHE     0x00040000  /* Ok for sqlite3_open_v2() */
 #define MOCORES_OPEN_WAL              0x00080000  /* VFS only */
+#define MOCORES_OPEN_APPEND     0x00100000  /* Append data to a file atomicly */
 
 
 
