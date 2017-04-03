@@ -4,11 +4,6 @@
 #include<functional>
 namespace mocores_sdk
 {
-    template<class T>
-    std::function mocores_register(T * fp)
-    {
-
-    }
 
 
 }

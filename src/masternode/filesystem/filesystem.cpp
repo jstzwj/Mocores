@@ -21,18 +21,22 @@ namespace mocores
 
     bool WindowsFileSystem::access(const std::string &path)
     {
-        if(INVALID_HANDLE_VALUE!=
-                CreateFile((LPCWSTR)path.c_str(),
-                           GENERIC_READ,
-                           0,
-                           NULL,
-                           OPEN_EXISTING,
-                           FILE_ATTRIBUTE_NORMAL,
-                           NULL)
-                )
+        HANDLE pfile=CreateFile((LPCWSTR)path.c_str(),
+                   GENERIC_READ,
+                   0,
+                   NULL,
+                   OPEN_EXISTING,
+                   FILE_ATTRIBUTE_NORMAL,
+                   NULL);
+        if(INVALID_HANDLE_VALUE!=pfile)
+        {
+            CloseHandle(pfile);
             return true;
+        }
         else
+        {
             return false;
+        }
     }
 
 #endif

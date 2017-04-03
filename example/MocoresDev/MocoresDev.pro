@@ -9,4 +9,5 @@ SOURCES += main.cpp \
 
 HEADERS += \
     mocores_init.h \
-    mocores_register.h
+    mocores_register.h \
+    msdk_type.h
