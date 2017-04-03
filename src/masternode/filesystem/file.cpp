@@ -178,4 +178,186 @@ namespace mocores
     }
 #endif
 
+#ifdef MOCORES_OS_LINUX
+    UnixFile::UnixFile(const std::string &path)
+        :FileBase(path)
+    {
+
+    }
+
+    int UnixFile::open(int flags)
+    {
+        int oflag = 0;
+
+        if((flags&MOCORES_OPEN_CREATE)!=0)
+        {
+            oflag |= O_CREAT;
+        }
+        if((flags&MOCORES_OPEN_READONLY)!=0)
+        {
+            oflag|=O_RDONLY;
+        }
+        if((flags&MOCORES_OPEN_READWRITE)!=0)
+        {
+            oflag|=O_RDWR;
+        }
+        if((flags&MOCORES_OPEN_APPEND) != 0)
+        {
+            oflag|=O_APPEND;
+        }
+
+        /*! open function in fcntl.h */
+        if(oflag & O_CREAT){
+            pfile = ::mocores::open(filePath.c_str(), oflag, FILE_MODE);
+        }else{
+            pfile = ::mocores::open(filePath.c_str(), oflag);
+        }
+
+        if(pfile >= 0)
+        {
+            /*! unlink file if it is a temp file */
+            if(flags&MOCORES_OPEN_DELETEONCLOSE)
+            {
+                if(unlink(filePath.c_str()) < 0){
+                     return MOCORES_FILE_ERROR_OPEN;
+                }
+            }
+            return MOCORES_GOOD;
+        }
+        else
+        {
+            return MOCORES_FILE_ERROR_OPEN;
+        }
+    }
+
+    int UnixFile::close()
+    {
+        if(::mocores::close(pfile) < 0)
+            return MOCORES_FILE_ERROR_CLOSE;
+        return MOCORES_GOOD;
+    }
+
+    /**
+     * @return number of bytes read, 0 if end of file,  -1 on error
+     */
+    int UnixFile::read(char * buffer, int readLen, int64_t offset)
+    {
+        if(::mocores::lseek(pfile, offset, SEEK_SET) < 0)
+        {
+            return -1;
+        }
+
+        return ::mocores::read(pfile, buffer, readLen);
+    }
+
+    /**
+     * @return number of bytes write, -1 on error
+     */
+    int UnixFile::write(const char *buffer, int writeLen, int64_t offset)
+    {
+        if(::mocores::lseek(pfile, offset, SEEK_SET) < 0)
+        {
+            return -1;
+        }
+
+        return ::mocores::write(pfile, buffer, writeLen);
+    }
+
+    int UnixFile::truncate(int64_t size)
+    {
+        if(::mocores::truncate(filePath.c_str(), size) == 0)
+        {
+            return MOCORES_GOOD;
+        }
+        else
+        {
+            return MOCORES_FILE_ERROR_TRUNCATE;
+        }
+    }
+
+    int UnixFile::sync(int flags)
+    {
+        if(::mocores::fsync(pfile) == 0)
+        {
+            return MOCORES_GOOD;
+        }
+        else
+        {
+            return MOCORES_FILE_ERROR_SYNC;
+        }
+    }
+
+    int UnixFile::fileSize(int64_t *pSize)
+    {
+        struct stat buf;
+
+        if(::mocores::stat(filePath.c_str(), &buf) < 0){
+             return MOCORES_FILE_ERROR_GETSIZE;
+        }
+
+        *pSize = buf.st_size;
+        return MOCORES_GOOD;
+    }
+
+    /**
+     * @note Write lock
+     */
+    int UnixFile::lock(int64_t offset, int64_t len)
+    {
+        struct flock lk;
+
+        lk.l_type = F_WRLCK;
+        lk.l_whence = SEEK_SET;
+        lk.l_start = offset;
+        lk.l_len = len;
+
+        if(fcntl(pfile, F_SETLK, &lk) < 0)
+        {
+            return MOCORES_FILE_ERROR_LOCK;
+        }
+        else
+        {
+            return MOCORES_GOOD;
+        }
+    }
+
+    int UnixFile::unlock(int64_t offset, int64_t len)
+    {
+        struct flock lk;
+
+        lk.l_type = F_UNLCK;
+        lk.l_whence = SEEK_SET;
+        lk.l_start = offset;
+        lk.l_len = len;
+        if(fcntl(pfile, F_SETLK, &lk) < 0)
+        {
+            return MOCORES_FILE_ERROR_UNLOCK;
+        }
+        else
+        {
+            return MOCORES_GOOD;
+        }
+    }
+
+    int UnixFile::checkReservedLock(int *pResOut)
+    {
+        return MOCORES_GOOD;
+    }
+
+    int UnixFile::fileControl(int op, void *pArg)
+    {
+        return MOCORES_GOOD;
+    }
+
+    int UnixFile::sectorSize()
+    {
+        return MOCORES_GOOD;
+    }
+
+    int UnixFile::deviceCharacteristics()
+    {
+        return MOCORES_GOOD;
+    }
+#endif
+
 }

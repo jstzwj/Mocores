@@ -17,9 +17,9 @@ namespace mocores
     {
     public:
         SqlRecord();
-
     protected:
         std::vector<SqlType> record_data;
+
     };
     */
 }
