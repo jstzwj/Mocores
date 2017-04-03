@@ -8,12 +8,15 @@ namespace mocores
     /*!
      * \brief The result of sql query.
      */
+    using SqlResultSet=std::vector<SqlRecord>;
+    /*
     class SqlResultSet
     {
     public:
         SqlResultSet();
         std::vector<SqlRecord> data;
     };
+    */
 }
 
 

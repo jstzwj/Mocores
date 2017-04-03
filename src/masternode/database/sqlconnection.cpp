@@ -28,13 +28,13 @@ namespace mocores
                 int index=0;
                 for(int i=0;i<nrow;i++)
                 {
-                    std::vector<std::string> row;
+                    SqlRecord row;
                     for(int j=0;j<ncolumn;j++)
                     {
                         row.push_back(dbresult[index]);
                         index++;
                     }
-                    result.data.push_back(row);
+                    result.push_back(row);
                 }
                 sqlite3_free_table(dbresult);
             }
