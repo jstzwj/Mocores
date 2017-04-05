@@ -61,10 +61,12 @@ HEADERS += \
     database/sqlquery.h \
     database/sqlrecord.h \
     database/sqlresultset.h \
+    config.h
     utility/mvariant.h \
     utility/merroror.h \
     distributeddataset.h \
     utility/strutil.h
+    distributeddataset.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

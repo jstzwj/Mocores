@@ -46,6 +46,20 @@ namespace mocores
     using FileSystem=WindowsFileSystem;
 #endif
 
+#ifdef MOCORES_OS_LINUX
+    #include<cstdio>
+    class UnixFileSystem:public FileSystemBase
+    {
+    public:
+        UnixFileSystem():FileSystemBase(){}
+        virtual ~UnixFileSystem(){}
+        virtual int open(File& file, int flags);
+        virtual int close(File& file);
+        virtual int del(const std::string & path);
+        virtual bool access(const std::string & path);
+    };
+    using FileSystem=UnixFileSystem;
+#endif
 }
 
 

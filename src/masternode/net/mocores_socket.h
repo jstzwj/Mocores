@@ -2,7 +2,7 @@
 #define SOCKET_H
 #include"platform.h"
 #include"errcode.h"
-
+#include"config.h"
 
 
 
@@ -37,7 +37,32 @@ namespace mocores
     };
 
 #endif
+#ifdef MOCORES_OS_LINUX
+    #include <unistd.h>
+    #include <stdlib.h>
+    #include<memory.h>
+    #include <sys/socket.h>
+    #include <arpa/inet.h>
+    class UnixTcpSocket
+    {
+    public:
+        using port_type=unsigned short;
 
+        UnixTcpSocket();
+        void create();
+        void bind(const char *ip, port_type port);
+        void listen();
+        void connect(const char *ip, port_type port);
+        UnixTcpSocket accept();
+        ssize_t recv(char *buffer, int maxlen, int flags);
+        ssize_t send(const char *buffer, int maxlen, int flags);
+        void close();
+    protected:
+        int socket_impl;
+
+    };
+
+#endif
 }
 
 #endif // SOCKET_H
