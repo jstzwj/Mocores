@@ -27,13 +27,16 @@ namespace mocores
         SqlQuery(SqlConnection &con);
         ~SqlQuery();
 
-        SqlResultSet exec(const std::string &query);
-        SqlResultSet exec();
+        bool exec(const std::string &query);
+        bool exec();
+
+        SqlResultSet record();
 
         SqlError lastError() const;
     protected:
         SqlConnection * connection;
-        const std::string query;
+        std::string query;
+        SqlResultSet last_record;
         SqlError last_error;
     };
 

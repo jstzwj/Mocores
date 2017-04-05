@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     database/sqlresultset.cpp \
     utility/mvariant.cpp \
     utility/merroror.cpp \
-    distributeddataset.cpp
+    distributeddataset.cpp \
+    utility/strutil.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -62,7 +63,8 @@ HEADERS += \
     database/sqlresultset.h \
     utility/mvariant.h \
     utility/merroror.h \
-    distributeddataset.h
+    distributeddataset.h \
+    utility/strutil.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

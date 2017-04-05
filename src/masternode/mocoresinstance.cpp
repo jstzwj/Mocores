@@ -28,8 +28,8 @@ namespace mocores
 
             }
             //降低cpu占用率
-            std::this_thread::yield();
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            mocores::this_thread::yield();
+            mocores::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
         //退出操作，清理资源
 

@@ -18,28 +18,33 @@ namespace mocores
 
     }
 
-    SqlResultSet SqlQuery::exec(const std::string &query)
+    bool SqlQuery::exec(const std::string &query)
     {
         if(connection!=nullptr)
         {
-            return connection->executeQuery(query);
+            return connection->executeQuery(query,last_record);
         }
         else
         {
-            throw SqlError(MOCORES_SQL_ERROR_CONNECTION_NOT_INIT);
+            return MOCORES_SQL_ERROR_CONNECTION_NOT_INIT;
         }
     }
 
-    SqlResultSet SqlQuery::exec()
+    bool SqlQuery::exec()
     {
         if(connection!=nullptr)
         {
-            return connection->executeQuery(this->query);
+            return connection->executeQuery(this->query,last_record);
         }
         else
         {
-            throw SqlError(MOCORES_SQL_ERROR_CONNECTION_NOT_INIT);
+            return MOCORES_SQL_ERROR_CONNECTION_NOT_INIT;
         }
+    }
+
+    SqlResultSet SqlQuery::record()
+    {
+        return last_record;
     }
 
     SqlError SqlQuery::lastError() const

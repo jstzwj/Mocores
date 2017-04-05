@@ -13,7 +13,7 @@ namespace mocores
             }
         }
 
-        SqlResultSet ConnectionSqlite3::executeQuery(const std::string &sql)
+        bool ConnectionSqlite3::executeQuery(const std::string &sql, SqlResultSet &record)
         {
             int ret=0;
             char * errmsg=nullptr;
@@ -57,6 +57,7 @@ namespace mocores
             {
                 throw sqlite3_errmsg(db);
             }
+            return true;
         }
 
         void ConnectionSqlite3::close()
