@@ -58,7 +58,8 @@ HEADERS += \
     database/sqlquery.h \
     database/sqlrecord.h \
     database/sqlresultset.h \
-    mvariant.h
+    mvariant.h \
+    config.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

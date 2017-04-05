@@ -58,7 +58,34 @@ namespace mocores
     };
         using Thread=WindowsThread;
     #endif
+#ifdef MOCORES_OS_LINUX
 
+
+class UnixThread:public ThreadBase
+{
+protected:
+    std::thread inner_thread;
+public:
+    using id=std::thread::id;
+
+    UnixThread()noexcept;
+    virtual ~UnixThread(){}
+    template <class Fn, class... Args>
+    explicit UnixThread (Fn&& fn, Args&&... args);
+    UnixThread (const UnixThread&) = delete;
+    UnixThread& operator=( UnixThread&& other );
+    UnixThread(UnixThread&& other) noexcept;
+
+    virtual bool joinable() const;
+    virtual mocores::UnixThread::id get_id() const;
+
+    virtual void swap(UnixThread &other);
+    virtual void detach();
+    virtual void join();
+
+};
+    using Thread=UnixThread;
+#endif
 }
 
 

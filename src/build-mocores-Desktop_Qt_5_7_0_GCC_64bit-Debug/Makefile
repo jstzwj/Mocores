@@ -228,6 +228,7 @@ DIST          = ../masternode/mocores.ini \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		../masternode/.qmake.stash \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/default_pre.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/resolve_config.prf \
@@ -264,7 +265,8 @@ DIST          = ../masternode/mocores.ini \
 		database/sqlquery.h \
 		database/sqlrecord.h \
 		database/sqlresultset.h \
-		mvariant.h ../masternode/main.cpp \
+		mvariant.h \
+		config.h ../masternode/main.cpp \
 		../masternode/database/sqlmanager.cpp \
 		../masternode/database/statement.cpp \
 		../masternode/filesystem/file.cpp \
@@ -430,6 +432,7 @@ Makefile: ../masternode/mocores.pro /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/l
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/qt_config.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/default_pre.prf \
 		/home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/resolve_config.prf \
@@ -574,6 +577,7 @@ Makefile: ../masternode/mocores.pro /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/l
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/qt_config.prf:
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/default_pre.prf:
 /home/cheniison/Qt5.7.0/5.7/gcc_64/mkspecs/features/resolve_config.prf:
@@ -635,6 +639,7 @@ main.o: ../masternode/main.cpp ../masternode/settings.h \
 		../masternode/platform.h \
 		../masternode/filesystem/iomethod.h \
 		../masternode/errcode.h \
+		../masternode/config.h \
 		../masternode/logerror.h \
 		../masternode/mocores_time.h \
 		../masternode/clio.h \
@@ -665,14 +670,16 @@ statement.o: ../masternode/database/statement.cpp ../masternode/database/stateme
 file.o: ../masternode/filesystem/file.cpp ../masternode/filesystem/file.h \
 		../masternode/platform.h \
 		../masternode/filesystem/iomethod.h \
-		../masternode/errcode.h
+		../masternode/errcode.h \
+		../masternode/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o file.o ../masternode/filesystem/file.cpp
 
 filesystem.o: ../masternode/filesystem/filesystem.cpp ../masternode/filesystem/filesystem.h \
 		../masternode/filesystem/file.h \
 		../masternode/platform.h \
 		../masternode/filesystem/iomethod.h \
-		../masternode/errcode.h
+		../masternode/errcode.h \
+		../masternode/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filesystem.o ../masternode/filesystem/filesystem.cpp
 
 iomethod.o: ../masternode/filesystem/iomethod.cpp ../masternode/filesystem/iomethod.h
@@ -680,7 +687,8 @@ iomethod.o: ../masternode/filesystem/iomethod.cpp ../masternode/filesystem/iomet
 
 mocores_socket.o: ../masternode/net/mocores_socket.cpp ../masternode/net/mocores_socket.h \
 		../masternode/platform.h \
-		../masternode/errcode.h
+		../masternode/errcode.h \
+		../masternode/config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mocores_socket.o ../masternode/net/mocores_socket.cpp
 
 mocores_thread.o: ../masternode/thread/mocores_thread.cpp ../masternode/thread/mocores_thread.h \
@@ -710,6 +718,7 @@ mocoresinstance.o: ../masternode/mocoresinstance.cpp ../masternode/mocoresinstan
 		../masternode/platform.h \
 		../masternode/filesystem/iomethod.h \
 		../masternode/errcode.h \
+		../masternode/config.h \
 		../masternode/clio.h \
 		../masternode/messagequeue.h \
 		../masternode/thread/mocores_mutex.h \
@@ -723,12 +732,13 @@ settings.o: ../masternode/settings.cpp ../masternode/settings.h \
 		../masternode/platform.h \
 		../masternode/filesystem/iomethod.h \
 		../masternode/errcode.h \
+		../masternode/config.h \
 		../masternode/logerror.h \
 		../masternode/mocores_time.h \
 		../masternode/clio.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settings.o ../masternode/settings.cpp
 
-sqlite3.o: ../masternode/sqlite/sqlite3.c 
+sqlite3.o: ../masternode/sqlite/sqlite3.c ../masternode/config.h
 	$(CC) -c $(CFLAGS) $(INCPATH) -o sqlite3.o ../masternode/sqlite/sqlite3.c
 
 sqlconnection.o: ../masternode/database/sqlconnection.cpp ../masternode/database/sqlconnection.h \

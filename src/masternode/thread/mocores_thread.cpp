@@ -50,5 +50,52 @@ namespace mocores
         inner_thread=std::thread(std::forward<Fn>(fn),std::forward<Args>(args)...);
     }
 #endif
+#ifdef MOCORES_OS_LINUX
+    UnixThread::UnixThread()noexcept
+        :ThreadBase(),inner_thread(){}
 
+    UnixThread &UnixThread::operator=(UnixThread &&other)
+    {
+        this->swap(other);
+        return *this;
+    }
+
+    bool UnixThread::joinable() const
+    {
+        return inner_thread.joinable();
+    }
+
+    UnixThread::id UnixThread::get_id() const
+    {
+        return inner_thread.get_id();
+    }
+
+    void UnixThread::swap(UnixThread &other)
+    {
+        std::thread tmp=std::move(other.inner_thread);
+        other.inner_thread=std::move(this->inner_thread);
+        this->inner_thread=std::move(tmp);
+    }
+
+    void UnixThread::detach()
+    {
+        inner_thread.detach();
+    }
+
+    void UnixThread::join()
+    {
+        inner_thread.join();
+    }
+
+    UnixThread::UnixThread(UnixThread &&other)noexcept
+    {
+        this->swap(other);
+    }
+
+    template <class Fn, class... Args>
+    UnixThread::UnixThread(Fn &&fn, Args &&...args)
+    {
+        inner_thread=std::thread(std::forward<Fn>(fn),std::forward<Args>(args)...);
+    }
+#endif
 }

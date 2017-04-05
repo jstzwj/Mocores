@@ -4,7 +4,7 @@
 #include"../platform.h"
 #include"iomethod.h"
 #include"errcode.h"
-
+#include"config.h"
 
 namespace mocores
 {
@@ -47,7 +47,7 @@ namespace mocores
 #ifdef MOCORES_OS_LINUX
 
     /*! off_t => off64_t */
-    #define _FILE_OFFSET_BITS 64
+    #define _FILE_OFFSET_BITS MOCORES_FILE_OFFSET_BITS
 
     #include<unistd.h>
     #include<fcntl.h>
