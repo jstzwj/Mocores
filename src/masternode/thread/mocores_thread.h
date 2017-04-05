@@ -6,6 +6,7 @@
 #include"../platform.h"
 namespace mocores
 {
+<<<<<<< HEAD
 
     class ThreadBase
     {
@@ -86,6 +87,12 @@ public:
 };
     using Thread=UnixThread;
 #endif
+=======
+    using Thread=std::thread;
+    namespace this_thread {
+        using namespace std::this_thread;
+    }
+>>>>>>> 34e11fb2aa67063dd46ef3c9de5362363f1ed847
 }
 
 

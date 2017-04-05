@@ -2,6 +2,7 @@
 
 namespace mocores
 {
+<<<<<<< HEAD
 #ifdef MOCORES_OS_WINDOWS
     WindowsThread::WindowsThread()noexcept
         :ThreadBase(),inner_thread(){}
@@ -64,6 +65,8 @@ namespace mocores
     {
         return inner_thread.joinable();
     }
+=======
+>>>>>>> 34e11fb2aa67063dd46ef3c9de5362363f1ed847
 
     UnixThread::id UnixThread::get_id() const
     {

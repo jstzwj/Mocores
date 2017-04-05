@@ -2,8 +2,5 @@
 
 namespace mocores
 {
-    SqlResultSet::SqlResultSet()
-    {
 
-    }
 }

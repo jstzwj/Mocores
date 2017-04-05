@@ -3,7 +3,9 @@
 #include<iostream>
 namespace mocores
 {
+    //!Print a string on the console
     void cliPrint(const char * str);
+    //!Read a string from console
     void cliGetline(char *str, int len);
 }
 

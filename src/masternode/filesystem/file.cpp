@@ -14,7 +14,12 @@ namespace mocores
     {
 
     }
-
+    /*!
+     * \brief WindowsFile::open
+     * \param flags File io flag
+     * \return error code
+     * \note Default mode is OPEN_EXISTING 文件必须已经存在。否则返回错误。
+     */
     int WindowsFile::open(int flags)
     {
         //MessageBox(NULL, L"打开文件失败", L"Error", MB_OK);
@@ -31,7 +36,7 @@ namespace mocores
         }
         if((flags&MOCORES_OPEN_READWRITE)!=0)
         {
-            dwDesiredAccess|=GENERIC_WRITE;
+            dwDesiredAccess|=(GENERIC_WRITE|GENERIC_READ);
         }
         if((flags&MOCORES_OPEN_DELETEONCLOSE)!=0)
         {

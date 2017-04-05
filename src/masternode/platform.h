@@ -68,7 +68,7 @@
 #endif // MOCORES_OS_WINDOWS
 
 
-//vfs标记
+///vfs标记
 #define MOCORES_OPEN_READONLY         0x00000001  /* Ok for sqlite3_open_v2() */
 #define MOCORES_OPEN_READWRITE        0x00000002  /* Ok for sqlite3_open_v2() */
 #define MOCORES_OPEN_CREATE           0x00000004  /* Ok for sqlite3_open_v2() */

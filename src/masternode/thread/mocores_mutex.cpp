@@ -2,8 +2,6 @@
 
 namespace mocores
 {
-#ifdef MOCORES_OS_WINDOWS
-    //empty
-#endif
+
 }
 

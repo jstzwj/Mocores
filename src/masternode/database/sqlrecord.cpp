@@ -2,8 +2,5 @@
 
 namespace mocores
 {
-    SqlRecord::SqlRecord()
-    {
 
-    }
 }

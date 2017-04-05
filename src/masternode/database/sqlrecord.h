@@ -1,15 +1,27 @@
 #ifndef SQLRECORD_H
 #define SQLRECORD_H
 #include<vector>
-#include"mvariant.h"
+#include"../utility/mvariant.h"
 namespace mocores
 {
+    /*!
+     * \brief Sql basic value.
+     */
+    using SqlType=MVariant<int,double,std::string>;
+    /*!
+     * \brief Represents a record in sql result sets.
+     */
+    using SqlRecord=std::vector<SqlType>;
+    /*
     class SqlRecord
     {
     public:
         SqlRecord();
-        //std::vector<MVariant> record_data;
+    protected:
+        std::vector<SqlType> record_data;
+
     };
+    */
 }
 
 
