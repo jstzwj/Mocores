@@ -20,53 +20,33 @@ namespace mocores
         }
         //Create Socket
         socket_impl = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if ( socket_impl == INVALID_SOCKET )
-        {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_CREATE;
-        }
-
     }
 
-    void WinTcpSocket::bind(const char * ip, port_type port)
+    int WinTcpSocket::bind(const char * ip, port_type port)
     {
         struct sockaddr_in localAddr;
-        int ret;
         localAddr.sin_family = AF_INET;
         localAddr.sin_addr.s_addr = inet_addr(ip);
         localAddr.sin_port = htons(port);
         memset(localAddr.sin_zero, 0x00, 8);
         //Bind Socket
-        ret = mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
-        if ( ret != 0 )
-        {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_BIND;
-        }
+        return mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
     }
 
-    void WinTcpSocket::listen()
+    int WinTcpSocket::listen()
     {
-        int ret;
         //listen
-        ret = mocores::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
-        if ( ret != 0 )
-        {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_LISTEN;
-        }
+        return mocores::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
     }
 
-    void WinTcpSocket::connect(const char * ip,port_type port)
+    int WinTcpSocket::connect(const char * ip,port_type port)
     {
         struct sockaddr_in serverAddr;
-        int ret;
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_addr.s_addr = inet_addr(ip);
         serverAddr.sin_port = htons(port);
         memset(serverAddr.sin_zero, 0x00, 8);
-
-        ret = mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        return ::mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
     }
 
     WinTcpSocket WinTcpSocket::accept()
@@ -75,43 +55,38 @@ namespace mocores
         int addrLen = sizeof(clientAddr);
         SOCKET clientSocket;
         clientSocket = mocores::accept(this->socket_impl, (struct sockaddr*)&clientAddr, &addrLen);
-        if ( clientSocket == INVALID_SOCKET )
-        {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_ACCEPT;
-        }
         WinTcpSocket resultSocket;
         resultSocket.socket_impl=clientSocket;
         return resultSocket;
     }
 
-    void WinTcpSocket::recv(char * buffer,int maxlen)
+    int WinTcpSocket::recv(char * buffer, int maxlen, int flags)
     {
         int ret;
         ret = mocores::recv(this->socket_impl, buffer, maxlen, 0);
         if ( ret == 0 || ret == SOCKET_ERROR )
         {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_RECV;
+            return ret;
         }
+        return ret;
     }
 
-    void WinTcpSocket::send(const char * buffer,int maxlen)
+    int WinTcpSocket::send(const char * buffer, int maxlen, int flags)
     {
         int ret;
         ret = mocores::send(this->socket_impl, buffer, maxlen, 0);
         if ( ret == SOCKET_ERROR )
         {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_SEND;
+            return ret;
         }
-
+        return ret;
     }
 
-    void WinTcpSocket::close()
+    int WinTcpSocket::close()
     {
-        closesocket(this->socket_impl);
+        int ret=closesocket(this->socket_impl);
         WSACleanup();
+        return ret;
     }
 #endif
 
@@ -123,20 +98,13 @@ namespace mocores
 
     void UnixTcpSocket::create()
     {
-
         //Create Socket
         socket_impl = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if ( socket_impl < 0 )
-        {
-            throw MOCORES_TCPSOCKET_ERROR_CREATE;
-        }
-
     }
 
-    void UnixTcpSocket::bind(const char * ip, port_type port)
+    int UnixTcpSocket::bind(const char * ip, port_type port)
     {
         struct sockaddr_in localAddr;
-        int ret;
 
         memset(&localAddr, 0, sizeof(localAddr));
         localAddr.sin_family = AF_INET;
@@ -147,28 +115,18 @@ namespace mocores
         }
 
         //Bind Socket
-        ret = ::mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
-        if ( ret < 0 )
-        {
-            throw MOCORES_TCPSOCKET_ERROR_BIND;
-        }
+        return ::mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
     }
 
-    void UnixTcpSocket::listen()
+    int UnixTcpSocket::listen()
     {
-        int ret;
         //listen
-        ret = ::mocores::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
-        if ( ret < 0 )
-        {
-            throw MOCORES_TCPSOCKET_ERROR_LISTEN;
-        }
+        return ::mocores::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
     }
 
-    void UnixTcpSocket::connect(const char * ip,port_type port)
+    int UnixTcpSocket::connect(const char * ip,port_type port)
     {
         struct sockaddr_in serverAddr;
-        int ret;
 
         memset(&serverAddr, 0, sizeof(serverAddr));
         serverAddr.sin_family = AF_INET;
@@ -177,11 +135,7 @@ namespace mocores
         if(inet_pton(AF_INET, ip, &serverAddr.sin_addr) < 0){
             throw MOCORES_TCPSOCKET_ERROR_BIND;
         }
-
-        ret = ::mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
-        if(ret < 0){
-            throw MOCORES_TCPSOCKET_ERROR_CONNECT;
-        }
+        return ::mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
     }
 
     UnixTcpSocket UnixTcpSocket::accept()
@@ -190,11 +144,6 @@ namespace mocores
         socklen_t addrLen = sizeof(clientAddr);
         int clientSocket;
         clientSocket = ::mocores::accept(this->socket_impl, (struct sockaddr*)&clientAddr, &addrLen);
-        if (clientSocket < 0)
-        {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_ACCEPT;
-        }
         UnixTcpSocket resultSocket;
         resultSocket.socket_impl=clientSocket;
         return resultSocket;
@@ -206,8 +155,7 @@ namespace mocores
         ret = ::mocores::recv(this->socket_impl, buffer, maxlen, flags);
         if ( ret < 0 )
         {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_RECV;
+            return ret;
         }
 
         return ret;
@@ -220,16 +168,15 @@ namespace mocores
         ret = ::mocores::send(this->socket_impl, buffer, maxlen, flags);
         if ( ret < 0 )
         {
-            //ErrCode::setErrMsg(GetLastError());
-            throw MOCORES_TCPSOCKET_ERROR_SEND;
+            return ret;
         }
 
         return ret;
     }
 
-    void UnixTcpSocket::close()
+    int UnixTcpSocket::close()
     {
-        ::mocores::close(this->socket_impl);
+        return ::mocores::close(this->socket_impl);
     }
 #endif
 }

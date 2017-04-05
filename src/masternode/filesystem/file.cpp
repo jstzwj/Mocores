@@ -129,7 +129,7 @@ namespace mocores
         }
     }
 
-    int WindowsFile::lock(int)
+    int WindowsFile::lock(int64_t offset, int64_t len)
     {
         LARGE_INTEGER file_size;
         fileSize(&file_size.QuadPart);
@@ -143,7 +143,7 @@ namespace mocores
         }
     }
 
-    int WindowsFile::unlock(int)
+    int WindowsFile::unlock(int64_t offset, int64_t len)
     {
         LARGE_INTEGER file_size;
         fileSize(&file_size.QuadPart);

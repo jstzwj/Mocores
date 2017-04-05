@@ -11,7 +11,11 @@ namespace mocores
     /*!
      * \brief Represents a record in sql result sets.
      */
-    using SqlRecord=std::vector<SqlType>;
+    class SqlRecord:public std::vector<SqlType>
+    {
+    public:
+        std::vector<bool> isNull;
+    };
     /*
     class SqlRecord
     {

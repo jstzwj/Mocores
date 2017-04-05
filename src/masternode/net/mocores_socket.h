@@ -1,8 +1,8 @@
 #ifndef SOCKET_H
 #define SOCKET_H
-#include"platform.h"
-#include"errcode.h"
-#include"config.h"
+#include"../platform.h"
+#include"../errcode.h"
+#include"../config.h"
 
 
 
@@ -24,13 +24,14 @@ namespace mocores
         WinTcpSocket &operator=(const WinTcpSocket && other)=delete;
         */
         void create();
-        void bind(const char *ip, port_type port);
-        void listen();
-        void connect(const char *ip, port_type port);
+        int bind(const char *ip, port_type port);
+        int listen();
+        int connect(const char *ip, port_type port);
         WinTcpSocket accept();
-        void recv(char *buffer, int maxlen);
-        void send(const char *buffer, int maxlen);
-        void close();
+        int recv(char *buffer, int maxlen,int flags);
+        int send(const char *buffer, int maxlen,int flags);
+        int close();
+        bool isValid(){return socket_impl!=INVALID_SOCKET;}
     protected:
         SOCKET socket_impl;
 
@@ -50,13 +51,14 @@ namespace mocores
 
         UnixTcpSocket();
         void create();
-        void bind(const char *ip, port_type port);
-        void listen();
-        void connect(const char *ip, port_type port);
+        int bind(const char *ip, port_type port);
+        int listen();
+        int connect(const char *ip, port_type port);
         UnixTcpSocket accept();
         ssize_t recv(char *buffer, int maxlen, int flags);
         ssize_t send(const char *buffer, int maxlen, int flags);
-        void close();
+        int close();
+        bool isValid(){return socket_impl!=-1;}
     protected:
         int socket_impl;
 

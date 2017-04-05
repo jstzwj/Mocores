@@ -3,7 +3,7 @@
 #include<string>
 #include"sqlconnection.h"
 #include"sqlresultset.h"
-#include"errcode.h"
+#include"../errcode.h"
 namespace mocores
 {
     class SqlError

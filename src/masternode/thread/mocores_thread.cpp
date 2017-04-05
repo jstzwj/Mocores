@@ -2,7 +2,6 @@
 
 namespace mocores
 {
-<<<<<<< HEAD
 #ifdef MOCORES_OS_WINDOWS
     WindowsThread::WindowsThread()noexcept
         :ThreadBase(),inner_thread(){}

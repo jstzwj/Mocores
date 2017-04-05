@@ -10,6 +10,7 @@
 #include<memory>
 
 #include"sqlconnection.h"
+#include"sqldatabase.h"
 
 namespace mocores
 {
@@ -17,7 +18,7 @@ namespace mocores
     {
     public:
         SqlManager();
-        static std::shared_ptr<SqlConnection> getConnection(const std::string & url,const std::string & user,const std::string & password);
+        static SqlDatabase getConnection(const std::string & url,const std::string & user,const std::string & password);
     };
 }
 

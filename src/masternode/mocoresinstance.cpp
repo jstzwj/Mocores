@@ -11,14 +11,34 @@ namespace mocores
 
     int MocoresInstance::run()
     {
+        //守护进程
+
         //根据配置读取数据库内项目信息
+
+
+        //读取项目信息列表
+
+        /**
+         * 开启computing node网络监听
+         * 在线子节点登陆
+         */
+
+
+        /**
+         * 判断上次是否因为崩溃关机
+         * 如果因为崩溃关机，清理损坏数据（子节点定时清理）
+        */
+
+
+        /**
+         *  开启项目调度器（根据最大并行项目数）
+         *
+         */
+
 
         //消息队列维护
         std::shared_ptr<MessageQueue> msgqueue{new MessageQueue};
         Message msg;
-        //开启computing node网络监听
-
-        //判断配置中是否有服务端程序，若有，打开网络监听
 
         //等待控制台输入(除了exit可以退出)
         while(msgqueue->getMessage(msg)!= true)

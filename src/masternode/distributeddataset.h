@@ -18,7 +18,7 @@ namespace mocores
         /*! 缓存 */
         uint8_t * buffer;
         /*! dds文件 */
-        File ddsFile;
+        File * ddsFile;
     };
 }
 

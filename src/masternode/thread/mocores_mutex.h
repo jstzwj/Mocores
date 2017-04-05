@@ -1,7 +1,7 @@
 #ifndef MOCORES_MUTEX_H
 #define MOCORES_MUTEX_H
 #include<mutex>
-#include"platform.h"
+#include"../platform.h"
 namespace mocores
 {
 
@@ -21,7 +21,7 @@ namespace mocores
     protected:
         std::mutex mutex_impl;
     };
-    using Mutex=mocores_windows_mutex;
+    //using Mutex=mocores_windows_mutex;
 #endif
 
 #ifdef MOCORES_OS_LINUX

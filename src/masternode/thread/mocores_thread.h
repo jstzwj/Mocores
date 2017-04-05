@@ -56,7 +56,7 @@ namespace mocores
         virtual void join();
 
     };
-        using Thread=WindowsThread;
+        //using Thread=WindowsThread;
     #endif
 #ifdef MOCORES_OS_LINUX
 
