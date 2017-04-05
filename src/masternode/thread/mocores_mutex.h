@@ -4,7 +4,7 @@
 #include"platform.h"
 namespace mocores
 {
-<<<<<<< HEAD
+
 #ifdef MOCORES_OS_WINDOWS
     class mocores_windows_mutex
     {
@@ -43,9 +43,9 @@ namespace mocores
     using Mutex=mocores_Unix_mutex;
 #endif
 
-=======
+
     using Mutex=std::mutex;
->>>>>>> 34e11fb2aa67063dd46ef3c9de5362363f1ed847
+
 }
 
 
