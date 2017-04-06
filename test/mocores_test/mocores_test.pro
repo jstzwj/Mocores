@@ -6,4 +6,5 @@ CONFIG -= qt
 SOURCES += main.cpp
 
 HEADERS += \
-    varianttest.h
+    varianttest.h \
+    sqlites_test.h

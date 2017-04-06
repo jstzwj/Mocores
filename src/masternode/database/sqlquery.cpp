@@ -8,7 +8,7 @@ namespace mocores
     }
 
     SqlQuery::SqlQuery(SqlConnection &con)
-        :connection(&con),query(nullptr)
+        :connection(&con),query()
     {
 
     }

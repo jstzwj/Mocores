@@ -9,8 +9,9 @@
 #include<string>
 #include<memory>
 
-#include"sqlconnection.h"
+
 #include"sqldatabase.h"
+#include"sqlconnection.h"
 
 namespace mocores
 {
@@ -18,7 +19,7 @@ namespace mocores
     {
     public:
         SqlManager();
-        static SqlDatabase getConnection(const std::string & url,const std::string & user,const std::string & password);
+        static SqlDatabase getConnection(const std::string & url,const std::string & user="root",const std::string & password="");
     };
 }
 

@@ -1,6 +1,7 @@
 #ifndef SQLRECORD_H
 #define SQLRECORD_H
 #include<vector>
+#include<string>
 #include"../utility/mvariant.h"
 namespace mocores
 {
@@ -11,7 +12,7 @@ namespace mocores
     /*!
      * \brief Represents a record in sql result sets.
      */
-    class SqlRecord:public std::vector<SqlType>
+    class SqlRecord:public std::vector<std::string>
     {
     public:
         std::vector<bool> isNull;

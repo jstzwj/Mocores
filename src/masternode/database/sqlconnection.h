@@ -1,11 +1,16 @@
 #ifndef SQLCONNECTION_H
 #define SQLCONNECTION_H
 
-#include"statement.h"
+#include"sqlresultset.h"
+
 #include"../utility/strutil.h"
 
 namespace mocores
 {   
+    /*!
+     * \brief The SqlConnection class
+     * \note We will finish prepare sqlite statement later.
+     */
     class SqlConnection
     {
     public:
@@ -29,10 +34,11 @@ namespace mocores
             ConnectionSqlite3()=default;
             virtual ~ConnectionSqlite3();
 
-            bool executeQuery(const std::string &sql,mocores::SqlResultSet &record);
+            virtual bool executeQuery(const std::string &sql,mocores::SqlResultSet &record);
 
-            bool open(const std::string & url, const std::string & user, const std::string & password);
-            void close();
+            virtual bool open(const std::string & url, const std::string & user, const std::string & password);
+            virtual void close();
+
         protected:
             /*!
              * \brief get type of query
@@ -44,7 +50,6 @@ namespace mocores
              *          5 delete
             */
             int getQueryType(const std::string &str);
-
             /**
              * @brief SQLite SelectCallback
              * @param p_data

@@ -12,6 +12,7 @@ namespace mocores
         SqlDatabase& operator=(const SqlDatabase & other);
         void setConnection(SqlConnection * con);
         void removeConnection();
+        SqlConnection * getConnection(){return connection;}
         ~SqlDatabase();
     protected:
         SqlConnection * connection;

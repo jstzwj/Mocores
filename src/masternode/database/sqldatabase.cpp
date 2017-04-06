@@ -46,11 +46,6 @@ namespace mocores
 
     void SqlDatabase::removeConnection()
     {
-        if(connection!=nullptr)
-        {
-            delete connection;
-            connection=nullptr;
-        }
         if(refcount!=nullptr)
         {
             (*refcount)--;
@@ -58,6 +53,11 @@ namespace mocores
             {
                 delete refcount;
                 refcount=nullptr;
+                if(connection!=nullptr)
+                {
+                    delete connection;
+                    connection=nullptr;
+                }
             }
         }
     }

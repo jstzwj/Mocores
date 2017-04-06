@@ -26,8 +26,8 @@ namespace mocores
         }
         else if(mode==MOCORES_STRUTIL_NON_CASE_SENSITIVE)
         {
-            if(isInCharRange(lhs,'a','z')&&isInCharRange(lhs,'A','Z')&&
-                    isInCharRange(rhs,'a','z')&&isInCharRange(rhs,'A','Z'))
+            if(isInCharRange(lhs,'a','z')||isInCharRange(lhs,'A','Z')||
+                    isInCharRange(rhs,'a','z')||isInCharRange(rhs,'A','Z'))
             {
                 return (abs(rhs-lhs)=='0')||(lhs==rhs);
             }

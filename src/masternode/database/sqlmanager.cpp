@@ -12,8 +12,8 @@ namespace mocores
         int seperater=url.find_first_of(':');
         if(url.substr(0,seperater)=="sqlite3")
         {
-            std::shared_ptr<sql_internal::ConnectionSqlite3> con(new sql_internal::ConnectionSqlite3);
-            con->open(url,user,password);
+            SqlDatabase con(new sql_internal::ConnectionSqlite3);
+            con.getConnection()->open(url.substr(seperater+1,url.length()),user,password);
             return con;
         }
         else

@@ -2,8 +2,8 @@
 #define MOCORES_SQL_H
 
 #include"sqlresultset.h"
-#include"statement.h"
 #include"sqlmanager.h"
+#include"sqlquery.h"
 
 
 #endif // MOCORES_SQL_H
