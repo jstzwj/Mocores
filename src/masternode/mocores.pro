@@ -31,7 +31,9 @@ SOURCES += main.cpp \
     distributeddataset.cpp \
     utility/strutil.cpp \
     database/sqldatabase.cpp \
-    database/sqlwrapper.cpp
+    database/sqlwrapper.cpp \
+    thread/threadpool.cpp \
+    thread/mocores_condition_variable.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -69,7 +71,9 @@ HEADERS += \
     utility/strutil.h \
     distributeddataset.h \
     database/sqldatabase.h \
-    database/sqlwrapper.h
+    database/sqlwrapper.h \
+    thread/threadpool.h \
+    thread/mocores_condition_variable.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

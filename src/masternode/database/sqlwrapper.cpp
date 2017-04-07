@@ -14,9 +14,26 @@ namespace mocores
         return SqlWrapperWhere(sql);
     }
 
+    SqlWrapperFrom SqlWrapperSelect::distinct()
+    {
+        sql+=" distinct ";
+        return SqlWrapperFrom(sql);
+    }
+
     std::string SqlWrapperBase::get()
     {
         return this->sql+";";
+    }
+
+    SqlWrapperSelect SqlWrapperBase::select(const std::string &str)
+    {
+        sql="select "+str+" ";
+        return sql;
+    }
+
+    SqlWrapperInsert SqlWrapperBase::insert()
+    {
+        return SqlWrapperInsert(sql);
     }
 
     std::string SqlWrapperBase::equal(const std::string &lhs, const std::string &rhs)
@@ -56,26 +73,54 @@ namespace mocores
 
     std::string SqlWrapperBase::isnot(const std::string &lhs, const std::string &rhs)
     {
-        return"( "+lhs+" is not "+rhs+" )";
+        return "( "+lhs+" is not "+rhs+" )";
     }
 
-    SqlWrapperSelect SqlWrapperBase::select(const std::string &str)
+    std::string SqlWrapperBase::between(const std::string &val, const std::string &lhs, const std::string &rhs)
     {
-        sql="select "+str+" ";
-        return SqlWrapperSelect(sql);
+        return val+" between "+lhs+" and "+rhs+" ";
+    }
+
+    std::string SqlWrapperBase::like(const std::string &lhs, const std::string &rhs)
+    {
+        return lhs+" like "+rhs+" ";
     }
 
     SqlWrapperWhere SqlWrapperWhere::where(const std::string &str)
     {
-        sql+="&&( "+str+") ";
+        sql+="and( "+str+") ";
         return SqlWrapperWhere(sql);
     }
 
     SqlWrapperWhere SqlWrapperWhere::orwhere(const std::string &str)
     {
-        sql+="||( "+str+") ";
+        sql+="or( "+str+") ";
         return SqlWrapperWhere(sql);
     }
+
+    SqlWrapperEnd SqlWrapperWhere::orderby(const std::string &str)
+    {
+        sql+="order by "+str+" ";
+        return SqlWrapperEnd(sql);
+    }
+    SqlWrapperValues SqlWrapperInto::values(const std::string &str)
+    {
+        sql+="values( "+str+" )";
+        return SqlWrapperValues(sql);
+    }
+
+    SqlWrapperValues SqlWrapperInto::cols(const std::string &str)
+    {
+        sql+="( "+str+" )";
+        return SqlWrapperValues(sql);
+    }
+
+    SqlWrapperValues SqlWrapperValues::values(const std::string &str)
+    {
+        sql+="values( "+str+" )";
+        return SqlWrapperValues(sql);
+    }
+
 
 
 }

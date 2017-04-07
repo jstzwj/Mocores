@@ -45,6 +45,13 @@ namespace mocores
 
 
     using Mutex=std::mutex;
+    using RecursiveMutex=std::recursive_mutex;
+    using TimedMutex=std::timed_mutex;
+    using RecursiveTimedMutex=std::recursive_timed_mutex;
+    template<class T>
+    using LockGuard=std::lock_guard<T>;
+    template<class T>
+    using UniqueLock=std::unique_lock<T>;
 
 }
 

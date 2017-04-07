@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     mocores::SqlDatabase db=mocores::SqlManager::getConnection("sqlite3:data_frame.db");
     mocores::SqlQuery query(db);
-    query.exec(mocores::SqlWrapper().select("*").from("node_info").where(mocores::SqlWrapper::equal("create_time","null")).get());
+    query.exec(mocores::SqlWrapper().select("*").from("node_info").where(mocores::SqlWrapper::is("create_time","null")).get());
     for(auto each:query.resultset())
     {
         for(auto eachval:each)
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
         }
         std::cout<<std::endl;
     }
+
 
 
     //读取数据库配置文件进入内存
