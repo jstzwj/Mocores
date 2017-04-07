@@ -13,6 +13,8 @@ namespace mocores
         void setConnection(SqlConnection * con);
         void removeConnection();
         SqlConnection * getConnection(){return connection;}
+        bool open(const std::string & url, const std::string & user, const std::string & password);
+        void close();
         ~SqlDatabase();
     protected:
         SqlConnection * connection;

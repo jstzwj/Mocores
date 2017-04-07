@@ -23,6 +23,7 @@ namespace mocores
             connection=other.connection;
             (*refcount)++;
         }
+        return *this;
     }
 
     void SqlDatabase::setConnection(SqlConnection *con)
@@ -60,6 +61,16 @@ namespace mocores
                 }
             }
         }
+    }
+
+    bool SqlDatabase::open(const std::string &url, const std::string &user, const std::string &password)
+    {
+        return connection->open(url,user,password);
+    }
+
+    void SqlDatabase::close()
+    {
+        connection->close();
     }
 
     SqlDatabase::~SqlDatabase()

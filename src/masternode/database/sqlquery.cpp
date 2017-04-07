@@ -1,14 +1,14 @@
 #include "sqlquery.h"
 namespace mocores
 {
-    SqlQuery::SqlQuery(const std::string &sql, SqlConnection &con)
-        :connection(&con),query(sql)
+    SqlQuery::SqlQuery(const std::string &sql, SqlDatabase &con)
+        :connection(con.getConnection()),query(sql)
     {
 
     }
 
-    SqlQuery::SqlQuery(SqlConnection &con)
-        :connection(&con),query()
+    SqlQuery::SqlQuery(SqlDatabase &con)
+        :connection(con.getConnection()),query()
     {
 
     }
@@ -22,7 +22,7 @@ namespace mocores
     {
         if(connection!=nullptr)
         {
-            return connection->executeQuery(query,last_record);
+            return connection->executeQuery(query,last_record,last_error);
         }
         else
         {
@@ -34,7 +34,7 @@ namespace mocores
     {
         if(connection!=nullptr)
         {
-            return connection->executeQuery(this->query,last_record);
+            return connection->executeQuery(this->query,last_record,last_error);
         }
         else
         {
@@ -42,7 +42,7 @@ namespace mocores
         }
     }
 
-    SqlResultSet SqlQuery::record()
+    SqlResultSet SqlQuery::resultset()
     {
         return last_record;
     }

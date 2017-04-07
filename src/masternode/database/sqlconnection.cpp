@@ -14,7 +14,7 @@ namespace mocores
             }
         }
 
-        bool ConnectionSqlite3::executeQuery(const std::string &sql, SqlResultSet &record)
+        bool ConnectionSqlite3::executeQuery(const std::string &sql, SqlResultSet &record,SqlError &error)
         {
             int type=getQueryType(sql);
 
@@ -25,6 +25,7 @@ namespace mocores
                 ret = sqlite3_exec(db, sql.c_str(), &ConnectionSqlite3::SelectCallback, static_cast<void*> (&record), &errmsg);
                 if (ret != SQLITE_OK)
                 {
+                    error.setInfo(errmsg);  //save error
                     return false;
                 }
                 else
@@ -39,6 +40,7 @@ namespace mocores
                 ret = sqlite3_exec(db, sql.c_str(), 0, 0, &errmsg);
                 if(ret != SQLITE_OK)
                 {
+                    error.setInfo(errmsg);  //save error
                     return false;
                 }
                 else

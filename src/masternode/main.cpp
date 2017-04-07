@@ -5,6 +5,7 @@
 
 
 #include"database/mocores_sql.h"
+#include"database/sqlwrapper.h"
 
 using namespace std;
 
@@ -12,13 +13,15 @@ int main(int argc, char *argv[])
 {
 
     mocores::SqlDatabase db=mocores::SqlManager::getConnection("sqlite3:data_frame.db");
-    mocores::SqlConnection * con=db.getConnection();
-    mocores::SqlQuery query(*con);
-    query.exec("select * from node_info;");
-    if(query.record()[0][0]=="1"){
-        return true;
-    }else{
-        return false;
+    mocores::SqlQuery query(db);
+    query.exec(mocores::SqlWrapper().select("*").from("node_info").where(mocores::SqlWrapper::equal("create_time","null")).get());
+    for(auto each:query.resultset())
+    {
+        for(auto eachval:each)
+        {
+            std::cout<<eachval<<std::ends;
+        }
+        std::cout<<std::endl;
     }
 
 
