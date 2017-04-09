@@ -1,7 +1,9 @@
 #ifndef MOCORES_MUTEX_H
 #define MOCORES_MUTEX_H
 #include<mutex>
+#include<cassert>
 #include"../platform.h"
+#include"mocores_thread.h"
 namespace mocores
 {
 
@@ -45,6 +47,7 @@ namespace mocores
 
 
     using Mutex=std::mutex;
+
     using RecursiveMutex=std::recursive_mutex;
     using TimedMutex=std::timed_mutex;
     using RecursiveTimedMutex=std::recursive_timed_mutex;

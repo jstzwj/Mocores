@@ -91,7 +91,8 @@
 #define MOCORES_OPEN_WAL              0x00080000  /* VFS only */
 #define MOCORES_OPEN_APPEND     0x00100000  /* Append data to a file atomicly */
 
-
+///unused variables
+#define UNUSED(x) (void)x
 
 
 #endif // PLATFORM_H

@@ -1,0 +1,46 @@
+class Condition
+    {
+    public:
+        Condition()=default;
+        ~Condition()=default;
+        Condition & operator =(const Condition & other)=delete;
+        void notify_one(){cond_var.notify_one();}
+        void notify_all(){cond_var.notify_all();}
+
+        void wait( UniqueLock<Mutex>& lock ){cond_var.wait(lock);}
+        template<class Predicate>
+        void wait( UniqueLock<Mutex>& lock, Predicate pred ){cond_var.wait(lock,pred);}
+
+        template< class Rep, class Period >
+        std::cv_status wait_for( UniqueLock<Mutex>& lock,
+                                 const std::chrono::duration<Rep, Period>& rel_time)
+        {
+            return cond_var.wait_for(lock,rel_time);
+        }
+
+        template< class Rep, class Period, class Predicate >
+        bool wait_for( UniqueLock<Mutex>& lock,
+                       const std::chrono::duration<Rep, Period>& rel_time,
+                       Predicate pred)
+        {
+            return cond_var.wait_for(lock,rel_time,pred);
+        }
+
+        template< class Clock, class Duration >
+        std::cv_status wait_until( UniqueLock<std::mutex>& lock,
+                                   const std::chrono::time_point<Clock, Duration>& timeout_time )
+        {
+            return cond_var.wait_until(lock,timeout_time);
+        }
+        template< class Clock, class Duration, class Predicate >
+        bool wait_until( UniqueLock<std::mutex>& lock,
+                         const std::chrono::time_point<Clock, Duration>& timeout_time,
+                         Predicate pred )
+        {
+            return cond_var.wait_until(lock,timeout_time,pred);
+        }
+
+        std::condition_variable::native_handle_type native_handle(){return cond_var.native_handle();}
+    protected:
+        std::condition_variable cond_var;
+    };

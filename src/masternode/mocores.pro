@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     database/sqldatabase.cpp \
     database/sqlwrapper.cpp \
     thread/threadpool.cpp \
-    thread/mocores_condition_variable.cpp
+    thread/mocores_condition_variable.cpp \
+    thread/singleton.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -73,7 +74,8 @@ HEADERS += \
     database/sqldatabase.h \
     database/sqlwrapper.h \
     thread/threadpool.h \
-    thread/mocores_condition_variable.h
+    thread/mocores_condition_variable.h \
+    thread/singleton.h
 
 
 LIBS += -lpthread libwsock32 libws2_32
