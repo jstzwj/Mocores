@@ -1,6 +1,7 @@
 #include <iostream>
 #include"settings.h"
-#include"logerror.h"
+#include"log/logger.h"
+#include"thread/singleton.h"
 #include"mocoresinstance.h"
 
 
@@ -11,7 +12,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-
+    /*
     mocores::SqlDatabase db=mocores::SqlManager::getConnection("sqlite3:data_frame.db");
     mocores::SqlQuery query(db);
     query.exec(mocores::SqlWrapper().select("*").from("node_info").where(mocores::SqlWrapper::is("create_time","null")).get());
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
         }
         std::cout<<std::endl;
     }
+    */
 
 
 
@@ -34,19 +36,20 @@ int main(int argc, char *argv[])
         return 1;
     }
     //开启错误日志
-    if(mocores::errlog.openLogErrorFile(settings.log_error)!=false)
-    {
-        //错误日志打开失败退出
-        return 1;
-    }
+    mocores::Logger * errlog=&mocores::Singleton<mocores::Logger>::getInstance();
+    errlog->configure();
+    errlog->setName("errlog");
+    //errlog->setAppender(new mocores::FileAppender(settings.log_error));
+    errlog->setLayout(mocores::LogLayout("%t\t[%p]\t%m%n"));
+    errlog->start();
     //构建数据库实例
-    mocores::errlog.log(3,"Server started.");
+    errlog->info("Server started.");
     mocores::MocoresInstance instance(settings);
     instance.run();
 
 
     //析构实例
-    mocores::errlog.log(3,"Server ended.");
+    errlog->info("Server ended.");
     return 0;
 }
 

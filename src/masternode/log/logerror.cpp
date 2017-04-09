@@ -1,7 +1,5 @@
 #include "logerror.h"
 
-
-
 namespace mocores
 {
     LogError errlog;

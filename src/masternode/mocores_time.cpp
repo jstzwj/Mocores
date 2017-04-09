@@ -2,6 +2,36 @@
 
 namespace mocores
 {
+#ifdef MOCORES_OS_WINDOWS
+#include <windows.h>
+#endif
+#ifdef MOCORES_OS_LINUX
+#include <time.h>
+#endif
+
+    // 获取系统的当前时间，单位微秒(us)
+    int64_t Time::GetSysTimeMicros()
+    {
+    #ifdef _WIN32
+    // 从1601年1月1日0:0:0:000到1970年1月1日0:0:0:000的时间(单位100ns)
+    #define EPOCHFILETIME   (116444736000000000UL)
+        FILETIME ft;
+        LARGE_INTEGER li;
+        int64_t tt = 0;
+        GetSystemTimeAsFileTime(&ft);
+        li.LowPart = ft.dwLowDateTime;
+        li.HighPart = ft.dwHighDateTime;
+        // 从1970年1月1日0:0:0:000到现在的微秒数(UTC时间)
+        tt = (li.QuadPart - EPOCHFILETIME) /10;
+        return tt;
+    #endif
+    #ifdef MOCORES_OS_LINUX
+        timeval tv;
+        gettimeofday(&tv, 0);
+        return (int64_t)tv.tv_sec * 1000000 + (int64_t)tv.tv_usec;
+    #endif
+        return 0;
+    }
 
     int Time::getYear()
     {
@@ -65,12 +95,13 @@ namespace mocores
         std::time(&timep);
         p = std::gmtime(&timep);
 
-        result = result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
-        result = result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
-        result = result.replace(result.find("dd"), 2, intToString(p->tm_mday));
-        result = result.replace(result.find("HH"), 2, intToString(p->tm_hour));
-        result = result.replace(result.find("mm"), 2, intToString(p->tm_min));
-        result = result.replace(result.find("ss"), 2, intToString(p->tm_sec));
+        result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
+        result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
+        result.replace(result.find("dd"), 2, intToString(p->tm_mday));
+        result.replace(result.find("HH"), 2, intToString(p->tm_hour));
+        result.replace(result.find("mm"), 2, intToString(p->tm_min));
+        result.replace(result.find("ss"), 2, intToString(p->tm_sec));
+        result.replace(result.find("SSS"), 3, std::to_string(Time::GetSysTimeMicros()));
         return result;
     }
 
@@ -82,7 +113,7 @@ namespace mocores
         std::time(&timep);
         p = std::gmtime(&timep);
         resultstream<<(1900+(p->tm_year))<<"-"<<(1+(p->tm_mon))<<"-"<<(p->tm_mday)<<"  "
-                <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"  ";
+                <<(p->tm_hour)<<":"<<(p->tm_min)<<":"<<(p->tm_sec)<<"  "<<Time::GetSysTimeMicros()<<" ";
         return resultstream.str();
     }
 

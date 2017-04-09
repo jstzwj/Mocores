@@ -1,6 +1,12 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+#include<atomic>
+#include<functional>
+
+#include"mocores_mutex.h"
+#include"mocores_thread.h"
+
 namespace mocores
 {
     template<class T>
@@ -11,35 +17,14 @@ namespace mocores
         ~Singleton();
         Singleton(const Singleton &other)=delete;
         Singleton & operator =(const Singleton &other)=delete;
-        static T& instance()
+        static T& getInstance()
         {
-          pthread_once(&ponce_, &Singleton::init);
-          assert(value_ != NULL);
-          return *value_;
+            static std::once_flag oc;
+            std::call_once(oc,[&]{value=new T();});
+            return *value;
         }
-
      private:
-      static void init()
-      {
-        value_ = new T();
-        if (!detail::has_no_destroy<T>::value)
-        {
-          ::atexit(destroy);
-        }
-      }
-
-      static void destroy()
-      {
-        typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
-        T_must_be_complete_type dummy; (void) dummy;
-
-        delete value_;
-        value_ = NULL;
-      }
-
-     private:
-      static pthread_once_t ponce_;
-      static T*             value_;
+        static T* value;
     };
 }
 

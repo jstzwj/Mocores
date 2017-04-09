@@ -6,7 +6,6 @@
 #include"../platform.h"
 namespace mocores
 {
-
     class ThreadBase
     {
     public:

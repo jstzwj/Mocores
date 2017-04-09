@@ -24,7 +24,7 @@
 
 #include<string>
 #include<memory>
-#include"logerror.h"
+#include"log/logger.h"
 #include"settings.h"
 #include"clio.h"
 #include"messagequeue.h"

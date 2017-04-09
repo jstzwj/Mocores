@@ -13,7 +13,6 @@ SOURCES += main.cpp \
     thread/mocores_thread.cpp \
     clio.cpp \
     errcode.cpp \
-    logerror.cpp \
     mocores_time.cpp \
     mocoresinstance.cpp \
     settings.cpp \
@@ -34,10 +33,25 @@ SOURCES += main.cpp \
     database/sqlwrapper.cpp \
     thread/threadpool.cpp \
     thread/mocores_condition_variable.cpp \
-    thread/singleton.cpp
+    thread/singleton.cpp \
+    log/logerror.cpp \
+    log/logger.cpp
 
 DISTFILES += \
     mocores.ini \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/.qmake.stash \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/.qmake.stash \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/debug/mocores.exe \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/release/mocores.exe \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/data_frame.db \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/object_script.mocores.Debug \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/object_script.mocores.Release \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/sqlite3 \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/data_frame.db \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/object_script.mocores.Debug \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/object_script.mocores.Release \
+    condition.txt \
+    mutex.txt
 
 
 HEADERS += \
@@ -53,7 +67,6 @@ HEADERS += \
     thread/mocores_thread.h \
     clio.h \
     errcode.h \
-    logerror.h \
     mocores_time.h \
     mocoresinstance.h \
     platform.h \
@@ -75,7 +88,16 @@ HEADERS += \
     database/sqlwrapper.h \
     thread/threadpool.h \
     thread/mocores_condition_variable.h \
-    thread/singleton.h
+    thread/singleton.h \
+    log/logerror.h \
+    log/logger.h \
+    log/loglevel.h \
+    log/loglayout.h \
+    log/logmsg.h \
+    log/logappender.h
 
 
 LIBS += -lpthread libwsock32 libws2_32
+
+SUBDIRS += \
+    serialization/serialization.pro

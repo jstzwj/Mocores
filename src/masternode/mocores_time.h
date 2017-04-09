@@ -4,6 +4,10 @@
 #include<string>
 #include<sstream>
 #include<algorithm>
+#include<chrono>
+#include<cstdint>
+
+#include"platform.h"
 
 namespace mocores
 {
@@ -18,6 +22,7 @@ namespace mocores
         static int getSecond();
         static std::string getTime(const std::string& format);
         static std::string getTime();
+        static int64_t GetSysTimeMicros();
     private:
         static bool isStr(const std::string &str, int &pos, const std::string &match_str);
         static std::string intToString(int n);
