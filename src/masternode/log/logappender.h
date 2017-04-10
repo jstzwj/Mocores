@@ -5,6 +5,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<ctime>
 
 namespace mocores
 {
@@ -12,9 +13,8 @@ namespace mocores
     {
     public:
         LogAppender()=default;
-        LogAppender(const LogAppender&other)=delete;
-        LogAppender& operator =(const LogAppender&other)=delete;
         virtual void append(const std::string & str)=0;
+        virtual void flush()=0;
     };
 
     /*!
@@ -34,6 +34,11 @@ namespace mocores
         {
             out<<str;
         }
+        virtual void flush()
+        {
+            out.flush();
+        }
+
     protected:
         std::ostream & out;
     };
@@ -41,18 +46,26 @@ namespace mocores
     class FileAppender:public LogAppender
     {
     public:
-        FileAppender(const std::string& path)
+        FileAppender(const std::string& filepath)
         {
-            fstream=new std::ofstream(path,std::ios::out|std::ios::app);
+            fstream=new std::ofstream(filepath,std::ios::out|std::ios::app);
+            if(!fstream->good())
+                throw "Failed to open this file.";
         }
         ~FileAppender()
         {
             delete fstream;
+            fstream=nullptr;
         }
         virtual void append(const std::string & str)
         {
             (*fstream)<<str;
         }
+        virtual void flush()
+        {
+            fstream->flush();
+        }
+
     protected:
         std::ofstream *fstream;
     };

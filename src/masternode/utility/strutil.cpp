@@ -36,6 +36,10 @@ namespace mocores
                 return false;
             }
         }
+		else
+		{
+			return false;
+		}
     }
 
     void StrUtil::consumeSpace(const std::string &str, int &pos)

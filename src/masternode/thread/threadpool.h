@@ -1,4 +1,4 @@
-#ifndef THREADPOOL_H
+﻿#ifndef THREADPOOL_H
 #define THREADPOOL_H
 
 
@@ -15,7 +15,7 @@
 #include"mocores_thread.h"
 #include"mocores_condition_variable.h"
 
-#include"platform.h"
+#include"../platform.h"
 
 namespace mocores
 {

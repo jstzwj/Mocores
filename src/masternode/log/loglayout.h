@@ -36,13 +36,20 @@ namespace mocores
         std::string getMsgText(const LogMsg& msg)
         {
             std::string result=layout;
-            result.replace(result.find("%m"), 2, msg.getMsg());
-            result.replace(result.find("%p"), 2, msg.getLevel());
-            result.replace(result.find("%r"), 2, msg.getTimeFromStart(start_time));
-            result.replace(result.find("%t"), 2, msg.getThreadId());
-            result.replace(result.find("%n"), 2, msg.getNewLine());
+            //TODO
+            //better string algorithm
+            while(result.find("%m")!=std::string::npos)
+                result.replace(result.find("%m"), 2, msg.getMsg());
+            while(result.find("%p")!=std::string::npos)
+                result.replace(result.find("%p"), 2, msg.getLevel());
+            while(result.find("%r")!=std::string::npos)
+                result.replace(result.find("%r"), 2, msg.getTimeFromStart(start_time));
+            while(result.find("%t")!=std::string::npos)
+                result.replace(result.find("%t"), 2, msg.getThreadId());
+            while(result.find("%n")!=std::string::npos)
+                result.replace(result.find("%n"), 2, msg.getNewLine());
             std::smatch match;
-            std::regex timeReg("%d{(.*?)}");
+            std::regex timeReg("%d\\{(.*?)\\}");
             while (std::regex_search(result,match,timeReg)) {
                 result=match.prefix().str()+msg.getTime(match.format("$1"))+match.suffix().str();
             }

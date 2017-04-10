@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     thread/mocores_condition_variable.cpp \
     thread/singleton.cpp \
     log/logerror.cpp \
-    log/logger.cpp
+    log/logger.cpp \
+    blockingqueue.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -94,7 +95,10 @@ HEADERS += \
     log/loglevel.h \
     log/loglayout.h \
     log/logmsg.h \
-    log/logappender.h
+    log/logappender.h \
+    blockingqueue.h \
+    arrayblockingqueue.h \
+    linkedblockingqueue.h
 
 
 LIBS += -lpthread libwsock32 libws2_32

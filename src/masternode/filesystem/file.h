@@ -1,10 +1,22 @@
 #ifndef FILE_H
 #define FILE_H
 #include<string>
+
 #include"../platform.h"
+#ifdef MOCORES_OS_WINDOWS
+#include<windows.h>
+#endif
+#ifdef MOCORES_OS_LINUX
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+#include<sys/socket.h>
+#endif
+
 #include"iomethod.h"
-#include"errcode.h"
-#include"config.h"
+#include"../errcode.h"
+#include"../config.h"
+
 
 namespace mocores
 {
@@ -20,7 +32,7 @@ namespace mocores
     //系统依赖代码
     //==========
 #ifdef MOCORES_OS_WINDOWS
-    #include<windows.h>
+
     class WindowsFile:public FileBase
     {
     public:
@@ -45,14 +57,10 @@ namespace mocores
     using File=WindowsFile;
 #endif
 #ifdef MOCORES_OS_LINUX
-
     /*! off_t => off64_t */
     #define _FILE_OFFSET_BITS MOCORES_FILE_OFFSET_BITS
 
-    #include<unistd.h>
-    #include<fcntl.h>
-    #include<sys/stat.h>
-    #include<sys/socket.h>
+
     #define FILE_MODE (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
     /**
      * @brief File descriptor in Unix
@@ -83,7 +91,5 @@ namespace mocores
     using File=UnixFile;
 #endif
 }
-
-
 
 #endif // FILE_H

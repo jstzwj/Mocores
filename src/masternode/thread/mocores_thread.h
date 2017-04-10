@@ -4,6 +4,12 @@
 #include<thread>
 #include<chrono>
 #include"../platform.h"
+
+#ifdef MOCORES_OS_WINDOWS
+#include<process.h>
+#include<windows.h>
+#endif
+
 namespace mocores
 {
     class ThreadBase
@@ -12,7 +18,7 @@ namespace mocores
         using id=std::thread::id;
 
         ThreadBase()noexcept{}
-        virtual ~ThreadBase()=0;
+		virtual ~ThreadBase() {}
         template <class Fn, class... Args>
         explicit ThreadBase (Fn&&, Args&&... args){}
         ThreadBase (const ThreadBase&) = delete;
@@ -29,9 +35,6 @@ namespace mocores
         virtual void join()=0;
     };
     #ifdef MOCORES_OS_WINDOWS
-#include<process.h>
-#include<windows.h>
-
     class WindowsThread:public ThreadBase
     {
     protected:

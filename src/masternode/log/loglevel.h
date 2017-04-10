@@ -5,17 +5,16 @@
 
 namespace mocores
 {
-    class LogLevel;
-    std::string to_string(const LogLevel & level);
     class LogLevel
     {
     public:
+        LogLevel():level_str("ALL"){}
         LogLevel(const std::string& str):level_str(str){}
-        friend std::string to_string(const LogLevel & level);
+        std::string to_string()const{return level_str;}
     protected:
         std::string level_str;
     };
-    std::string to_string(const LogLevel & level){return level.level_str;}
+
 }
 
 

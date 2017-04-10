@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
     }
     */
 
-
-
     //读取数据库配置文件进入内存
     mocores::Settings settings;
     if(settings.readSettings()!=mocores::MOCORES_GOOD)
@@ -39,9 +37,19 @@ int main(int argc, char *argv[])
     mocores::Logger * errlog=&mocores::Singleton<mocores::Logger>::getInstance();
     errlog->configure();
     errlog->setName("errlog");
-    //errlog->setAppender(new mocores::FileAppender(settings.log_error));
+    errlog->setAppender(new mocores::FileAppender(settings.log_error));
     errlog->setLayout(mocores::LogLayout("%t\t[%p]\t%m%n"));
     errlog->start();
+
+    //日志输出测试
+    long long i=1e7;
+    clock_t start=clock();
+    while(i-->0)
+    {
+        errlog->info("LogQuickTest:id="+std::to_string(i)+"time:"+std::to_string(clock()-start)+
+			"1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+    }
+    std::cout<<"Time used:"<<clock()-start<<std::endl;
     //构建数据库实例
     errlog->info("Server started.");
     mocores::MocoresInstance instance(settings);

@@ -4,21 +4,25 @@
 #include<string>
 #include<sstream>
 
-#include"platform.h"
+
+#include"../platform.h"
 #include"loglevel.h"
+
 #include"../thread/mocores_thread.h"
 #include"../mocores_time.h"
+
+
 
 namespace mocores
 {
     class LogMsg
     {
     public:
-        LogMsg()=default;
+        LogMsg():thread_id(),level(),msg(){}
         LogMsg(const LogLevel& _level,const std::string & _msg,Thread::id _id)
             :thread_id(_id),level(_level),msg(_msg){}
 
-        std::string getLevel()const {return to_string(level);}
+        std::string getLevel()const {return level.to_string();}
         std::string getMsg()const {return msg;}
         std::string getThreadId()const
         {

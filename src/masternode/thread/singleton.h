@@ -26,6 +26,8 @@ namespace mocores
      private:
         static T* value;
     };
+    template<class T>
+    T * Singleton<T>::value(nullptr);
 }
 
 

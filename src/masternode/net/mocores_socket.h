@@ -5,12 +5,16 @@
 #include"../config.h"
 
 
+#ifdef MOCORES_OS_WINDOWS
+// link with Ws2_32.lib
+#pragma comment(lib,"Ws2_32.lib")
+#include <winsock2.h>
+#include<windows.h>
+#endif
 
 namespace mocores
 {
 #ifdef MOCORES_OS_WINDOWS
-    #include <winsock2.h>
-    #include<windows.h>
     class WinTcpSocket
     {
     public:

@@ -33,7 +33,7 @@ namespace mocores
     public:
         using TimePoint=std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
         Logger()
-            :log_queue(1*1000000),running(false),log_thread(nullptr),appender(nullptr){}
+            :running(false),log_queue(0),log_thread(nullptr),appender(nullptr){}
         virtual ~Logger()
         {
             delete log_thread;
@@ -69,38 +69,38 @@ namespace mocores
         void off(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("OFF"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
 
         void fatal(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("FATAL"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
         void error(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("ERROR"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
         void warn(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("WARN"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
         void info(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("INFO"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
         void debug(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("DEBUG"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
         void all(const std::string & msg)
         {
             LogMsg logmsg(LogLevel("ALL"),msg,mocores::this_thread::get_id());
-            log_queue.put(layout.getMsgText(logmsg));
+            log_queue.put(logmsg);
         }
 
         void start()
@@ -140,7 +140,6 @@ namespace mocores
             {
               clock_t last_time=clock();
 			  std::string buffer;
-              buffer.reserve(1024*1024*4);
               while (running)
               {
                   clock_t now_time=clock();
@@ -154,12 +153,12 @@ namespace mocores
 				  if (buffer.length()>1024*1024*4)
 				  {
 					  appender->append(buffer);
-                      //appender->flush();
+					  appender->flush();
 					  buffer.clear();
 				  }
                   if(!log_queue.empty())
                   {
-                      buffer += log_queue.take();
+                      buffer += layout.getMsgText(log_queue.take());
                   }
                   else
                   {
@@ -182,7 +181,7 @@ namespace mocores
 
     protected:
         std::string logger_name;
-        mocores::LinkedBlockingQueue<std::string> log_queue;
+        mocores::LinkedBlockingQueue<LogMsg> log_queue;
         mocores::Mutex queue_mtx;
         bool running;
         TimePoint start_time;

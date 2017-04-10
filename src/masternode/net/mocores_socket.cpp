@@ -30,13 +30,13 @@ namespace mocores
         localAddr.sin_port = htons(port);
         memset(localAddr.sin_zero, 0x00, 8);
         //Bind Socket
-        return mocores::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
+        return ::bind(this->socket_impl, (struct sockaddr*)&localAddr, sizeof(localAddr));
     }
 
     int WinTcpSocket::listen()
     {
         //listen
-        return mocores::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
+        return ::listen(socket_impl, MOCORES_SOCKET_LISTEN_BACKLOG);
     }
 
     int WinTcpSocket::connect(const char * ip,port_type port)
@@ -46,7 +46,7 @@ namespace mocores
         serverAddr.sin_addr.s_addr = inet_addr(ip);
         serverAddr.sin_port = htons(port);
         memset(serverAddr.sin_zero, 0x00, 8);
-        return ::mocores::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
+        return ::connect(this->socket_impl,(struct sockaddr*)&serverAddr, sizeof(serverAddr));
     }
 
     WinTcpSocket WinTcpSocket::accept()
@@ -54,7 +54,7 @@ namespace mocores
         struct sockaddr_in clientAddr;
         int addrLen = sizeof(clientAddr);
         SOCKET clientSocket;
-        clientSocket = mocores::accept(this->socket_impl, (struct sockaddr*)&clientAddr, &addrLen);
+        clientSocket = ::accept(this->socket_impl, (struct sockaddr*)&clientAddr, &addrLen);
         WinTcpSocket resultSocket;
         resultSocket.socket_impl=clientSocket;
         return resultSocket;
@@ -63,7 +63,7 @@ namespace mocores
     int WinTcpSocket::recv(char * buffer, int maxlen, int flags)
     {
         int ret;
-        ret = mocores::recv(this->socket_impl, buffer, maxlen, 0);
+        ret = ::recv(this->socket_impl, buffer, maxlen, 0);
         if ( ret == 0 || ret == SOCKET_ERROR )
         {
             return ret;
@@ -74,7 +74,7 @@ namespace mocores
     int WinTcpSocket::send(const char * buffer, int maxlen, int flags)
     {
         int ret;
-        ret = mocores::send(this->socket_impl, buffer, maxlen, 0);
+        ret = ::send(this->socket_impl, buffer, maxlen, 0);
         if ( ret == SOCKET_ERROR )
         {
             return ret;

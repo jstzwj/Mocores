@@ -28,7 +28,7 @@
 #include<string>
 #include<fstream>
 
-#include"mocores_time.h"
+#include"../mocores_time.h"
 
 namespace mocores
 {

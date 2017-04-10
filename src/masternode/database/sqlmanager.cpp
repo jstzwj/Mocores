@@ -18,7 +18,7 @@ namespace mocores
         }
         else
         {
-
+			throw "Unknown database type";
         }
     }
 }

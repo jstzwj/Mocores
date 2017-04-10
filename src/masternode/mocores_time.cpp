@@ -94,14 +94,20 @@ namespace mocores
         std::tm *p;
         std::time(&timep);
         p = std::gmtime(&timep);
-
-        result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
-        result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
-        result.replace(result.find("dd"), 2, intToString(p->tm_mday));
-        result.replace(result.find("HH"), 2, intToString(p->tm_hour));
-        result.replace(result.find("mm"), 2, intToString(p->tm_min));
-        result.replace(result.find("ss"), 2, intToString(p->tm_sec));
-        result.replace(result.find("SSS"), 3, std::to_string(Time::GetSysTimeMicros()));
+        while(result.find("yyyy")!=std::string::npos)
+            result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
+        while(result.find("MM")!=std::string::npos)
+            result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
+        while(result.find("dd")!=std::string::npos)
+            result.replace(result.find("dd"), 2, intToString(p->tm_mday));
+        while(result.find("HH")!=std::string::npos)
+            result.replace(result.find("HH"), 2, intToString(p->tm_hour));
+        while(result.find("mm")!=std::string::npos)
+            result.replace(result.find("mm"), 2, intToString(p->tm_min));
+        while(result.find("ss")!=std::string::npos)
+            result.replace(result.find("ss"), 2, intToString(p->tm_sec));
+        while(result.find("SSS")!=std::string::npos)
+            result.replace(result.find("SSS"), 3, std::to_string(Time::GetSysTimeMicros()));
         return result;
     }
 

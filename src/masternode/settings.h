@@ -24,10 +24,12 @@
 
 #ifndef SETTINGS_H
 #define SETTINGS_H
+
 #include<string>
 #include<memory>
 #include<fstream>
 #include<cstdlib>
+
 #include"filesystem/filesystem.h"
 #include"log/logger.h"
 #include"errcode.h"

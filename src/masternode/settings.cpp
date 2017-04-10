@@ -20,6 +20,7 @@ namespace mocores
         else
         {
             cliPrint("Failed to open setting file.");
+            throw "Failed to open setting file.";
         }
         while(!settingFile.eof())
         {
