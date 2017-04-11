@@ -13,6 +13,7 @@ namespace mocores
         std::string to_string()const{return level_str;}
     protected:
         std::string level_str;
+        int level_id;
     };
 
 }

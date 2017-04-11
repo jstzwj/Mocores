@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     mocores::Logger * errlog=&mocores::Singleton<mocores::Logger>::getInstance();
     errlog->configure();
     errlog->setName("errlog");
-    errlog->setAppender(new mocores::FileAppender(settings.log_error));
+    errlog->setAppender(mocores::FileAppender(settings.log_error));
     errlog->setLayout(mocores::LogLayout("%t\t[%p]\t%m%n"));
     errlog->start();
 

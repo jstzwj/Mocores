@@ -8,10 +8,8 @@ namespace mocores
     {
     public:
         BlockingQueue()=default;
-        virtual T& front()=0;
-        virtual T& back()=0;
-        virtual void push()=0;
-        virtual void pos()=0;
+        virtual void put(const T&obj)=0;
+        virtual T take()=0;
     };
 }
 

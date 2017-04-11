@@ -36,7 +36,7 @@ SOURCES += main.cpp \
     thread/singleton.cpp \
     log/logerror.cpp \
     log/logger.cpp \
-    blockingqueue.cpp
+    container/blockingqueue.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -52,7 +52,9 @@ DISTFILES += \
     mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/object_script.mocores.Debug \
     mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/object_script.mocores.Release \
     condition.txt \
-    mutex.txt
+    mutex.txt \
+    build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Debug/mocores.ini \
+    mocores/build-mocores-Desktop_Qt_5_7_0_MinGW_32bit-Release/mocores.ini
 
 
 HEADERS += \
@@ -96,12 +98,13 @@ HEADERS += \
     log/loglayout.h \
     log/logmsg.h \
     log/logappender.h \
-    blockingqueue.h \
-    arrayblockingqueue.h \
-    linkedblockingqueue.h
+    container/arrayblockingqueue.h \
+    container/blockingqueue.h \
+    container/linkedblockingqueue.h
 
 
 LIBS += -lpthread libwsock32 libws2_32
 
 SUBDIRS += \
+    serialization/serialization.pro \
     serialization/serialization.pro

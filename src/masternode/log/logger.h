@@ -1,3 +1,6 @@
+
+
+
 /*
     © 2016-2017 mocores
     This file is distributed under the MIT liscense.
@@ -11,6 +14,7 @@
 #include<chrono>
 #include<exception>
 #include<ostream>
+#include<memory>
 #include<cassert>
 #include<ctime>
 
@@ -21,7 +25,7 @@
 #include"../thread/mocores_thread.h"
 #include"../thread/mocores_condition_variable.h"
 
-#include"../linkedblockingqueue.h"
+#include"../container/linkedblockingqueue.h"
 
 namespace mocores
 {
@@ -32,8 +36,9 @@ namespace mocores
     {
     public:
         using TimePoint=std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>;
+        using AppenderPtr=std::shared_ptr<LogAppender>;
         Logger()
-            :log_queue(1*1000000),running(false),log_thread(nullptr),appender(nullptr){}
+            :log_queue(1*1000000),running(false),log_thread(nullptr),appender(new ConsoleAppender){}
         virtual ~Logger()
         {
             delete log_thread;
@@ -109,6 +114,7 @@ namespace mocores
             running=true;
             start_time=std::chrono::system_clock::now();
             layout.setStartTime(start_time);
+            appender->open();
             log_thread=new mocores::Thread(std::bind(&Logger::run, this));
         }
         void end()
@@ -128,10 +134,11 @@ namespace mocores
          * \param app
          * \note We will delete appender. The Appender must be created in heap.
          */
-        void setAppender(LogAppender* app)
+        template<class T>
+        void setAppender(const T& app)
         {
             assert(running==false);
-            appender=app;
+            appender=std::make_shared<T>(app);
         }
     protected:
         void run()
@@ -188,7 +195,7 @@ namespace mocores
         TimePoint start_time;
         mocores::Thread * log_thread;
         LogLayout layout;
-        LogAppender *appender;
+        AppenderPtr appender;
     };
 }
 

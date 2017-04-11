@@ -13,6 +13,10 @@ namespace mocores
     {
     public:
         LogAppender()=default;
+        /*inner function*/
+        virtual int open()=0;
+        /*inner function*/
+        virtual void close()=0;
         virtual void append(const std::string & str)=0;
         virtual void flush()=0;
     };
@@ -30,6 +34,8 @@ namespace mocores
     {
     public:
         ConsoleAppender():out(std::cout){}
+        virtual int open(){return 0;}
+        virtual void close(){return;}
         virtual void append(const std::string & str)
         {
             out<<str;
@@ -47,16 +53,26 @@ namespace mocores
     {
     public:
         FileAppender(const std::string& filepath)
-        {
-            fstream=new std::ofstream(filepath,std::ios::out|std::ios::app);
-            if(!fstream->good())
-                throw "Failed to open this file.";
-        }
+            :path(filepath){}
         ~FileAppender()
         {
             delete fstream;
             fstream=nullptr;
         }
+        virtual int open()
+        {
+            fstream=new std::ofstream(path,std::ios::out|std::ios::app);
+            if(!fstream->good())
+                return 0;
+            else
+                return 1;
+        }
+
+        virtual void close()
+        {
+            fstream->close();
+        }
+
         virtual void append(const std::string & str)
         {
             (*fstream)<<str;
@@ -68,6 +84,7 @@ namespace mocores
 
     protected:
         std::ofstream *fstream;
+        std::string path;
     };
 
 }

@@ -2,8 +2,8 @@
 #define ARRAYBLOCKINGQUEUE_H
 
 #include<vector>
-#include"thread/mocores_mutex.h"
-#include"thread/mocores_condition_variable.h"
+#include"../thread/mocores_mutex.h"
+#include"../thread/mocores_condition_variable.h"
 
 namespace mocores
 {
