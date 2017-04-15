@@ -36,7 +36,16 @@ SOURCES += main.cpp \
     thread/singleton.cpp \
     log/logerror.cpp \
     log/logger.cpp \
-    container/blockingqueue.cpp
+    container/blockingqueue.cpp \
+    net/tcpserver.cpp \
+    net/tcpclient.cpp \
+    net/tcpconnection.cpp \
+    net/eventloop.cpp \
+    timestamp.cpp \
+    net/tcpchannel.cpp \
+    net/poller.cpp \
+    net/buffer.cpp \
+    serialization/main.cpp
 
 DISTFILES += \
     mocores.ini \
@@ -100,11 +109,51 @@ HEADERS += \
     log/logappender.h \
     container/arrayblockingqueue.h \
     container/blockingqueue.h \
-    container/linkedblockingqueue.h
+    container/linkedblockingqueue.h \
+    net/tcpserver.h \
+    net/tcpclient.h \
+    net/tcpconnection.h \
+    net/eventloop.h \
+    timestamp.h \
+    net/tcpchannel.h \
+    net/poller.h \
+    net/buffer.h \
+    libevent/event2/buffer.h \
+    libevent/event2/buffer_compat.h \
+    libevent/event2/bufferevent.h \
+    libevent/event2/bufferevent_compat.h \
+    libevent/event2/bufferevent_ssl.h \
+    libevent/event2/bufferevent_struct.h \
+    libevent/event2/dns.h \
+    libevent/event2/dns_compat.h \
+    libevent/event2/dns_struct.h \
+    libevent/event2/event.h \
+    libevent/event2/event_compat.h \
+    libevent/event2/event_struct.h \
+    libevent/event2/http.h \
+    libevent/event2/http_compat.h \
+    libevent/event2/http_struct.h \
+    libevent/event2/keyvalq_struct.h \
+    libevent/event2/listener.h \
+    libevent/event2/rpc.h \
+    libevent/event2/rpc_compat.h \
+    libevent/event2/rpc_struct.h \
+    libevent/event2/tag.h \
+    libevent/event2/tag_compat.h \
+    libevent/event2/thread.h \
+    libevent/event2/util.h \
+    libevent/event2/visibility.h \
+    libevent/evdns.h \
+    libevent/event.h \
+    libevent/evhttp.h \
+    libevent/evrpc.h \
+    libevent/evutil.h \
+    log/logger.h.g13192
 
 
 LIBS += -lpthread libwsock32 libws2_32
 
 SUBDIRS += \
+    serialization/serialization.pro \
     serialization/serialization.pro \
     serialization/serialization.pro

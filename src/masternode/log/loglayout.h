@@ -35,24 +35,77 @@ namespace mocores
 
         std::string getMsgText(const LogMsg& msg)
         {
-            std::string result=layout;
+            std::string result;
             //TODO
             //better string algorithm
-            while(result.find("%m")!=std::string::npos)
-                result.replace(result.find("%m"), 2, msg.getMsg());
-            while(result.find("%p")!=std::string::npos)
-                result.replace(result.find("%p"), 2, msg.getLevel());
-            while(result.find("%r")!=std::string::npos)
-                result.replace(result.find("%r"), 2, msg.getTimeFromStart(start_time));
-            while(result.find("%t")!=std::string::npos)
-                result.replace(result.find("%t"), 2, msg.getThreadId());
-            while(result.find("%n")!=std::string::npos)
-                result.replace(result.find("%n"), 2, msg.getNewLine());
-            std::smatch match;
-            std::regex timeReg("%d\\{(.*?)\\}");
-            while (std::regex_search(result,match,timeReg)) {
-                result=match.prefix().str()+msg.getTime(match.format("$1"))+match.suffix().str();
-            }
+			result.reserve(layout.length());
+			bool isEscape=false;
+			for (unsigned int i = 0; i < layout.length();++i)
+			{
+				if (isEscape == true)
+				{
+					switch (layout[i])
+					{
+					case 'm':
+						result.append(msg.getMsg());
+						break;
+					case 'p':
+						result.append(msg.getLevel());
+						break;
+					case 'r':
+						result.append(msg.getTimeFromStart(start_time));
+						break;
+					case 't':
+						result.append(msg.getThreadId());
+						break;
+					case 'n':
+						result.append(msg.getNewLine());
+						break;
+					case 'd':
+					{
+						i++;
+						if (i<layout.length())
+						{
+							if (layout[i] == '{')
+							{
+								i++;
+								if (i<layout.length())
+								{
+									int start_pos = i;
+									while (i<layout.length() && layout[i] != '}')
+									{
+										++i;
+									}
+									result.append(msg.getTime(layout.substr(start_pos, i - start_pos)));
+								}
+							}
+							else
+							{
+								result.push_back(layout[i]);
+							}
+						}
+					}
+						break;
+					default:
+						result.push_back(layout[i]);
+						break;
+					}
+					isEscape = false;
+					++i;
+				}
+				else
+				{
+
+				}
+				if (layout[i] == '%')
+				{
+					isEscape = true;
+				}
+				else
+				{
+					result.push_back(layout[i]);
+				}
+			}
             return result;
         }
     protected:

@@ -164,14 +164,8 @@ namespace mocores
                       //appender->flush();
 					  buffer.clear();
 				  }
-                  if(!log_queue.empty())
-                  {
-                      buffer += log_queue.take();
-                  }
-                  else
-                  {
-                      mocores::this_thread::sleep_for(std::chrono::milliseconds(1));
-                  }
+                  buffer += log_queue.take();
+                  //mocores::this_thread::sleep_for(std::chrono::milliseconds(1));
               }
             }
             catch (const std::exception& ex)

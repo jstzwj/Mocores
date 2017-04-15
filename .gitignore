@@ -223,3 +223,9 @@ pip-log.txt
 .Debug
 .Release
 
+#libevent
+lib/
+libevent/
+Release/
+Debug/
+

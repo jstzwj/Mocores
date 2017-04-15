@@ -51,10 +51,44 @@ namespace mocores
             notFull.notify_one();
             return result;
         }
-        bool empty()
-        {
-            return finish==start;
-        }
+		bool offer(const T& obj)
+		{
+			mocores::UniqueLock<Mutex> lock(mtx, std::defer_lock);
+			if (lock.try_lock() == true)
+			{
+				while (isFull())
+				{
+					notFull.wait(lock);
+				}
+				data[(finish + 1) % data_size] = obj;
+				finish = (finish + 1) % data_size;
+				notEmpty.notify_one();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		bool poll(T& obj)
+		{
+			mocores::UniqueLock<Mutex> lock(mtx, std::defer_lock);
+			if (lock.try_lock() == true)
+			{
+				while (isEmpty())
+				{
+					notEmpty.wait(lock);
+				}
+				obj = data[start];
+				start = (start + 1) % data_size;
+				notFull.notify_one();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 
     protected:
         mocores::Mutex mtx;

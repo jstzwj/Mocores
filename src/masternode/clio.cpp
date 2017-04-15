@@ -8,11 +8,11 @@ namespace mocores
         std::cout<<str;
     }
 
-    void cliGetline(char *str, int len)
+    void cliGetline(char *str, unsigned int len)
     {
         std::string tmp;
         std::getline(std::cin,tmp);
-        int i=0;
+        unsigned int i=0;
         if((unsigned int)len>tmp.length())
         {
             len=tmp.length();

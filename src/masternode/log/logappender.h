@@ -53,7 +53,7 @@ namespace mocores
     {
     public:
         FileAppender(const std::string& filepath)
-            :path(filepath){}
+            :fstream(nullptr),path(filepath){}
         ~FileAppender()
         {
             delete fstream;

@@ -47,11 +47,43 @@ namespace mocores
             notFull.notify_one();
             return result;
         }
-        bool empty()
-        {
-            return data.size()==0;
-        }
-
+		bool offer(const T& obj)
+		{
+			mocores::UniqueLock<Mutex> lock(mtx, std::defer_lock);
+			if (lock.try_lock()==true)
+			{
+				while (isFull())
+				{
+					notFull.wait(lock);
+				}
+				data.push(obj);
+				notEmpty.notify_one();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		bool poll(T& obj)
+		{
+			mocores::UniqueLock<Mutex> lock(mtx, std::defer_lock);
+			if (lock.try_lock() == true)
+			{
+				while (isEmpty())
+				{
+					notEmpty.wait(lock);
+				}
+				obj = data.front();
+				data.pop();
+				notFull.notify_one();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
     protected:
         mocores::Mutex mtx;
         mocores::Condition notEmpty;
@@ -76,7 +108,7 @@ namespace mocores
             }
             else
             {
-                return true;
+                return false;
             }
         }
     };

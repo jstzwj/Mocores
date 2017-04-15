@@ -90,25 +90,14 @@ namespace mocores
     std::string Time::getTime(const std::string &format)
     {
         std::string result=format;
-        std::time_t timep;
-        std::tm *p;
-        std::time(&timep);
-        p = std::gmtime(&timep);
-        while(result.find("yyyy")!=std::string::npos)
-            result.replace(result.find("yyyy"), 4, intToString(1900+(p->tm_year)));
-        while(result.find("MM")!=std::string::npos)
-            result.replace(result.find("MM"), 2, intToString(1+(p->tm_mon)));
-        while(result.find("dd")!=std::string::npos)
-            result.replace(result.find("dd"), 2, intToString(p->tm_mday));
-        while(result.find("HH")!=std::string::npos)
-            result.replace(result.find("HH"), 2, intToString(p->tm_hour));
-        while(result.find("mm")!=std::string::npos)
-            result.replace(result.find("mm"), 2, intToString(p->tm_min));
-        while(result.find("ss")!=std::string::npos)
-            result.replace(result.find("ss"), 2, intToString(p->tm_sec));
-        while(result.find("SSS")!=std::string::npos)
-            result.replace(result.find("SSS"), 3, std::to_string(Time::GetSysTimeMicros()));
-        return result;
+        std::time_t timep= std::time(nullptr);
+		std::tm *p = std::gmtime(&timep);
+		std::stringstream stream;
+
+        while(result.find("%SSS")!=std::string::npos)
+            result.replace(result.find("%SSS"), 4, std::to_string(Time::GetSysTimeMicros()));
+		stream<<std::put_time(p, result.c_str());
+        return stream.str();
     }
 
     std::string Time::getTime()
