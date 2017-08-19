@@ -7,7 +7,7 @@ set (MOCORES_VERSION_MAJOR 1)
 set (MOCORES_VERSION_MINOR 0)
 
 # 添加子目录
-add_subdirectory(dependents)
+add_subdirectory(deps)
 add_subdirectory(include)
 add_subdirectory(lib)
 
