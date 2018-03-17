@@ -68,28 +68,49 @@
 #endif // MOCORES_OS_WINDOWS
 
 
-///vfs标记
-#define MOCORES_OPEN_READONLY         0x00000001  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_READWRITE        0x00000002  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_CREATE           0x00000004  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_DELETEONCLOSE    0x00000008  /* VFS only */
-#define MOCORES_OPEN_EXCLUSIVE        0x00000010  /* VFS only */
-#define MOCORES_OPEN_AUTOPROXY        0x00000020  /* VFS only */
-#define MOCORES_OPEN_URI              0x00000040  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_MEMORY           0x00000080  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_MAIN_DB          0x00000100  /* VFS only */
-#define MOCORES_OPEN_TEMP_DB          0x00000200  /* VFS only */
-#define MOCORES_OPEN_TRANSIENT_DB     0x00000400  /* VFS only */
-#define MOCORES_OPEN_MAIN_JOURNAL     0x00000800  /* VFS only */
-#define MOCORES_OPEN_TEMP_JOURNAL     0x00001000  /* VFS only */
-#define MOCORES_OPEN_SUBJOURNAL       0x00002000  /* VFS only */
-#define MOCORES_OPEN_MASTER_JOURNAL   0x00004000  /* VFS only */
-#define MOCORES_OPEN_NOMUTEX          0x00008000  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_FULLMUTEX        0x00010000  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_SHAREDCACHE      0x00020000  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_PRIVATECACHE     0x00040000  /* Ok for sqlite3_open_v2() */
-#define MOCORES_OPEN_WAL              0x00080000  /* VFS only */
-#define MOCORES_OPEN_APPEND     0x00100000  /* Append data to a file atomicly */
+#if defined(_MSC_VER) || defined (_WIN32) || defined(_WIN64)
+#	include <windows.h>
+
+#	ifndef __WINDOWS__
+#		define __WINDOWS__ 1
+#	endif
+
+#	if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64)
+#		define __WIN64__ 1
+#	elif defined(_WIN32) || defined(_M_IX86)
+#		define __WIN32__ 1
+#	endif
+
+#	undef EXPORT
+#	undef CALL
+
+#	undef min
+#	undef max
+
+#	undef RGB
+#	undef RGBA
+
+#	undef DELETE
+
+#	if defined(MOCORES_BUILD_DLL_EXPORT)
+#		define MOCORES_EXPORT __declspec(dllexport)
+#		define MOCORES_EXPORT_WINONLY __declspec(dllexport)
+#	else
+#		define MOCORES_EXPORT __declspec(dllimport)
+#		define MOCORES_EXPORT_WINONLY __declspec(dllimport)
+#	endif
+
+#	define MOCORES_CALL __stdcall
+#	define MOCORES_INLINE __forceinline
+#	define MOCORES_WONT_RETURN __declspec(noreturn)
+#else
+#	define MOCORES_EXPORT __attribute__ ((visibility("default")))
+#	define MOCORES_EXPORT_WINONLY
+#
+#	define MOCORES_CALL
+#	define MOCORES_INLINE inline
+#	define MOCORES_WONT_RETURN
+#endif
 
 ///unused variables
 #define UNUSED(x) (void)x
