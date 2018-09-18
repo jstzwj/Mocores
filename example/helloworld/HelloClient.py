@@ -4,7 +4,7 @@ sys.path.append("src/")
 
 import mocores.client
 
-client = mocores.client.build()
+client = mocores.client_build()
 
 #connect the client to the cluster, in this case, which only contains one silo
 client.connect()

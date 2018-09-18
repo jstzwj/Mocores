@@ -1,5 +1,5 @@
 
-import mocores.actor
+import mocores.cluster
 
 class Client(object):
     def __init__(self):
@@ -12,7 +12,7 @@ class Client(object):
         print("return actor ref \n name:{0}\n key:{1}", class_name, key)
         
 
-def build():
+def client_build():
     print("building")
     return Client()
 
