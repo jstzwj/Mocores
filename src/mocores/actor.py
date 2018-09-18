@@ -12,3 +12,9 @@ class Actor(object):
         self._class_name = Actor.__name__
         self._checkpoint_interval = checkpoint_interval
 
+    def on_active(self):
+        pass
+
+    def on_inactive(self):
+        pass
+
