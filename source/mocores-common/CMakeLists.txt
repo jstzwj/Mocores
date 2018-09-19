@@ -1,25 +1,9 @@
-<<<<<<< HEAD
-SET(LIB_NAME common)
-=======
 SET(LIB_NAME mocores-common)
->>>>>>> python
 
 SET(HEADER_PATH ${MOCORES_PATH_HEADER})
 SET(SOURCE_PATH ${MOCORES_PATH_SOURCE}/${LIB_NAME})
 
 SET(MOCORES_LIST
-<<<<<<< HEAD
-)
-SOURCE_GROUP("system" FILES ${OCTOON_LIST})
-
-ADD_DEFINITIONS(-DOCTOON_BUILD_DLL_EXPORT)
-ADD_LIBRARY(${LIB_NAME} SHARED 
-    ${MOCORES_LIST}
-)
-
-
-SET_TARGET_ATTRIBUTE(${LIB_NAME} "common")
-=======
 	${SOURCE_PATH}/game_app.cpp
 	${HEADER_PATH}/game_app.h
 )
@@ -40,4 +24,3 @@ ENDIF()
 # TARGET_LINK_LIBRARIES(${LIB_NAME} PUBLIC octoon-math)
 
 SET_TARGET_ATTRIBUTE(${LIB_NAME} "mocores")
->>>>>>> python

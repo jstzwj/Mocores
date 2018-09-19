@@ -1,13 +1,7 @@
 INCLUDE_DIRECTORIES(${MOCORES_LIBRARY_OUTPUT_PATH})
 
-<<<<<<< HEAD
-#ADD_SUBDIRECTORY(zlib)
-
-#SET_TARGET_ATTRIBUTE(zlib "contrib")
-=======
 #ADD_SUBDIRECTORY(unzip)
 #ADD_SUBDIRECTORY(zipper)
 
 #SET_TARGET_ATTRIBUTE(zlib "contrib")
 #SET_TARGET_ATTRIBUTE(unzip "contrib")
->>>>>>> python
