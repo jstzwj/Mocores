@@ -216,6 +216,8 @@ ELSEIF(CMAKE_GENERATOR MATCHES "Visual Studio")
 	ENDIF()
 ENDIF()
 
+FIND_PACKAGE(Boost REQUIRED)
+
 # 添加依赖库
 ADD_SUBDIRECTORY(contrib)
 
@@ -238,6 +240,8 @@ IF(CMAKE_GENERATOR MATCHES "Visual Studio")
 
 	ENDIF()
 ENDIF()
+
+
 
 # 添加项目
 ADD_SUBDIRECTORY(source)
