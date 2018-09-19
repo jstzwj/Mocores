@@ -224,8 +224,26 @@ pip-log.txt
 .Release
 
 #libevent
-lib/
 libevent/
 Release/
 Debug/
+
+#vs
+.vs
+*.db
+Debug
+Release
+*.sdf
+*.openDb
+
+#resource
+*.zip
+*.rar
+*.bmp
+*.wav
+
+#cmake_build
+build/
+
+
 

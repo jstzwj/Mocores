@@ -1,4 +1,5 @@
 # contrib folders
+<<<<<<< HEAD
 INCLUDE_DIRECTORIES(${MOCORES_PATH_DEPENDENCIES}/zlib)
 
 # mocores folder
@@ -17,3 +18,18 @@ ENDIF()
 ADD_SUBDIRECTORY(mocores-common)
 ADD_SUBDIRECTORY(mocores-masternode)
 ADD_SUBDIRECTORY(mocores-workernode)
+=======
+
+# octoon folder
+INCLUDE_DIRECTORIES(${OCTOON_PATH_INCLUDE})
+
+# lib folder for link
+LINK_DIRECTORIES(${OCTOON_LIBRARY_OUTPUT_PATH})
+
+# runtime libraries
+# ADD_SUBDIRECTORY(octoon-math)
+
+
+# framework
+ADD_SUBDIRECTORY(mocores-common)
+>>>>>>> python
