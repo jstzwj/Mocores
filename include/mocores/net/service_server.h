@@ -5,6 +5,8 @@
 
 #include <boost/asio.hpp>
 
+#include <mocores/net/service_session.h>
+
 namespace mocores
 {
     class ServiceServer
@@ -22,15 +24,14 @@ namespace mocores
             acceptor_.async_accept([this](boost::system::error_code ec, boost::asio::ip::tcp::socket socket) {
                 if (!ec)
                 {
-                    std::make_shared<ServiceSession>(std::move(socket), room_)->start();
+                    std::make_shared<ServiceSession>(std::move(socket))->start();
                 }
 
                 do_accept();
             });
         }
 
-		boost::asio::ip::tcp::acceptor acceptor_;
-        chat_room room_;
+        boost::asio::ip::tcp::acceptor acceptor_;
     };
 }
 
