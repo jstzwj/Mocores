@@ -1,7 +1,15 @@
 #include <iostream>
 
-int main()
+#include <mocores/cluster/node.h>
+
+
+int main(int argc, char *argv[])
 {
-    std::cout<<"hello world"<<std::endl;
+	
+	mocores::Node node;
+	node.run(argc, argv);
+	node.exit();
+
+	
     return 0;
 }
