@@ -2,6 +2,10 @@
 #include <boost/log/trivial.hpp>
 
 #include <mocores/cluster/node.h>
+#include <mocores/net/service_server.h>
+
+using boost::asio::ip::tcp;
+
 namespace mocores
 {
     Node::Node() : is_running(false) {}
@@ -15,6 +19,11 @@ namespace mocores
     {
         BOOST_LOG_TRIVIAL(info) << "Mocores node is starting.";
         is_running = true;
+
+		// start network service
+		tcp::endpoint endpoint(tcp::v4(), 25566);
+		ServiceServer server(io_context, endpoint);
+
         return 0;
     }
 

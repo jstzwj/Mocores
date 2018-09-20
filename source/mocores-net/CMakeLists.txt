@@ -7,10 +7,13 @@ SET(SOURCE_PATH ${MOCORES_PATH_SOURCE}/${LIB_OUTNAME})
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 SET(MOCORES_LIST
-	${SOURCE_PATH}/main.cpp
+	${HEADER_PATH}/service_server.h
+	${SOURCE_PATH}/service_server.cpp
+	${HEADER_PATH}/service_client.h
+	${SOURCE_PATH}/service_client.cpp
 )
-SOURCE_GROUP("system\\core" FILES ${MOCORES_LIST})
+#SOURCE_GROUP("system\\core" FILES ${MOCORES_LIST})
 
-ADD_EXECUTABLE(${LIB_OUTNAME} ${MOCORES_LIST})
+ADD_LIBRARY(${LIB_OUTNAME} ${MOCORES_LIST})
 
 target_link_libraries(${LIB_OUTNAME} ${Boost_LIBRARIES})

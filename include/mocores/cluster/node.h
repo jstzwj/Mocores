@@ -8,12 +8,15 @@
 #ifndef MOCORES_CLUSTER_NODE_H
 #define MOCORES_CLUSTER_NODE_H
 
+#include <boost/asio.hpp>
+
 namespace mocores
 {
     class Node
     {
     private:
         bool is_running;
+		boost::asio::io_context io_context;
 
     public:
         Node();
