@@ -1,14 +1,16 @@
 # contrib folders
 
-# octoon folder
-INCLUDE_DIRECTORIES(${OCTOON_PATH_INCLUDE})
+# mocores folder
+INCLUDE_DIRECTORIES(${MOCORES_PATH_INCLUDE})
 
 # lib folder for link
-LINK_DIRECTORIES(${OCTOON_LIBRARY_OUTPUT_PATH})
+LINK_DIRECTORIES(${MOCORES_LIBRARY_OUTPUT_PATH})
 
 # runtime libraries
-# ADD_SUBDIRECTORY(octoon-math)
+# ADD_SUBDIRECTORY(mocores-math)
 
 
 # framework
 ADD_SUBDIRECTORY(mocores-common)
+ADD_SUBDIRECTORY(mocores-cluster)
+ADD_SUBDIRECTORY(mocores-client)
