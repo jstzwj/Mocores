@@ -1,3 +1,5 @@
+#ifndef MOCORES_PROTOCOL_PINGPONG_H
+#define MOCORES_PROTOCOL_PINGPONG_H
 
 #include <cstdint>
 #include <string>
@@ -17,3 +19,5 @@ namespace mocores
         virtual void deserialize() = 0;
     };
 }
+
+#endif
