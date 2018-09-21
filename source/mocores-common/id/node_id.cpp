@@ -1,5 +1,5 @@
 
-#include<mocores/common/node_id.h>
+#include<mocores/common/id/node_id.h>
 
 namespace mocores
 {

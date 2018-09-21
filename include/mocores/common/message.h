@@ -13,7 +13,7 @@ namespace mocores
 		std::string actor_name;
 		std::string actor_identity;
 		std::string actor_method;
-		std::list<> parameters;
+		// std::list<> parameters;
 	};
 
 	class ReturnMessage
@@ -22,7 +22,7 @@ namespace mocores
 		std::string actor_name;
 		std::string actor_identity;
 		std::string actor_method;
-		std::list<> parameters;
+		// std::list<> parameters;
 	};
 }
 

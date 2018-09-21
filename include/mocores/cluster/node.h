@@ -22,6 +22,10 @@ namespace mocores
         int run(int argc, char* argv[]);
 
         int exit();
+
+	private:
+		void getPlatformInfo();
+		void startNetworkService();
     };
 }
 
