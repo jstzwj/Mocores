@@ -2,14 +2,20 @@
 #include <ctime>
 #include <string>
 
+
 namespace mocores
 {
-    class NodeID
+    class ClientID
     {
     public:
         std::string host;
         std::uint16_t port;
         std::uint64_t epoch;
+
+		ClientID(std::string host, std::uint16_t port, std::uint64_t epoch)
+		{
+
+		}
 
         std::string to_string()
         {

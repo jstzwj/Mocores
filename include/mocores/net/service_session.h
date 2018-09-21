@@ -6,7 +6,7 @@
 
 #include <boost/asio.hpp>
 
-#include<mocores/net/protocol/message.h>
+#include<mocores/net/protocol/service_message.h>
 
 namespace mocores
 {
@@ -23,7 +23,7 @@ namespace mocores
             do_read_header();
         }
 
-        void deliver(const Message& msg)
+        void deliver(const ServiceMessage& msg)
         {
             bool write_in_progress = !write_msgs_.empty();
             write_msgs_.push_back(msg);
@@ -38,7 +38,7 @@ namespace mocores
         {
             auto self(shared_from_this());
             boost::asio::async_read(socket_,
-                                    boost::asio::buffer(read_msg_.data(), Message::header_length),
+                                    boost::asio::buffer(read_msg_.data(), ServiceMessage::header_length),
                                     [this, self](boost::system::error_code ec, std::size_t /*length*/) {
                                         if (!ec && read_msg_.decode_header())
                                         {
@@ -91,8 +91,8 @@ namespace mocores
         }
 
         boost::asio::ip::tcp::socket socket_;
-        Message read_msg_;
-        std::list<Message> write_msgs_;
+        ServiceMessage read_msg_;
+        std::list<ServiceMessage> write_msgs_;
     };
 }
 

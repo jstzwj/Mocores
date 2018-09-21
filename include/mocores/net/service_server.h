@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include <boost/log/trivial.hpp>
 #include <boost/asio.hpp>
 
 #include <mocores/net/service_session.h>
@@ -24,6 +25,7 @@ namespace mocores
             acceptor_.async_accept([this](boost::system::error_code ec, boost::asio::ip::tcp::socket socket) {
                 if (!ec)
                 {
+					BOOST_LOG_TRIVIAL(info) << "A new connection setup from" << socket.remote_endpoint().address();
                     std::make_shared<ServiceSession>(std::move(socket))->start();
                 }
 

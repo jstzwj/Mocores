@@ -6,7 +6,7 @@
 
 namespace mocores
 {
-    class Message
+    class ServiceMessage
     {
     public:
         enum
@@ -18,7 +18,7 @@ namespace mocores
             max_body_length = 512
         };
 
-        Message() : body_length_(0) {}
+        ServiceMessage() : body_length_(0) {}
 
         const char* data() const { return data_; }
 

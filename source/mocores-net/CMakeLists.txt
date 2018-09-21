@@ -7,7 +7,7 @@ SET(SOURCE_PATH ${MOCORES_PATH_SOURCE}/${LIB_OUTNAME})
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 SET(MOCORES_PROTOCOL_LIST
-	${HEADER_PATH}/protocol/message.h
+	${HEADER_PATH}/protocol/service_message.h
 	${HEADER_PATH}/protocol/pingpong.h
 )
 

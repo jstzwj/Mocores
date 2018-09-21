@@ -1,5 +1,6 @@
 
 #include <boost/log/trivial.hpp>
+#include <boost/asio.hpp>
 
 #include <mocores/cluster/node.h>
 #include <mocores/net/service_server.h>
@@ -21,8 +22,10 @@ namespace mocores
         is_running = true;
 
 		// start network service
+		boost::asio::io_context io_context;
 		tcp::endpoint endpoint(tcp::v4(), 25566);
 		ServiceServer server(io_context, endpoint);
+		io_context.run();
 
         return 0;
     }
