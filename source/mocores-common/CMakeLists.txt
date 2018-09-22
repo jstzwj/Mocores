@@ -5,6 +5,7 @@ SET(HEADER_PATH ${MOCORES_PATH_HEADER}/${LIB_NAME})
 SET(SOURCE_PATH ${MOCORES_PATH_SOURCE}/${LIB_OUTNAME})
 
 SET(MOCORES_LIST
+	${HEADER_PATH}/scheduler/task_scheduler.h
 	${HEADER_PATH}/config/config.h
 	${HEADER_PATH}/config/config_node.h
 	${HEADER_PATH}/config/config_client.h
@@ -12,8 +13,8 @@ SET(MOCORES_LIST
 	${HEADER_PATH}/id/node_id.h
 	${SOURCE_PATH}/id/node_id.cpp
 	${HEADER_PATH}/platform.h
-	${HEADER_PATH}/message.h
-	${SOURCE_PATH}/message.cpp
+	${HEADER_PATH}/work_item.h
+	${SOURCE_PATH}/work_item.cpp
 )
 # SOURCE_GROUP("system\\common" FILES ${MOCORES_LIST})
 

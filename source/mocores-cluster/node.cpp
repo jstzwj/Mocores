@@ -29,6 +29,8 @@ namespace mocores
 		// open config
 		readConfig();
 
+		// start thread pool
+
 		// start network service
 		startNetworkService();
 

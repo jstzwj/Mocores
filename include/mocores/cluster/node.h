@@ -8,6 +8,9 @@
 #ifndef MOCORES_CLUSTER_NODE_H
 #define MOCORES_CLUSTER_NODE_H
 
+#include <memory>
+
+#include <mocores/cluster/worker_pool.h>
 #include <mocores/common/config/config_node.h>
 
 namespace mocores
@@ -16,7 +19,8 @@ namespace mocores
     {
     private:
         bool is_running;
-		ConfigNode config;
+        ConfigNode config;
+        std::unique_ptr<WorkerPool> worker_pool;
 
     public:
         Node();
@@ -26,10 +30,10 @@ namespace mocores
 
         int exit();
 
-	private:
-		void getPlatformInfo();
-		void readConfig();
-		void startNetworkService();
+    private:
+        void getPlatformInfo();
+        void readConfig();
+        void startNetworkService();
     };
 }
 
