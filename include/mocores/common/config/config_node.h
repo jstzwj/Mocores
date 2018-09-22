@@ -19,19 +19,26 @@ namespace mocores
         std::string host;
         std::uint16_t port;
 
-        void parseConfig(const std::string& path)
+        virtual void openConfig(const std::string& path) override
         {
             boost::property_tree::ptree root;
             boost::property_tree::ptree items;
             boost::property_tree::read_json<boost::property_tree::ptree>(path, root);
 
-            items = root.get_child("user");
-            for (boost::property_tree::ptree::iterator it = items.begin(); it != items.end(); ++it)
-            {
-                std::string key = it->first; // key ID
-                std::string ID = it->second.get<std::string>("ID");
-                std::string Name = it->second.get<std::string>("Name");
-            }
+            host = root.get<std::string>("host");
+            port = root.get<std::uint16_t>("port");
+
+            BOOST_LOG_TRIVIAL(info) << "host : " << host;
+            BOOST_LOG_TRIVIAL(info) << "port : " << port;
+        }
+
+        virtual void saveConfig(const std::string& path) override
+        {
+            boost::property_tree::ptree root;
+
+            root.put("host", host);
+			root.put("port", port);
+            boost::property_tree::write_json(path, root);
         }
     };
 }

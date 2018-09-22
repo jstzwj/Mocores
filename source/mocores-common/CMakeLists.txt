@@ -5,6 +5,9 @@ SET(HEADER_PATH ${MOCORES_PATH_HEADER}/${LIB_NAME})
 SET(SOURCE_PATH ${MOCORES_PATH_SOURCE}/${LIB_OUTNAME})
 
 SET(MOCORES_LIST
+	${HEADER_PATH}/config/config.h
+	${HEADER_PATH}/config/config_node.h
+	${HEADER_PATH}/config/config_client.h
 	${HEADER_PATH}/util/platform_info.h
 	${HEADER_PATH}/id/node_id.h
 	${SOURCE_PATH}/id/node_id.cpp

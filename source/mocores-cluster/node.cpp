@@ -2,6 +2,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/asio.hpp>
 
+
 #include <mocores/common/util/platform_info.h>
 #include <mocores/cluster/node.h>
 #include <mocores/net/service_server.h>
@@ -25,7 +26,8 @@ namespace mocores
 		// detect machine info
 		getPlatformInfo();
 
-
+		// open config
+		readConfig();
 
 		// start network service
 		startNetworkService();
@@ -44,6 +46,11 @@ namespace mocores
 	{
 		int cpu_num = hardware_concurrency();
 		BOOST_LOG_TRIVIAL(info) << "Number of CPU cores is " << cpu_num << ".";
+	}
+
+	void Node::readConfig()
+	{
+		config.openConfig("config.json");
 	}
 
 	void Node::startNetworkService()
