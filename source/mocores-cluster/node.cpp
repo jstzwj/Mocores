@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 
 
-#include <mocores/common/util/platform_info.h>
+#include <mocores/runtime/util/platform_info.h>
 #include <mocores/cluster/node.h>
 #include <mocores/net/service_server.h>
 

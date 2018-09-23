@@ -1,7 +1,7 @@
 #ifndef MOCORES_SCHEDULER_TASK_SCHEDULER_H
 #define MOCORES_SCHEDULER_TASK_SCHEDULER_H
 
-#include <mocores/common/task.h>
+#include <mocores/runtime/task.h>
 
 namespace mocores
 {

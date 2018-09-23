@@ -11,7 +11,7 @@ LINK_DIRECTORIES(${MOCORES_LIBRARY_OUTPUT_PATH})
 
 
 # framework
-ADD_SUBDIRECTORY(mocores-common)
+ADD_SUBDIRECTORY(mocores-runtime)
 ADD_SUBDIRECTORY(mocores-cluster)
 ADD_SUBDIRECTORY(mocores-client)
 ADD_SUBDIRECTORY(mocores-net)

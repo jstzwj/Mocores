@@ -10,6 +10,12 @@
 #define MOCORES_CLUSTER_WORKER_H
 
 #include <memory>
+#include <condition_variable>
+#include <list>
+#include <mutex>
+#include <thread>
+
+#include <mocores/runtime/task.h>
 
 namespace mocores
 {
@@ -18,9 +24,15 @@ namespace mocores
     public:
         Worker();
         ~Worker() {}
+        void run()
+        {
+
+        }
 
     private:
-
+        std::list<Task> task_list;
+        std::condition_variable ready; // mutex and condition variable for thread pool
+        std::mutex mtx;
     };
 }
 

@@ -8,11 +8,6 @@ SET(MOCORES_LIST
 	${SOURCE_PATH}/main.cpp
 	${SOURCE_PATH}/node.cpp
 	${HEADER_PATH}/node.h
-	${HEADER_PATH}/worker_pool.h
-	${HEADER_PATH}/worker.h
-	${SOURCE_PATH}/worker.cpp
-	${HEADER_PATH}/actor.h
-	${SOURCE_PATH}/actor.cpp
 )
 SOURCE_GROUP("system\\core" FILES ${MOCORES_LIST})
 

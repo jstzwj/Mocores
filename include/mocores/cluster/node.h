@@ -10,8 +10,8 @@
 
 #include <memory>
 
-#include <mocores/cluster/worker_pool.h>
-#include <mocores/common/config/config_node.h>
+#include <mocores/runtime/scheduler/worker_pool.h>
+#include <mocores/runtime/config/config_node.h>
 
 namespace mocores
 {
