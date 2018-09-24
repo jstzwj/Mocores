@@ -9,9 +9,9 @@
 #ifndef MOCORES_CLUSTER_WORKER_H
 #define MOCORES_CLUSTER_WORKER_H
 
-#include <memory>
 #include <condition_variable>
 #include <list>
+#include <memory>
 #include <mutex>
 #include <thread>
 
@@ -26,7 +26,28 @@ namespace mocores
         ~Worker() {}
         void run()
         {
+            while (true)
+            {
+                std::unique_lock<std::mutex> lck(m_mtx);
+                while (task_list.empty())
+                {
+                    ready.wait(lck);
+                }
+                Task& front_task = task_list.front();
+                // TODO run task
+                
+                task_list.pop_front();
+            }
+        }
 
+        void putTask(const Task& task)
+        {
+            while (true)
+            {
+                std::unique_lock<std::mutex> lck(mtx);
+                task_list.push_back(task);
+                ready.notify_all();
+            }
         }
 
     private:
