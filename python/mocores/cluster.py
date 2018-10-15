@@ -1,27 +1,32 @@
 import inspect
 
 
-def register_actor(actor):
-    if inspect.isclass(actor):
-        return worker.make_actor(actor, checkpoint_interval)
+def actor(original_class):
+    orig_init = original_class.__init__
+    orig_del = original_class.__del__
+    # Make copy of original __init__, so we can call it without recursion
+    def init_decorator(self, *args, **kws):
+        print("decorator init")
+        orig_init(self, *args, **kws)
 
-def actor(*args, **kwargs):
-    return register_actor(args[0])
+    def del_decorator(self):
+        print("decorator del")
+        orig_del(self)
 
+    
 
-class ActorRef(object):
-    def __init__(self, class_name, key):
-        self._class_name = class_name
-        self._key = key
+    original_class.__init__ = init_decorator # Set the class' __init__ to the new one
+    original_class.__del__ = del_decorator
 
-class Actor(object):
-    def __init__(self, class_name, checkpoint_interval):
-        self._class_name = Actor.__name__
-        self._checkpoint_interval = checkpoint_interval
+    for each_method in inspect.getmembers(original_class, predicate=inspect.isfunction):
+        if(each_method[0].startswith('__')):
+            continue
+        orig_method = getattr(original_class, each_method[0])
+        def function_decorator(self, *args, **kws):
+            print("decorator each:" + orig_method.__name__)
+            orig_method(self, *args, **kws)
+        setattr(original_class, each_method[0], function_decorator)
+        
 
-    def on_active(self):
-        pass
-
-    def on_inactive(self):
-        pass
+    return original_class
 
