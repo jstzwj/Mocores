@@ -13,7 +13,8 @@ def actor_ref(original_class):
     orig_members_list = inspect.getmembers(original_class)
     orig_members_dict = {}
     for each_item in orig_members_list:
-        orig_members_dict[each_item[0]] = each_item[1]
+        if(inspect.isbuiltin(each_item[1]) or inspect.iscoroutinefunction(each_item[1])):
+            orig_members_dict[each_item[0]] = each_item[1]
     
     # create new ref type
     new_class = type(original_class.__name__ + '_ref', (object,), orig_members_dict)
@@ -25,7 +26,7 @@ def actor_ref(original_class):
 
     new_class.__init__ = init_decorator # Set the class' __init__ to the new one
 
-    for each_method in inspect.getmembers(new_class, predicate=inspect.isfunction):
+    for each_method in inspect.getmembers(new_class, predicate=inspect.iscoroutinefunction):
         if(each_method[0].startswith('__')):
             continue
         orig_method = getattr(new_class, each_method[0])
@@ -61,11 +62,11 @@ def actor(original_class):
 
     original_class.__init__ = init_decorator # Set the class' __init__ to the new one
 
-    for each_method in inspect.getmembers(original_class, predicate=inspect.isfunction):
-        if(each_method[0].startswith('__')):
+    for each_method in inspect.getmembers(original_class, predicate=inspect.iscoroutinefunction):
+        if(inspect.isbuiltin(each_method[1])):
             continue
         orig_method = getattr(original_class, each_method[0])
-        def function_decorator(self, *args, **kws):
+        async def function_decorator(self, *args, **kws):
             orig_method(self, *args, **kws)
         setattr(original_class, each_method[0], function_decorator)
 
