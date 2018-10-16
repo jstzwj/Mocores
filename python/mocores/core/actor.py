@@ -1,6 +1,10 @@
 import inspect
-import copy
+import time
+import datetime
+import asyncio
 import pyarrow
+import mocores.core.work_item as work_item
+import mocores.core.task as task
 
 
 # generate actor ref
@@ -17,8 +21,8 @@ def actor_ref(original_class):
     orig_del = new_class.__del__
     # Make copy of original __init__, so we can call it without recursion
     def init_decorator(self, actor_class=None, actor_id=None, *args, **kws):
-        print("actor_class:" + actor_class)
-        print("actor_id:" + str(actor_id))
+        self.actor_class = actor_class
+        self.actor_id = actor_id
 
     def del_decorator(self):
         print("decorator del")
@@ -30,13 +34,22 @@ def actor_ref(original_class):
         if(each_method[0].startswith('__')):
             continue
         orig_method = getattr(new_class, each_method[0])
-        def function_decorator(self, *args, **kws):
-            # serialize args
-            args_buf = pyarrow.serialize(args).to_buffer()
-            aws_buf = pyarrow.serialize(kws).to_buffer()
-            print(pyarrow.deserialize(args_buf))
-            print(pyarrow.deserialize(aws_buf))
-            print("decorator each:" + orig_method.__name__)
+        async def function_decorator(self, *args, **kws):
+            # construct work_item
+            invoke_work_item = work_item.InvokeWorkItem(self.actor_class, self.actor_id,
+                each_method[0], args, kws)
+
+            
+            # search actor table
+
+            # construct task
+
+            # send task
+            cur_time = datetime.datetime.now()
+
+            # wait value
+
+            # return value
 
         setattr(new_class, each_method[0], function_decorator)
         
@@ -67,10 +80,3 @@ def actor(original_class):
         setattr(original_class, each_method[0], function_decorator)
 
     return original_class
-
-
-
-def get_actor(actor_type, actor_id):
-    actor_ref_type = actor_ref(actor_type)
-    actor_class = actor_type.__module__ + "." + actor_type.__name__
-    return actor_ref_type(actor_class, actor_id)
