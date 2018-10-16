@@ -18,17 +18,12 @@ def actor_ref(original_class):
     # create new ref type
     new_class = type(original_class.__name__ + '_ref', (object,), orig_members_dict)
     orig_init = new_class.__init__
-    orig_del = new_class.__del__
     # Make copy of original __init__, so we can call it without recursion
     def init_decorator(self, actor_class=None, actor_id=None, *args, **kws):
         self.actor_class = actor_class
         self.actor_id = actor_id
 
-    def del_decorator(self):
-        print("decorator del")
-
     new_class.__init__ = init_decorator # Set the class' __init__ to the new one
-    new_class.__del__ = del_decorator
 
     for each_method in inspect.getmembers(new_class, predicate=inspect.isfunction):
         if(each_method[0].startswith('__')):
@@ -60,16 +55,11 @@ def actor_ref(original_class):
 # decorate actor
 def actor(original_class):
     orig_init = original_class.__init__
-    orig_del = original_class.__del__
     # Make copy of original __init__, so we can call it without recursion
     def init_decorator(self, *args, **kws):
         orig_init(self, *args, **kws)
 
-    def del_decorator(self):
-        orig_del(self)
-
     original_class.__init__ = init_decorator # Set the class' __init__ to the new one
-    original_class.__del__ = del_decorator
 
     for each_method in inspect.getmembers(original_class, predicate=inspect.isfunction):
         if(each_method[0].startswith('__')):
