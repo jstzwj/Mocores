@@ -2,6 +2,7 @@ import mocores.core.actor
 import mocores.core.message_queue
 import mocores.net.protocol
 import mocores.net.tcp_server
+import mocores.core.actor_pool
 
 import threading
 
@@ -11,6 +12,7 @@ class Worker(object):
         self.ip = ip
         self.port = port
         self.messages = mocores.core.message_queue.MessageQueue()
+        self.actors = mocores.core.actor_pool.ActorPool()
 
     def run(self):
         print("start server and wait for connection")

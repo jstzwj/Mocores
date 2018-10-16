@@ -20,9 +20,9 @@ def actor_ref(original_class):
     new_class = type(original_class.__name__ + '_ref', (object,), orig_members_dict)
     orig_init = new_class.__init__
     # Make copy of original __init__, so we can call it without recursion
-    def init_decorator(self, actor_class=None, actor_id=None, *args, **kws):
+    def init_decorator(self, actor_class=None, actor_key=None, *args, **kws):
         self.actor_class = actor_class
-        self.actor_id = actor_id
+        self.actor_key = actor_key
 
     new_class.__init__ = init_decorator # Set the class' __init__ to the new one
 
@@ -32,7 +32,7 @@ def actor_ref(original_class):
         orig_method = getattr(new_class, each_method[0])
         async def function_decorator(self, *args, **kws):
             # construct work_item
-            invoke_work_item = work_item.InvokeWorkItem(self.actor_class, self.actor_id,
+            invoke_work_item = work_item.InvokeWorkItem(self.actor_class, self.actor_key,
                 each_method[0], args, kws)
 
             
