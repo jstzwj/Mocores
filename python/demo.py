@@ -5,11 +5,12 @@ class MyActor(object):
     def __init__(self):
         print("init")
 
-    def hello_word(self):
-        print('hello world')
+    def hello_world(self, message=None):
+        print(message)
 
     def __del__(self):
         print("del")
 
-my_actor = MyActor()
-my_actor.hello_word()
+my_actor = mocores.get_actor(MyActor, 1)
+new_actor = MyActor()
+# my_actor.hello_world(message="hello world")
