@@ -11,6 +11,18 @@ async def main():
     num = await my_actor.hello_world(message="hello world")
     print(num)
 
+def readInt(data):
+    return (int.from_bytes(data[:4], byteorder="big"),data[4:])
+
+def readStr(data):
+    len, data = readInt(data)
+    return (data[:len].decode(), data[len:])
+
+
+print((1).to_bytes(4, byteorder="big"))
+bs = b"\x00\x00\x00\x011234"
+string, bs= readStr(bs)
+print(string, bs)
 
 # async run main
 loop = asyncio.get_event_loop()

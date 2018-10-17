@@ -31,3 +31,16 @@ class HeartBeat(Message):
 
     def deserialize(self, data):
         self.id = int.from_bytes(data, byteorder='big')
+
+@protocol(id=2)
+class MemberShip(Message):
+    def __init__(self):
+        pass
+
+    def serialize(self):
+        buf = bytearray(b'')
+        buf.append(self.id.to_bytes(4, byteorder='big'))
+        return buf
+
+    def deserialize(self, data):
+        self.id = int.from_bytes(data, byteorder='big')

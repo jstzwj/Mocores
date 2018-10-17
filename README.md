@@ -4,8 +4,8 @@ A distributed, high-scale computing system.
 
 Language
 ======
-*[English](https://github.com/toyteam/Mocores/blob/master/doc/readme_en.md)  
-*[中文](https://github.com/toyteam/Mocores/blob/master/doc/readme_zh.md)
+* [English](https://github.com/toyteam/Mocores/blob/master/doc/readme_en.md)  
+* [中文](https://github.com/toyteam/Mocores/blob/master/doc/readme_zh.md)
 
 
 Introduction

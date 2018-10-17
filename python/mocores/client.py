@@ -9,6 +9,7 @@ class Client(object):
 
     def connect(self, ip, port):
         print("connecting to the cluster: {0}:{1}".format(ip, port))
+        # connect and get membership table
 
     def get_actor(self, actor_type, actor_id):
         actor_ref_type = mocores.core.actor.actor_ref(actor_type)
