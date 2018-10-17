@@ -17,8 +17,8 @@ def actor_ref(original_class):
             orig_members_dict[each_item[0]] = each_item[1]
     
     # create new ref type
-    new_class = type(original_class.__name__ + '_ref', (object,), orig_members_dict)
-    orig_init = new_class.__init__
+    new_class = type(original_class.__name__ + 'Ref', (object,), orig_members_dict)
+    # orig_init = new_class.__init__
     # Make copy of original __init__, so we can call it without recursion
     def init_decorator(self, actor_class=None, actor_key=None, *args, **kws):
         self.actor_class = actor_class
@@ -37,7 +37,7 @@ def actor_ref(original_class):
 
             
             # search actor table
-
+            
             # construct task
 
             # send task

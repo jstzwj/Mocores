@@ -12,6 +12,16 @@ def protocol(id=0):
 def get_packet_by_id(id):
     return protocol_dist[id]()
 
+def readByte(data):
+    return (data[:1], data[1:])
+
+def readInt(data):
+    return (int.from_bytes(data[:4], byteorder="big"), data[4:])
+
+def readStr(data):
+    len, data = readInt(data)
+    return (data[:len].decode(), data[len:])
+
 class Message(object):
     def serialize(self):
         pass

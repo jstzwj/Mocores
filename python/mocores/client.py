@@ -11,6 +11,8 @@ class Client(object):
         print("connecting to the cluster: {0}:{1}".format(ip, port))
         # connect and get membership table
 
+        # ping and get actor table
+
     def get_actor(self, actor_type, actor_id):
         actor_ref_type = mocores.core.actor.actor_ref(actor_type)
         actor_class = actor_type.__module__ + "." + actor_type.__name__

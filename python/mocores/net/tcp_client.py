@@ -1,28 +1,33 @@
-import asyncore
+import socket
+import asyncio
 
-class TcpClient(asyncore.dispatcher):
-    def __init__(self, host, port, path):
-        asyncore.dispatcher.__init__(self)
-        self.create_socket()
-        self.connect( (host, port) )
-        self.buffer = bytes('', 'ascii')
+class TcpClient(object):
+    def __init__(self, ip=None, port=None):
+        self.ip = ip
+        self.port = port
+        self.is_open = False
 
-    def handle_connect(self):
-        pass
+    async def connect(self, ip=None, port=None):
+        self.ip = ip
+        self.port = port
+        self.reader, self.writer = await asyncio.open_connection(self.ip, self.port)
+        self.is_open = True
 
-    def handle_close(self):
-        self.close()
+    def get_writer(self):
+        if (self.is_open):
+            return self.writer
+        else:
+            return None
 
-    def handle_read(self):
-        print(self.recv(8192))
+    def get_reader(self):
+        if (self.is_open):
+            return self.reader
+        else:
+            return None
+            
+    async def close(self):
+        self.writer.close()
+        await self.writer.wait_closed()
+        self.is_open = False
 
-    def writable(self):
-        return (len(self.buffer) > 0)
 
-    def handle_write(self):
-        sent = self.send(self.buffer)
-        self.buffer = self.buffer[sent:]
-
-
-client = TcpClient('www.python.org', 25566, '/')
-asyncore.loop()

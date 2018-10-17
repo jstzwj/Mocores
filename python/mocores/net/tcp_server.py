@@ -21,7 +21,7 @@ class TcpServer(object):
     def __init__(self):
         pass
 
-    def listen(port):
+    def listen(self, port):
         f = Factory()
         f.protocol = WorkerProtocol
         reactor.listenTCP(port, f)
