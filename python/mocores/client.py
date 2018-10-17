@@ -1,5 +1,6 @@
 import mocores.core.actor
 import mocores.net.protocol
+import mocores.net.tcp_client
 
 class Client(object):
     def __init__(self, ip, port):
@@ -10,7 +11,7 @@ class Client(object):
     def connect(self, ip, port):
         print("connecting to the cluster: {0}:{1}".format(ip, port))
         # connect and get membership table
-
+        master_session = mocores.net.tcp_client.ClientSession()
         # ping and get actor table
 
     def get_actor(self, actor_type, actor_id):

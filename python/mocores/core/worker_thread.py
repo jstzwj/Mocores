@@ -11,7 +11,8 @@ class WorkerThread(threading.Thread):
         self._condition.acquire()
         while (self._messages.size()!=0):
             self._condition.wait()
-        task = self._messages.pop_front()
+        if(self._messages.size()!=0):
+            task = self._messages.pop_front()
 
         self._condition.release()
 

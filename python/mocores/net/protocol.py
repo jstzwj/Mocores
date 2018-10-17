@@ -22,6 +22,24 @@ def readStr(data):
     len, data = readInt(data)
     return (data[:len].decode(), data[len:])
 
+class PacketHeader(object):
+    def __init__(self, version=0, status=0, len=0, id=0):
+        self.len = len
+        self.id = id
+        self.version = version
+        self.status = status
+    
+    @staticmethod
+    def wrap_packet(self, packet, version, status):
+        buf = bytearray(b'')
+        packet_raw_data = packet.serialize()
+        self.len = len(packet_raw_data)
+        self.id = packet.id
+        buf.append(self.len.to_bytes(4, byteorder='big'))
+        buf.append(self.id.to_bytes(4, byteorder='big'))
+        buf.append(self.version.to_bytes(2, byteorder='big'))
+        buf.append(self.status.to_bytes(2, byteorder='big'))
+
 class Message(object):
     def serialize(self):
         pass
@@ -30,10 +48,7 @@ class Message(object):
         pass
 
 @protocol(id=1)
-class HeartBeat(Message):
-    def __init__(self):
-        pass
-
+class Ping(Message):
     def serialize(self):
         buf = bytearray(b'')
         buf.append(self.id.to_bytes(4, byteorder='big'))
@@ -43,10 +58,17 @@ class HeartBeat(Message):
         self.id = int.from_bytes(data, byteorder='big')
 
 @protocol(id=2)
-class MemberShip(Message):
-    def __init__(self):
-        pass
+class Pong(Message):
+    def serialize(self):
+        buf = bytearray(b'')
+        buf.append(self.id.to_bytes(4, byteorder='big'))
+        return buf
 
+    def deserialize(self, data):
+        self.id = int.from_bytes(data, byteorder='big')
+
+@protocol(id=3)
+class MemberShip(Message):
     def serialize(self):
         buf = bytearray(b'')
         buf.append(self.id.to_bytes(4, byteorder='big'))

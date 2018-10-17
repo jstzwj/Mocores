@@ -5,6 +5,7 @@ import mocores.net.tcp_server
 import mocores.core.actor_pool
 import mocores.core.worker_thread
 
+import asyncio
 import threading
 
 class Worker(object):
@@ -16,7 +17,7 @@ class Worker(object):
         self.actors = mocores.core.actor_pool.ActorPool()
         self.worker_threads = []
 
-    def run(self):
+    async def run(self):
         print("start server")
         print("start workers")
         for i in range(4):
@@ -25,7 +26,7 @@ class Worker(object):
 
         print("wait for connections")
         tcp_server = mocores.net.tcp_server.TcpServer()
-        tcp_server.listen(self.port)
+        await tcp_server.start_up("localhost", self.port)
 
     def get_actor(self, actor_type, actor_id):
         actor_ref_type = mocores.core.actor.actor_ref(actor_type)
