@@ -1,28 +1,39 @@
 import mocores.net.protocol
+import asyncio
 
-from twisted.internet.protocol import Protocol, Factory
-from twisted.internet.protocol import Factory
-from twisted.protocols.basic import LineReceiver
-from twisted.internet import reactor
+class WorkerProtocol(asyncio.Protocol):
+    def connection_made(self, transport):
+        peername = transport.get_extra_info('peername')
+        print('Connection from {}'.format(peername))
+        self.transport = transport
 
-class WorkerProtocol(Protocol):
-    def connectionMade(self):
-        print("New connection comes in: {0}:{1}".format(self.transport.client[0], self.transport.client[1]))
- 
-    def connectionLost(self, reason):
-        print("Connection lost:")
-
-    def dataReceived(self, data):
+    def data_received(self, data):
         packet_id = int.from_bytes(data[:4], byteorder = 'big')
         packet = mocores.net.protocol.get_packet_by_id(packet_id)
         print(packet)
 
-class TcpServer(object):
-    def __init__(self):
-        pass
+        message = data.decode()
+        print('Data received: {!r}'.format(message))
 
-    def listen(self, port):
-        f = Factory()
-        f.protocol = WorkerProtocol
-        reactor.listenTCP(port, f)
-        reactor.run()
+        print('Send: {!r}'.format(message))
+        self.transport.write(data)
+
+        print('Close the client socket')
+        self.transport.close()
+        
+
+class TcpServer(object):
+    def __init__(self, ip=None, port=None):
+        self.ip = ip
+        self.port = port
+
+    async def start_up(self, ip=None, port=None):
+        self.ip = ip
+        self.port = port
+        server = await asyncio.start_server(lambda: WorkerProtocol(), self.ip, self.port)
+
+        addr = server.sockets[0].getsockname()
+        print(f'Serving on {addr}')
+
+        async with server:
+            await server.serve_forever()
