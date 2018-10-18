@@ -2,6 +2,7 @@ import json
 from mocores.core.membership_table import(MembershipTable, MembershipEntry)
 
 protocol_dist = {}
+HEADER_SIZE = 12
 
 def protocol(id=0):
     def class_decorator(orig_class):
@@ -65,30 +66,29 @@ class PacketHeader(object):
         self.len = len(packet_raw_data)
         self.id = packet.id
         
+        # add packet header
         buf += self.len.to_bytes(4, byteorder='big')
         buf += self.id.to_bytes(4, byteorder='big')
         buf += self.version.to_bytes(2, byteorder='big')
         buf += self.status.to_bytes(2, byteorder='big')
+
+        # add packet body
+        buf += packet_raw_data
         return buf
 
-async def parse_header(reader):
+async def parse_header(data):
     header = PacketHeader()
-    header.len = await reader.read(4)
-    header.len = int.from_bytes(header.len, byteorder = 'big')
-
-    header.id = await reader.read(4)
-    header.id = int.from_bytes(header.id, byteorder = 'big')
-
-    header.version = await reader.read(2)
-    header.version = int.from_bytes(header.version, byteorder = 'big')
-
-    header.status = await reader.read(2)
-    header.status = int.from_bytes(header.status, byteorder = 'big')
+    header.len = int.from_bytes(data[0:4], byteorder = 'big')
+    header.id = int.from_bytes(data[4:8], byteorder = 'big')
+    header.version = int.from_bytes(data[8:10], byteorder = 'big')
+    header.status = int.from_bytes(data[8:12], byteorder = 'big')
 
     return header
 
 async def parse_packet(reader):
-    header = await parse_header(reader)
+    raw_header = await reader.read(HEADER_SIZE)
+    header = await parse_header(raw_header)
+    print("income packet len:{0}, id{1}".format(header.len, header.id))
     if(header.len!=0):
         packet_data = await reader.read(header.len)
     else:
@@ -149,10 +149,10 @@ class ReturnMemberShip(Message):
     def serialize(self):
         buf = bytearray(b'')
         writeInt32(buf, len(self.membership_table))
-        for i in self.membership_table:
-            writeStr(buf, self.membership_table[i].ip)
-            writeInt16(buf, self.membership_table[i].port)
-            writeStr(buf, self.membership_table[i].start_time)
+        for entry in self.membership_table:
+            writeStr(buf, entry.ip)
+            writeInt16(buf, entry.port)
+            writeStr(buf, entry.start_time)
         return buf
 
     def deserialize(self, data):

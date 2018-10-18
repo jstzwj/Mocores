@@ -26,7 +26,6 @@ class Worker(object):
 
     async def run(self):
         print("start server")
-        print(self.__dict__)
 
         # add self to membership table
         if self.single_node_mode:
@@ -40,7 +39,7 @@ class Worker(object):
             self.worker_threads[i].start()
 
         print("wait for connections")
-        tcp_server = mocores.net.tcp_server.TcpServer()
+        tcp_server = mocores.net.tcp_server.TcpServer(worker=self)
         await tcp_server.start_up("localhost", self.port)
 
     def get_actor(self, actor_type, actor_id):
