@@ -6,6 +6,7 @@ class WorkerThread(threading.Thread):
         super(WorkerThread, self).__init__()
         self._messages = mocores.core.message_queue.MessageQueue()
         self._condition = threading.Condition()
+        self.actors = mocores.core.actor_pool.ActorPool()
 
     def run(self):
         self._condition.acquire()

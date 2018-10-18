@@ -1,7 +1,7 @@
 import mocores.core.actor
 import mocores.core.message_queue
 import mocores.net.protocol
-import mocores.net.tcp_server
+import mocores.net.worker_server
 import mocores.core.actor_pool
 import mocores.core.worker_thread
 from mocores.core.membership_table import(MembershipTable, MembershipEntry)
@@ -20,7 +20,6 @@ class Worker(object):
         self.port = port
         self.start_time = time.strftime('%Y-%m-%d-%H-%M-%S', time.gmtime(time.time()))
         self.messages = mocores.core.message_queue.MessageQueue()
-        self.actors = mocores.core.actor_pool.ActorPool()
         self.worker_threads = []
         self.membership_table = MembershipTable()
 
@@ -39,7 +38,7 @@ class Worker(object):
             self.worker_threads[i].start()
 
         print("wait for connections")
-        tcp_server = mocores.net.tcp_server.TcpServer(worker=self)
+        tcp_server = mocores.net.worker_server.TcpServer(worker=self)
         await tcp_server.start_up("localhost", self.port)
 
     def get_actor(self, actor_type, actor_id):
