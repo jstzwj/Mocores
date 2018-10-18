@@ -1,41 +1,59 @@
 import mocores.net.protocol
 import asyncio
 
-async def parse_header(reader):
-    header = mocores.net.protocol.PacketHeader()
-    header.len = await reader.read(4)
-    header.len = int.from_bytes(header.len, byteorder = 'big')
+# control dispatch
+class WorkFlow(object):
+    async def dispatch_packet(self, packet, writer):
+        if(packet.id == 1):
+            await self.send_pong(packet, writer)
+        else:
+            print("unknown packet")
 
-    header.id = await reader.read(4)
-    header.id = int.from_bytes(header.id, byteorder = 'big')
 
-    header.version = await reader.read(2)
-    header.version = int.from_bytes(header.version, byteorder = 'big')
+    async def send_pong(self, packet, writer):
+        header = mocores.net.protocol.PacketHeader(version=1, status=200)
+        pong_packet = mocores.net.protocol.Pong()
+        raw_packet = header.wrap_packet(pong_packet)
+        writer.write(raw_packet)
+        await writer.drain()
 
-    header.status = await reader.read(2)
-    header.status = int.from_bytes(header.status, byteorder = 'big')
 
-    return header
+# control flow
+class PacketRouter(object):
+    def __init__(self):
+        self.work_flow = WorkFlow()
 
-async def data_received(reader, writer):
-    header = await parse_header(reader)
-    packet_data = await reader.read(header.len)
+    async def dispatch_packet(self, packet, writer):
+        await self.work_flow.dispatch_packet(packet, writer)
+
+async def data_received(router, reader, writer):
+    header = await mocores.net.protocol.parse_header(reader)
+    if(header.len!=0):
+        packet_data = await reader.read(header.len)
+    else:
+        packet_data = b''
 
     packet = mocores.net.protocol.get_packet_by_id(header.id)
     packet.deserialize(packet_data)
-    print("packet_id:{0}\npacket_len:{1}".format(header.id, header.len))
+    print("packet_id:{0}\tpacket_len:{1}".format(header.id, header.len))
+
+    await router.dispatch_packet(packet, writer)
     
 
 class TcpServer(object):
     def __init__(self, ip=None, port=None):
         self.ip = ip
         self.port = port
+        self.router = PacketRouter()
 
     async def start_up(self, ip=None, port=None):
         self.ip = ip
         self.port = port
         loop = asyncio.get_event_loop()
-        server = await asyncio.start_server(data_received, self.ip, self.port)
+        server = await asyncio.start_server(
+            lambda reader, writer:data_received(self.router, reader, writer),
+            self.ip,
+            self.port)
 
         # Serve requests until Ctrl+C is pressed
         print('Serving on {}'.format(server.sockets[0].getsockname()))

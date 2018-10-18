@@ -1,6 +1,6 @@
 
 
-class NodeID(object):
+class WorkerID(object):
     def __init__(self, ip, port, start_time):
         self.ip = ip
         self.port = port

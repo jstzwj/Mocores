@@ -58,10 +58,29 @@ class ClientSession(object):
     async def ping(self):
         await self.active()
         writer = self.client.get_writer()
+        reader = self.client.get_reader()
         header = mocores.net.protocol.PacketHeader(version=1, status=200)
         ping_packet = mocores.net.protocol.Ping()
         raw_packet = header.wrap_packet(ping_packet)
         writer.write(raw_packet)
         await writer.drain()
+
+        # read response
+        packet = await mocores.net.protocol.parse_packet(reader)
+        print("packet_id:{0}".format(packet.id))
+
+    async def get_memberships(self):
+        await self.active()
+        writer = self.client.get_writer()
+        reader = self.client.get_reader()
+        header = mocores.net.protocol.PacketHeader(version=1, status=200)
+        packet = mocores.net.protocol.RequestMemberShip()
+        raw_packet = header.wrap_packet(packet)
+        writer.write(raw_packet)
+        await writer.drain()
+
+        # read response
+        packet = await mocores.net.protocol.parse_packet(reader)
+        print("packet_id:{0}".format(packet.id))
 
 

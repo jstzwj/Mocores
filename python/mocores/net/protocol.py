@@ -1,4 +1,5 @@
 import json
+from mocores.core.membership_table import(MembershipTable, MembershipEntry)
 
 protocol_dist = {}
 
@@ -12,11 +13,40 @@ def protocol(id=0):
 def get_packet_by_id(id):
     return protocol_dist[id]()
 
+def writeByte(data, val):
+    data.append(val)
+
+def writeInt16(data, val):
+    data += val.to_bytes(2,byteorder='big')
+
+def writeInt32(data, val):
+    data += val.to_bytes(4,byteorder='big')
+
+def writeInt64(data, val):
+    data += val.to_bytes(8,byteorder='big')
+
+def writeInt(data, val):
+    data += val.to_bytes(4,byteorder='big')
+
+def writeStr(data, val):
+    raw_str = val.encode()
+    writeInt(data, len(raw_str))
+    data += raw_str
+
 def readByte(data):
     return (data[:1], data[1:])
 
 def readInt(data):
     return (int.from_bytes(data[:4], byteorder="big"), data[4:])
+
+def readInt16(data):
+    return (int.from_bytes(data[:2], byteorder="big"), data[2:])
+
+def readInt32(data):
+    return (int.from_bytes(data[:4], byteorder="big"), data[4:])
+
+def readInt64(data):
+    return (int.from_bytes(data[:8], byteorder="big"), data[8:])
 
 def readStr(data):
     len, data = readInt(data)
@@ -40,6 +70,33 @@ class PacketHeader(object):
         buf += self.version.to_bytes(2, byteorder='big')
         buf += self.status.to_bytes(2, byteorder='big')
         return buf
+
+async def parse_header(reader):
+    header = PacketHeader()
+    header.len = await reader.read(4)
+    header.len = int.from_bytes(header.len, byteorder = 'big')
+
+    header.id = await reader.read(4)
+    header.id = int.from_bytes(header.id, byteorder = 'big')
+
+    header.version = await reader.read(2)
+    header.version = int.from_bytes(header.version, byteorder = 'big')
+
+    header.status = await reader.read(2)
+    header.status = int.from_bytes(header.status, byteorder = 'big')
+
+    return header
+
+async def parse_packet(reader):
+    header = await parse_header(reader)
+    if(header.len!=0):
+        packet_data = await reader.read(header.len)
+    else:
+        packet_data = b''
+
+    packet = get_packet_by_id(header.id)
+    packet.deserialize(packet_data)
+    return packet
 
 class Message(object):
     def serialize(self):
@@ -67,7 +124,67 @@ class Pong(Message):
         pass
 
 @protocol(id=3)
-class MemberShip(Message):
+class Ack(Message):
+    def serialize(self):
+        buf = bytearray(b'')
+        return buf
+
+    def deserialize(self, data):
+        pass
+
+@protocol(id=4)
+class RequestMemberShip(Message):
+    def serialize(self):
+        buf = bytearray(b'')
+        return buf
+
+    def deserialize(self, data):
+        pass
+
+
+@protocol(id=5)
+class ReturnMemberShip(Message):
+    def __init__(self):
+        self.membership_table = []
+    def serialize(self):
+        buf = bytearray(b'')
+        writeInt32(buf, len(self.membership_table))
+        for i in self.membership_table:
+            writeStr(buf, self.membership_table[i].ip)
+            writeInt16(buf, self.membership_table[i].port)
+            writeStr(buf, self.membership_table[i].start_time)
+        return buf
+
+    def deserialize(self, data):
+        table_len, data = readInt32(data)
+        i = 0
+        while i < table_len:
+            ip, data = readStr(data)
+            port, data = readInt16(data)
+            start_time, data = readStr(data)
+            self.membership_table.append(MembershipEntry(ip, port, start_time))
+            i = i + 1
+
+@protocol(id=6)
+class AddMember(Message):
+    def serialize(self):
+        buf = bytearray(b'')
+        return buf
+
+    def deserialize(self, data):
+        pass
+
+@protocol(id=7)
+class RemoveMember(Message):
+    def serialize(self):
+        buf = bytearray(b'')
+        return buf
+
+    def deserialize(self, data):
+        pass
+
+@protocol(id=8)
+class RefreshMemberShip(Message):
     def serialize(self):
         buf = bytearray(b'')
         return buf
