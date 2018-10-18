@@ -29,16 +29,17 @@ class PacketHeader(object):
         self.version = version
         self.status = status
     
-    @staticmethod
-    def wrap_packet(self, packet, version, status):
+    def wrap_packet(self, packet):
         buf = bytearray(b'')
         packet_raw_data = packet.serialize()
         self.len = len(packet_raw_data)
         self.id = packet.id
-        buf.append(self.len.to_bytes(4, byteorder='big'))
-        buf.append(self.id.to_bytes(4, byteorder='big'))
-        buf.append(self.version.to_bytes(2, byteorder='big'))
-        buf.append(self.status.to_bytes(2, byteorder='big'))
+        
+        buf += self.len.to_bytes(4, byteorder='big')
+        buf += self.id.to_bytes(4, byteorder='big')
+        buf += self.version.to_bytes(2, byteorder='big')
+        buf += self.status.to_bytes(2, byteorder='big')
+        return buf
 
 class Message(object):
     def serialize(self):
@@ -51,28 +52,25 @@ class Message(object):
 class Ping(Message):
     def serialize(self):
         buf = bytearray(b'')
-        buf.append(self.id.to_bytes(4, byteorder='big'))
         return buf
 
     def deserialize(self, data):
-        self.id = int.from_bytes(data, byteorder='big')
+        pass
 
 @protocol(id=2)
 class Pong(Message):
     def serialize(self):
         buf = bytearray(b'')
-        buf.append(self.id.to_bytes(4, byteorder='big'))
         return buf
 
     def deserialize(self, data):
-        self.id = int.from_bytes(data, byteorder='big')
+        pass
 
 @protocol(id=3)
 class MemberShip(Message):
     def serialize(self):
         buf = bytearray(b'')
-        buf.append(self.id.to_bytes(4, byteorder='big'))
         return buf
 
     def deserialize(self, data):
-        self.id = int.from_bytes(data, byteorder='big')
+        pass

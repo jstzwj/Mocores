@@ -1,5 +1,6 @@
 import socket
 import asyncio
+import mocores.net.protocol
 
 class TcpClient(object):
     def __init__(self, ip=None, port=None):
@@ -56,3 +57,11 @@ class ClientSession(object):
 
     async def ping(self):
         await self.active()
+        writer = self.client.get_writer()
+        header = mocores.net.protocol.PacketHeader(version=1, status=200)
+        ping_packet = mocores.net.protocol.Ping()
+        raw_packet = header.wrap_packet(ping_packet)
+        writer.write(raw_packet)
+        await writer.drain()
+
+

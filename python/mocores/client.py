@@ -8,10 +8,11 @@ class Client(object):
         self.ip = ip
         self.port = port
 
-    def connect(self, ip, port):
+    async def connect(self, ip, port):
         print("connecting to the cluster: {0}:{1}".format(ip, port))
         # connect and get membership table
-        master_session = mocores.net.tcp_client.ClientSession()
+        master_session = mocores.net.tcp_client.ClientSession(ip, port)
+        await master_session.ping()
         # ping and get actor table
 
     def get_actor(self, actor_type, actor_id):
