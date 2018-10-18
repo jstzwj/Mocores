@@ -76,7 +76,7 @@ class PacketHeader(object):
         buf += packet_raw_data
         return buf
 
-async def parse_header(data):
+def parse_header(data):
     header = PacketHeader()
     header.len = int.from_bytes(data[0:4], byteorder = 'big')
     header.id = int.from_bytes(data[4:8], byteorder = 'big')
@@ -87,7 +87,7 @@ async def parse_header(data):
 
 async def parse_packet(reader):
     raw_header = await reader.read(HEADER_SIZE)
-    header = await parse_header(raw_header)
+    header = parse_header(raw_header)
     print("income packet len:{0}, id{1}".format(header.len, header.id))
     if(header.len!=0):
         packet_data = await reader.read(header.len)
