@@ -1,5 +1,5 @@
 import json
-from mocores.core.membership_table import(MembershipTable, MembershipEntry)
+from mocores.core.membership_table import(MembershipTable, MembershipTableEntry)
 
 protocol_dist = {}
 HEADER_SIZE = 12
@@ -162,7 +162,7 @@ class ReturnMemberShip(Message):
             ip, data = readStr(data)
             port, data = readInt16(data)
             start_time, data = readStr(data)
-            self.membership_table.append(MembershipEntry(ip, port, start_time))
+            self.membership_table.append(MembershipTableEntry(ip, port, start_time))
             i = i + 1
 
 @protocol(id=6)

@@ -1,10 +1,11 @@
 import mocores.core.actor
-import mocores.core.message_queue
-import mocores.net.protocol
-import mocores.net.worker_server
+import mocores.core.util
+import mocores.core.net.protocol
+import mocores.core.net.worker_server
 import mocores.core.actor_pool
 import mocores.core.worker_thread
-from mocores.core.membership_table import(MembershipTable, MembershipEntry)
+import mocores.core.logging as logging
+from mocores.core.membership_table import(MembershipTable, MembershipTableEntry)
 
 import time
 import asyncio
@@ -19,16 +20,24 @@ class Worker(object):
         self.ip = ip
         self.port = port
         self.start_time = time.strftime('%Y-%m-%d-%H-%M-%S', time.gmtime(time.time()))
-        self.messages = mocores.core.message_queue.MessageQueue()
+        self.messages = mocores.core.util.MessageQueue()
         self.worker_threads = []
         self.membership_table = MembershipTable()
 
+        logging.init_logging()
+
     async def run(self):
-        print("start server")
+        logging.info("start server")
 
         # add self to membership table
         if self.single_node_mode:
-            self.membership_table.add_entry(MembershipEntry(self.ip, self.port, self.start_time))
+            self.membership_table.add_entry(
+                MembershipTableEntry(
+                    self.cluster_id,
+                    self.ip,
+                    self.port,
+                    self.start_time,
+                    True))
         else:
             pass
 
@@ -38,7 +47,7 @@ class Worker(object):
             self.worker_threads[i].start()
 
         print("wait for connections")
-        tcp_server = mocores.net.worker_server.TcpServer(worker=self)
+        tcp_server = mocores.core.net.worker_server.TcpServer(worker=self)
         await tcp_server.start_up("localhost", self.port)
 
     def get_actor(self, actor_type, actor_id):

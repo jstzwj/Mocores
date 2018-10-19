@@ -1,4 +1,4 @@
-import mocores.net.protocol
+from mocores.core.net.protocol import *
 import asyncio
 
 # control dispatch
@@ -14,15 +14,15 @@ class WorkFlow(object):
 
 
     def send_pong(self, worker, packet, writer):
-        header = mocores.net.protocol.PacketHeader(version=1, status=200)
-        pong_packet = mocores.net.protocol.Pong()
+        header = PacketHeader(version=1, status=200)
+        pong_packet = Pong()
         raw_packet = header.wrap_packet(pong_packet)
         print("send packet_id:{0}".format(pong_packet.id))
         writer.write(raw_packet)
 
     def send_memberships(self, worker, packet, writer):
-        header = mocores.net.protocol.PacketHeader(version=1, status=200)
-        packet = mocores.net.protocol.ReturnMemberShip()
+        header = PacketHeader(version=1, status=200)
+        packet = ReturnMemberShip()
         packet.membership_table = worker.membership_table.table
         raw_packet = header.wrap_packet(packet)
         print("send packet_id:{0}".format(packet.id))
@@ -48,14 +48,14 @@ class WorkerProtocol(asyncio.Protocol):
         self.transport = transport
 
     def data_received(self, data):
-        raw_header = data[:mocores.net.protocol.HEADER_SIZE]
+        raw_header = data[:HEADER_SIZE]
         if(raw_header == b''):
             return
-        header = mocores.net.protocol.parse_header(raw_header)
-        packet_data = data[mocores.net.protocol.HEADER_SIZE:header.len]
+        header = parse_header(raw_header)
+        packet_data = data[HEADER_SIZE:header.len]
 
         print("receive packet_id:{0}\tpacket_len:{1}".format(header.id, header.len))
-        packet = mocores.net.protocol.get_packet_by_id(header.id)
+        packet = get_packet_by_id(header.id)
         packet.deserialize(packet_data)
         self.router.dispatch_packet(self.worker, packet, self.transport)
 

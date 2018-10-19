@@ -1,10 +1,10 @@
-import mocores.core.message_queue
+import mocores.core.util
 import threading
 
 class WorkerThread(threading.Thread):
     def __init__(self):
         super(WorkerThread, self).__init__()
-        self._messages = mocores.core.message_queue.MessageQueue()
+        self._messages = mocores.core.util.MessageQueue()
         self._condition = threading.Condition()
         self.actors = mocores.core.actor_pool.ActorPool()
 

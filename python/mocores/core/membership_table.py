@@ -1,11 +1,16 @@
+import mocores.core.runtime
 
-
-class MembershipEntry(object):
-    def __init__(self, ip, port, start_time):
+class MembershipTableEntry(object):
+    def __init__(self, cluster_id, ip, port, start_time, primary):
+        self.cluster_id = cluster_id
         self.ip = ip
         self.port = port
         self.start_time = start_time
-        self.is_dead = False
+        self.primary = primary
+        self.status = mocores.core.runtime.WorkerStatus.Null
+        self.report_alive_time = ""
+        self.suspecting_workers = []
+        self.suspecting_time = []
 
     def to_string(self):
         return '{0}:{1}:{2}'.format(
@@ -18,8 +23,8 @@ class MembershipTable(object):
     def __init__(self):
         self.table = []
 
-    def add_entry(self, worker_id):
-        self.table.append(MembershipEntry(worker_id.ip, worker_id.port, worker_id.start_time))
+    def add_entry(self, entry):
+        self.table.append(entry)
 
     def remove_entry(self, worker_id):
         for i in range(len(self.table)):

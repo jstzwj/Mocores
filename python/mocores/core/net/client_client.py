@@ -1,6 +1,6 @@
 import socket
 import asyncio
-import mocores.net.protocol
+from mocores.core.net.protocol import *
 
 class TcpClient(object):
     def __init__(self, ip=None, port=None):
@@ -59,30 +59,30 @@ class ClientSession(object):
         await self.active()
         writer = self.client.get_writer()
         reader = self.client.get_reader()
-        header = mocores.net.protocol.PacketHeader(version=1, status=200)
-        ping_packet = mocores.net.protocol.Ping()
+        header = PacketHeader(version=1, status=200)
+        ping_packet = Ping()
         raw_packet = header.wrap_packet(ping_packet)
         print("send packet_id:{0}".format(ping_packet.id))
         writer.write(raw_packet)
         await writer.drain()
 
         # read response
-        packet = await mocores.net.protocol.parse_packet(reader)
+        packet = await parse_packet(reader)
         print("receive packet_id:{0}".format(packet.id))
 
     async def get_memberships(self):
         await self.active()
         writer = self.client.get_writer()
         reader = self.client.get_reader()
-        header = mocores.net.protocol.PacketHeader(version=1, status=200)
-        packet = mocores.net.protocol.RequestMemberShip()
+        header = PacketHeader(version=1, status=200)
+        packet = RequestMemberShip()
         raw_packet = header.wrap_packet(packet)
         print("send packet_id:{0}".format(packet.id))
         writer.write(raw_packet)
         await writer.drain()
 
         # read response
-        packet = await mocores.net.protocol.parse_packet(reader)
+        packet = await parse_packet(reader)
         print("receive packet_id:{0}".format(packet.id))
         return packet.membership_table
 
