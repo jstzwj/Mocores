@@ -41,12 +41,12 @@ class Worker(object):
         else:
             pass
 
-        print("start workers")
+        logging.info("start worker threads")
         for i in range(4):
             self.worker_threads.append(mocores.core.worker_thread.WorkerThread())
             self.worker_threads[i].start()
 
-        print("wait for connections")
+        logging.debug("wait for connections")
         tcp_server = mocores.core.net.worker_server.TcpServer(worker=self)
         await tcp_server.start_up("localhost", self.port)
 
