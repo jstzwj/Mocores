@@ -39,3 +39,15 @@ class Message(object):
         self.sending_address = None
         self.category = None
         self.direction = None
+        self.resend_count = 0
+        self.forward_count = 0
+        self.target_worker = None
+        self.target_actor = None
+        self.sending_worker = None
+        self.sending_actor = None
+
+        self.time_to_live = 0
+        self.is_expired = True
+
+        self.rejection_type = None
+        self.rejection_info = ''
