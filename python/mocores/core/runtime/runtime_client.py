@@ -1,7 +1,7 @@
-
+from mocores.core.runtime.membership_table import MembershipTable
 
 class RuntimeClient(object):
-    def __init__(self, ip, port):
+    def __init__(self):
         print("new client {0}:{1}".format(ip, port))
         self.ip = ip
         self.port = port
