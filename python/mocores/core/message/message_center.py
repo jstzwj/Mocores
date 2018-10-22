@@ -1,4 +1,5 @@
-from mocores.core.net.protocol import *
+from mocores.core.message.protocol import *
+from mocores.core.util.message_queue import MessageQueue
 import asyncio
 
 # control dispatch
@@ -90,3 +91,9 @@ class TcpServer(object):
                 waiter.set_result(None)
         # Close the server
         server.close()
+
+
+class MessageCenter(object):
+    def __init__(self):
+        self.outbound_queue = MessageQueue()
+        self.inbound_queue = MessageQueue()
