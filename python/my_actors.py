@@ -5,7 +5,7 @@ class MyActor(object):
     def __init__(self):
         print("init")
 
-    async def hello_world(self, message=None):
+    def hello_world(self, message=None):
         print(message)
         return 1
 

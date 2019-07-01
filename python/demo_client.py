@@ -3,15 +3,13 @@ import asyncio
 
 import my_actors
 
-async def main():
+def main():
     client = mocores.ClientBuilder().build()
-    await client.connect("localhost", 60007)
+    client.connect()
 
     my_actor = client.get_actor(my_actors.MyActor, 1)
-    num = await my_actor.hello_world(message="hello world")
-    print(num)
+    # num = my_actor.hello_world(message="hello world")
+    # print(num)
 
-# async run main
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
-loop.close()
+if __name__ == "__main__":
+    main()

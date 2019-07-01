@@ -1,8 +1,7 @@
-import mocores.core.actor
-import mocores.core.net.protocol
-import mocores.core.net.client_client
-import mocores.core.logging as logging
-from mocores.core.membership_table import(MembershipTable, MembershipTableEntry)
+import mocores.core.runtime.actor_base
+# import mocores.core.net.protocol
+from mocores.core.runtime.membership_table import(MembershipTable, MembershipTableEntry)
+import logging
 
 
 class Client(object):
@@ -12,7 +11,6 @@ class Client(object):
         self.port = port
         self.master_session = None
         self.membership_table = MembershipTable()
-        logging.init_logging()
 
     async def connect(self, ip, port):
         print("connecting to the cluster: {0}:{1}".format(ip, port))

@@ -2,7 +2,6 @@ import inspect
 import time
 import datetime
 import asyncio
-import pyarrow
 import mocores.core.work_item as work_item
 import mocores.core.task as task
 

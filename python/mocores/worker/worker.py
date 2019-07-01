@@ -1,15 +1,14 @@
-import mocores.core.actor
+import mocores.core.runtime.actor_base
 import mocores.core.util
-import mocores.core.net.protocol
-import mocores.core.net.worker_server
+# import mocores.core.net.protocol
 import mocores.core.actor_pool
 import mocores.core.worker_thread
-import mocores.core.logging as logging
-from mocores.core.membership_table import(MembershipTable, MembershipTableEntry)
+from mocores.core.runtime.membership_table import(MembershipTable, MembershipTableEntry)
 
 import time
 import asyncio
 import threading
+import logging
 
 class Worker(object):
     def __init__(self, cluster_id, service_id, ip, port, single_node_mode=False):
@@ -24,9 +23,20 @@ class Worker(object):
         self.worker_threads = []
         self.membership_table = MembershipTable()
 
-        logging.init_logging()
+    async def handle_packet(self, reader, writer):
+        data = await reader.read(100)
+        message = data.decode()
+        addr = writer.get_extra_info('peername')
+        print("Received %r from %r" % (message, addr))
 
-    async def run(self):
+        print("Send: %r" % message)
+        writer.write(data)
+        await writer.drain()
+
+        print("Close the client socket")
+        writer.close()
+
+    def run(self):
         logging.info("start server")
 
         # add self to membership table
@@ -47,11 +57,23 @@ class Worker(object):
             self.worker_threads[i].start()
 
         logging.debug("wait for connections")
-        tcp_server = mocores.core.net.worker_server.TcpServer(worker=self)
-        await tcp_server.start_up("localhost", self.port)
+        loop = asyncio.get_event_loop()
+        coro = asyncio.start_server(lambda reader, writer: self.handle_packet(reader, writer), self.ip, self.port, loop=loop)
+        server = loop.run_until_complete(coro)
+        # Serve requests until Ctrl+C is pressed
+        print('Serving on {}'.format(server.sockets[0].getsockname()))
+        try:
+            loop.run_forever()
+        except KeyboardInterrupt:
+            pass
+
+        # Close the server
+        server.close()
+        loop.run_until_complete(server.wait_closed())
+        loop.close()
 
     def get_actor(self, actor_type, actor_id):
-        actor_ref_type = mocores.core.actor.actor_ref(actor_type)
+        actor_ref_type = mocores.core.runtime.actor_base.actor_ref(actor_type)
         actor_class = actor_type.__module__ + "." + actor_type.__name__
         return actor_ref_type(actor_class, actor_id)
         
