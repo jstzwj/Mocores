@@ -1,1 +1,0 @@
-from mocores.worker.worker import Worker
