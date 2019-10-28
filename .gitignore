@@ -245,5 +245,5 @@ Release
 #cmake_build
 build/
 
-
+.vscode/*
 

@@ -1,0 +1,22 @@
+// 文件名 protocol.proto
+syntax = "proto3";
+package protocol;
+// The greeting service definition.
+service Call {
+  // Sends a greeting
+  rpc Call (CallRequest) returns (CallReply) {}
+}
+
+// The request message
+message CallRequest {
+  string module_name = 1;
+  string class_name = 2;
+  string method_name = 3;
+  bytes params = 4;
+}
+
+// The response message
+message CallReply {
+  int32 state = 1;
+  bytes ret = 2;
+}
