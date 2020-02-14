@@ -28,7 +28,8 @@ class ProtocolType(Enum):
     RET = 5
 
 class ClientSession(object):
-    def __init__(self, reader, writer):
+    def __init__(self, task_queue, reader, writer):
+        self.task_queue = task_queue
         self.reader = reader
         self.writer = writer
 
@@ -80,12 +81,13 @@ class ClientSession(object):
                 
 
 class NetHub(object):
-    def __init__(self, ip='0.0.0.0', port=9797):
+    def __init__(self, task_queue, ip='0.0.0.0', port=9797):
         self.ip = ip
         self.port = port
+        self.task_queue = task_queue
 
     async def handle_echo(self, reader, writer):
-        sess = ClientSession(reader, writer)
+        sess = ClientSession(self.task_queue, reader, writer)
         await sess.start()
 
     async def run(self):
