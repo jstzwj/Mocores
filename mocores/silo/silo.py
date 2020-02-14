@@ -1,41 +1,39 @@
-from concurrent import futures
+from multiprocessing import Pool, Process, Queue
 import time
 import importlib
+import sys
 
 import pickle
-import grpc
+import asyncio
 
-from mocores.contrib.protocol_pb2 import CallRequest, CallReply
-from mocores.contrib.protocol_pb2_grpc import CallServicer, add_CallServicer_to_server
+from mocores.silo.nethub import NetHub
+from mocores.silo.scheduler import ThreadTaskScheduler, ActivationTaskScheduler
 
-_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+'''
+这里设计和orleans不一样，orleans使用线程，可以共享grain，但这里进程不行
+'''
 
+class Worker(object):
+    def __init__(self, worker_id):
+        self.worker_id = worker_id
+        self.scheduler = ActivationTaskScheduler()
 
-class Caller(CallServicer):
-	# 工作函数
-    def Call(self, request, context):
-        module = importlib.import_module(request.module_name)
-        actor_class = getattr(module, request.class_name)()
-        method = getattr(actor_class, request.method_name)
+    async def run(self):
+        print(f'worker {self.worker_id} started')
 
-        params = pickle.loads(request.params)
-        ret = method(*params)
-
-        return CallReply(state=0,ret=pickle.dumps(ret))
-
+def worker_main(worker_id):
+    worker = Worker(worker_id)
+    asyncio.run(worker.run())
 
 class Silo(object):
     def __init__(self):
-        pass
+        self.num_worker = 4
+        self.worker_procs = []
+        self.task_queue = Queue()
+        self.nethub= NetHub()
 
-    def run(self):
-        # gRPC 服务器
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        add_CallServicer_to_server(Caller(), server)
-        server.add_insecure_port('[::]:50051')
-        server.start()  # start() 不会阻塞，如果运行时你的代码没有其它的事情可做，你可能需要循环等待。
-        try:
-            while True:
-                time.sleep(_ONE_DAY_IN_SECONDS)
-        except KeyboardInterrupt:
-            server.stop(0)
+    async def run(self):
+        for i in range(self.num_worker):
+            p = Process(target=worker_main, args=(i,))
+            p.start()
+        await self.nethub.run()

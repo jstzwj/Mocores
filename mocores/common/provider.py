@@ -1,5 +1,14 @@
 
 
+class IPersistentState(object):
+    state=None
+    etag=None
+    async def ClearStateAsync(self):
+        pass
+    async def WriteStateAsync(self):
+        pass
+    async def ReadStateAsync(self):
+        pass
 
 class IStorageProvider(object):
     def __init__(self):
