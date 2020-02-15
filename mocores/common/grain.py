@@ -1,9 +1,10 @@
 import inspect
 
 class IGrain(object):
+    _funcs = {}
+    _storage_provider = None
     def __init__(self):
-        self._funcs = {}
-
+        pass
     def add_method(self, func):
         if not inspect.iscoroutinefunction(func):
             raise RuntimeError('The object is not a coroutine function.')

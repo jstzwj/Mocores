@@ -1,6 +1,10 @@
 import queue
 
 class Task(object):
+    grain_type = None
+    grain_identity = None
+    grain_method = None
+    grain_params = None
     def __init__(self):
         pass
 
